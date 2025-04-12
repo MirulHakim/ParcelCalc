@@ -27,15 +27,17 @@ function checkDate() {
             // Ensure price does not exceed $5.00
             price = Math.min(price, 5.00);
             result.textContent = `Parcel telah sampai ${diffMonths} bulan yang lalu. Harga: RM5.00`;
-        } else {
+        } else if (diffDays > 1){
             // Less than a month
-            price += Math.abs(diffDays) * 0.50;
+            price += (Math.abs(diffDays) - 1) * 0.50;
             price = Math.min(price, 5.00);
             result.textContent = `Parcel telah sampai ${Math.abs(diffDays)} hari yang lalu. Harga: RM${price.toFixed(2)}`;
+        } else {
+            result.textContent = `Parcel sampai semalam. Harga: RM1.00`;
         }
     } else if (diffDays > 0) {
         result.textContent = `Tarikh tersebut tidak diterima, sila isi semula.`;
     } else {
-        result.textContent = `Parcel sampai harini. Harga: RM${price.toFixed(2)}`;
+        result.textContent = `Parcel sampai harini. Harga: RM1.00`;
     }
 }
