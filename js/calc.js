@@ -28,7 +28,7 @@ function checkDate() {
             price = Math.min(price, 5.00);
             result.textContent = `Parcel telah sampai ${diffMonths} bulan yang lalu. Harga: RM5.00`;
         } else {
-            if (diffDays >= -1){
+            if (diffDays < -1){
                 // Less than a month
                 price += (Math.abs(diffDays) - 1) * 0.50;
                 price = Math.min(price, 5.00);
