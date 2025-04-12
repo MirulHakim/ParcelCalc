@@ -5,8 +5,9 @@ body {
   text-align: start;
 }
 
-.container {
-background-color: gray;
+.container a{
+background-color: whitesmoke;
+border: solid 1px black;
 color: black;
 }
 
