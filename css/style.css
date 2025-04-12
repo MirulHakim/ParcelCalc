@@ -1,3 +1,10 @@
+body {
+  background-color: blue;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: start;
+}
+
 input[type="date"] {
     padding: 8px;
     border-radius: 6px;
