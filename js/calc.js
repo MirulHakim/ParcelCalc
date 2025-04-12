@@ -9,7 +9,7 @@ function checkDate() {
     const result = document.getElementById('result');
 
     if (!input) {
-        result.textContent = "Sila pilih tarikh.";
+        result.textContent = "Sila pilih tarikh dahulu.";
         return;
     }
 
