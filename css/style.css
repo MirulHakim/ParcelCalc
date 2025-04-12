@@ -1,14 +1,17 @@
 body {
   background-color: blue;
+  background-image: url(https://github.com/MirulHakim/ParcelCalc/blob/main/resources/logo_k14.jpg);
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   text-align: start;
 }
 
-.container a{
+.container {
 background-color: whitesmoke;
 border: solid 1px black;
 color: black;
+margin: auto;
+
 }
 
 input[type="date"] {
