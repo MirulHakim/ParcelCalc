@@ -1,0 +1,503 @@
+body {
+  margin: 0;
+}
+
+.homepage {
+  background: #151f42;
+  min-height: 1024px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.header {
+  width: 1585px;
+  height: 152px;
+  position: absolute;
+  left: 0px;
+  top: -5px;
+}
+.rectangle-1 {
+  background: #495bbf;
+  width: 1440px;
+  height: 109px;
+  position: absolute;
+  left: 0px;
+  top: 5px;
+}
+.rectangle-2 {
+  background: #fd0000;
+  width: 821px;
+  height: 112px;
+  position: absolute;
+  left: 764px;
+  top: 2px;
+}
+.polygon-1 {
+  width: 203px;
+  height: 152px;
+  position: absolute;
+  left: calc(50% - 127.5px);
+  top: 0px;
+  overflow: visible;
+}
+.logos {
+  width: 173px;
+  height: 82.46px;
+  position: absolute;
+  left: 634px;
+  top: 19px;
+}
+.image-1 {
+  width: 73.84px;
+  height: 82.46px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  object-fit: cover;
+  aspect-ratio: 73.84/82.46;
+}
+.logo-k-14-1 {
+  width: 64.31px;
+  height: 82.46px;
+  position: absolute;
+  left: 108.69px;
+  top: 0px;
+  object-fit: cover;
+  aspect-ratio: 64.31/82.46;
+}
+.x {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  position: absolute;
+  left: 79.22px;
+  top: 30.72px;
+  width: 24.25px;
+  height: 21.02px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.login {
+  width: 198px;
+  height: 60px;
+  position: absolute;
+  left: 1216px;
+  top: 28px;
+}
+.rectangle-3 {
+  background: #4e0000;
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0%;
+  left: 0%;
+  bottom: 0%;
+  top: 0%;
+}
+.login2 {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Exo-Regular", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  position: absolute;
+  right: 29.29%;
+  left: 28.28%;
+  width: 42.42%;
+  bottom: 13.33%;
+  top: 20%;
+  height: 66.67%;
+}
+.content {
+  width: 928px;
+  height: 696px;
+  position: absolute;
+  left: 256px;
+  top: 176px;
+}
+.search-for-your-parcel {
+  color: #69a6d2;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 70px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 0px;
+  width: 750px;
+  height: 93px;
+}
+.generate-a-pdf-report-for-the-list-of-parcels-arrived-at-a-specific-date {
+  color: #d3d3d3;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 565px;
+  width: 750px;
+  height: 23px;
+}
+.enter-parcel-arrival-date {
+  color: #69a6d2;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 70px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 399px;
+  width: 810px;
+  height: 93px;
+}
+.here {
+  color: #69a6d2;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 70px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 77px;
+  width: 750px;
+  height: 93px;
+}
+.here2 {
+  color: #69a6d2;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 70px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 476px;
+  width: 750px;
+  height: 93px;
+}
+.search-for-your-parcel-id-number-to-check-its-availability-in-parcel-serumpun-s-database {
+  color: #d3d3d3;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 166px;
+  width: 750px;
+  height: 47px;
+}
+.search-bar {
+  background: var(--schemes-surface-container-high, #ece6f0);
+  border-radius: 94px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 468px;
+  height: 58px;
+  max-width: 720px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 247px;
+  overflow: hidden;
+}
+.state-layer {
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.content2 {
+  padding: 0px 20px 0px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.supporting-text {
+  color: var(--schemes-on-surface-variant, #49454f);
+  text-align: left;
+  font-family: var(--static-body-large-font, "Roboto-Regular", sans-serif);
+  font-size: 20px;
+  line-height: var(--static-body-large-line-height, 24px);
+  letter-spacing: var(--static-body-large-tracking, 0.5px);
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.trailing-elements {
+  margin: 0 0 0 -16px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  translate: 0 -50%;
+}
+._1st-trailing-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+.content3 {
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.state-layer2 {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.icon {
+  align-self: stretch;
+  flex: 1;
+  height: auto;
+  position: relative;
+  overflow: visible;
+}
+.divider {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 928px;
+  height: 56px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 336px;
+}
+.divider2 {
+  background: #e6e6e6;
+  flex: 1;
+  height: 1px;
+  position: relative;
+}
+.or {
+  color: #828282;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 400;
+  position: relative;
+}
+.docked-input-date-picker-desktop {
+  width: 312px;
+  height: 84px;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 612px;
+}
+.text-field {
+  background: #ffffff;
+  border-radius: 4px 4px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 312px;
+  height: 56px;
+  position: absolute;
+  left: 0px;
+  top: 8px;
+}
+.state-layer3 {
+  border-radius: 4px 4px 0px 0px;
+  padding: 4px 0px 4px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+.content4 {
+  padding: 4px 0px 4px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  height: 48px;
+  position: relative;
+}
+.input-text-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.input-text {
+  color: var(--schemes-on-surface, #1d1b20);
+  text-align: left;
+  font-family: var(--m3-body-large-font-family, "Roboto-Regular", sans-serif);
+  font-size: var(--m3-body-large-font-size, 16px);
+  line-height: var(--m3-body-large-line-height, 24px);
+  letter-spacing: var(--m3-body-large-letter-spacing, 0.5px);
+  font-weight: var(--m3-body-large-font-weight, 400);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.label-text-container {
+  background: var(--schemes-surface, #fef7ff);
+  padding: 0px 4px 0px 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: absolute;
+  left: -4px;
+  top: -12px;
+}
+.label-text {
+  color: var(--schemes-primary, #6750a4);
+  text-align: left;
+  font-family: var(--m3-body-small-font-family, "Roboto-Regular", sans-serif);
+  font-size: var(--m3-body-small-font-size, 12px);
+  line-height: var(--m3-body-small-line-height, 16px);
+  letter-spacing: var(--m3-body-small-letter-spacing, 0.4px);
+  font-weight: var(--m3-body-small-font-weight, 400);
+  position: relative;
+}
+.trailing-icon {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+.content5 {
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.state-layer4 {
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 40px;
+  position: relative;
+}
+.icon2 {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+.supporting-text2 {
+  padding: 4px 16px 0px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  height: 20px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  bottom: -20px;
+}
+.supporting-text3 {
+  color: var(--schemes-surface, #fef7ff);
+  text-align: left;
+  font-family: var(--m3-body-small-font-family, "Roboto-Regular", sans-serif);
+  font-size: var(--m3-body-small-font-size, 12px);
+  line-height: var(--m3-body-small-line-height, 16px);
+  letter-spacing: var(--m3-body-small-letter-spacing, 0.4px);
+  font-weight: var(--m3-body-small-font-weight, 400);
+  position: relative;
+  flex: 1;
+}
+.trademark-2025-parcel-serumpun-all-rights-reserved {
+  color: #d3d3d3;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  translate: -50%;
+  top: 958px;
+  width: 750px;
+  height: 23px;
+}
