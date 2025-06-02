@@ -11,8 +11,22 @@ background-color: whitesmoke;
 border: solid 1px black;
 color: black;
 padding: 10px 5px;
+}
 
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  min-width: 250px;
+}
 
+.row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap; /* Optional: wrap to new line on small screens */
 }
 
 input[type="date"] {
