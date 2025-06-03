@@ -6,11 +6,31 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     header("Location: Login.php");
     exit();
 }
+
+include 'db_connection.php'; // include your DB connection
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $phone = $_POST['phone'];
+    $parcel_type = $_POST['parcel_type'];
+    $owner = $_POST['owner'];
+
+    // Insert into database
+    $stmt = $conn->prepare("INSERT INTO parcel (PhoneNum, Parcel_type, Parcel_name) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $phone, $parcel_type, $owner);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Parcel added successfully');</script>";
+    } else {
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
 ?>
 
 <h1>Welcome to Admin View</h1>
 <a href="logout.php">Logout</a>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +67,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
     <div class="main-content">
       <h2>Add New Parcel</h2>
-      <form>
+      <form method="POST" action="">
         <label for="phone">Phone Number:</label><br>
         <input
           type="text"
