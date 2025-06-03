@@ -78,3 +78,22 @@
     </div>
   </body>
 </html>
+
+<?php
+$host = 'localhost';
+$db   = 'parcelsystem';     // your database name
+$user = 'root';      // default user
+$pass = '';          // default has no password
+
+try {
+    $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+    $pdo = new PDO($dsn, $user, $pass);
+
+    // Enable error handling
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    echo "Connected successfully using PDO!";
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+?>
