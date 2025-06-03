@@ -1,3 +1,35 @@
+<?php
+session_start();
+
+$host = 'localhost';
+$db   = 'parcelsystem';
+$user = 'root';
+$pass = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['staff_id'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id= ? AND Password = ?");
+        $stmt->execute([$staff_id, $password]);
+
+        if ($stmt->rowCount() > 0) {
+            $_SESSION['admin_logged_in'] = true;
+            header("Location: AdminView.php"); // replace with your real page
+            exit();
+        } else {
+            $error = "Invalid username or password.";
+        }
+    }
+} catch (PDOException $e) {
+    $error = "Database error: " . $e->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,7 +82,7 @@
         Enter your username and password to continue in admin view
       </p>
 
-      <form action="" method="post">
+      <form action="AdminView.php" method="post">
         <div class="login-wrap">
           <input
             class="login"
@@ -78,3 +110,6 @@
     </div>
   </body>
 </html>
+
+
+
