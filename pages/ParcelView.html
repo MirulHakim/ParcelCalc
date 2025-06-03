@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create PDF</title>
+    <title>View Parcel Info</title>
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
-    <link rel="stylesheet" href="../css/PDF.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/ParcelView.css" />
   </head>
   <body>
     <div class="header">
@@ -28,23 +28,27 @@
       <a onclick="history.back()"
         ><img class="back" src="../resources/Login/arrow-back0.svg"
       /></a>
-      <p class="title">CREATE PARCEL LIST PDF</p>
+      <form action="" method="post">
+        <input
+          class="search"
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your parcel ID"
+        />
+      </form>
     </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="image"></div>
-        <div class="column" style="margin-top: 15%">
-          <p class="parcel">PARCEL - DD MONTH</p>
-          <form action="" method="get">
-            <input class="download" type="submit" value="DOWNLOAD" />
-          </form>
-        </div>
+    <div class="content">
+      <div class="column" style="justify-content: space-between;">
+        <p class="section-title">Parcel Info</p>
+        <div class="section-box"></div>
       </div>
-    </div>
 
-    <div class="trademark">
-      Trademark ® 2025 Parcel Serumpun. All Rights Reserved
+      <div class="column">
+        <div class="row"></div>
+        <div></div>
+      </div>
     </div>
   </body>
 </html>
