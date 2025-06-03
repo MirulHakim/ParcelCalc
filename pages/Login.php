@@ -80,20 +80,34 @@
 </html>
 
 <?php
+session_start();
+
 $host = 'localhost';
-$db   = 'parcelsystem';     // your database name
-$user = 'root';      // default user
-$pass = '';          // default has no password
+$db   = 'parcelsystem';
+$user = 'root';
+$pass = '';
 
 try {
-    $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
-    $pdo = new PDO($dsn, $user, $pass);
-
-    // Enable error handling
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    echo "Connected successfully using PDO!";
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST['username'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE username = ? AND password = ?");
+        $stmt->execute([$username, $password]);
+
+        if ($stmt->rowCount() > 0) {
+            $_SESSION['admin_logged_in'] = true;
+            header("Location: dashboard.php"); // replace with your real page
+            exit();
+        } else {
+            $error = "Invalid username or password.";
+        }
+    }
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    $error = "Database error: " . $e->getMessage();
 }
 ?>
+
