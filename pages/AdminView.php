@@ -1,11 +1,8 @@
 <?php
 session_start();
 
-var_dump($_SESSION);
-exit();
-
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header("Location: Login.php");
+    header('Location: login.php');
     exit();
 }
 ?>
