@@ -42,38 +42,32 @@
     <div class="content">
       <div class="column">
         <p class="section-title">Parcel Info</p>
-        <div class="section-box">
-          <p class="owner">Owner's name</p>
-          <div class="row" style="margin: 10px">
-            <div class="column">
-              <div class="row" style="width: 400px">
-                <p class="details">Arrive date</p>
-                <div class="dash"></div>
-                <p class="details ans">24 June</p>
+        <div class="container">
+          <div class="image"></div>
+          <div class="details">
+              <p class="title">Owner’s name</p>
+              <div class="info">
+                  <span>Arrive date -</span>
+                  <span>24 June</span>
               </div>
-              <div class="row" style="width: 400px">
-                <p class="details">Parcel ID</p>
-                <div class="dash"></div>
-                <p class="details ans">24/6-05</p>
+              <div class="info">
+                  <span>Parcel ID -</span>
+                  <span>24/6-05</span>
               </div>
-              <div class="row" style="width: 400px">
-                <p class="details">Phone number</p>
-                <div class="dash"></div>
-                <p class="details ans">010-8769035</p>
+              <div class="info">
+                  <span>Phone number -</span>
+                  <span>010-876 9035</span>
               </div>
-              <div class="row" style="width: 400px;">
-                <p class="details">Price</p>
-                <div class="dash"></div>
-                <p class="details ans">RM 2.50</p>
+              <div class="info">
+                  <span>Price -</span>
+                  <span>RM 2.50</span>
               </div>
-            </div>
-            <div class="row" style="width: 400px;">
-              <p class="details">Status</p>
-              <div class="dash"></div>
-              <p class="details ans">Not Claimed</p>
-            </div>
+              <div class="info">
+                  <span>Status -</span>
+                  <span>Not Claimed</span>
+              </div>
           </div>
-        </div>
+      </div>
       </div>
 
       <div class="column">
@@ -82,7 +76,7 @@
       </div>
     </div>
 
-    <div class="trademark">
+    <div class="trademark" style="margin-top: 100px">
       Trademark ® 2025 Parcel Serumpun. All Rights Reserved
     </div>
   </body>

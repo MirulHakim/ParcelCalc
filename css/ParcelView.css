@@ -39,32 +39,34 @@ input[type="text"] {
   width: 60vw;
 }
 
-.owner {
-  margin: 10px;
-  color: #353535;
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  width: 363.59px;
-  height: 23.79px;
+.container {
+    display: flex;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.image {
+    flex: 1;
+    background-color: #ccc;
+    height: 200px; /* Adjust height as needed */
 }
 .details {
-    margin: 0px;
-    padding: 5px 0px;
-  color: #434242;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  width: 150px;
-  height: 19.03px;
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.ans {
-  width: fit-content;
+.details p {
+    margin: 5px 0;
 }
-.dash {
-  margin: auto 5px;
-  background: #353535;
-  border-radius: 50%;
-  width: 6.49px;
-  height: 3.17px;
+.title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
 }
