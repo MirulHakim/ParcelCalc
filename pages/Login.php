@@ -11,15 +11,15 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $username = $_POST['staff_id'] ?? '';
+        $staff_id = $_POST['staff_id'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id= ? AND Password = ?");
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
         $stmt->execute([$staff_id, $password]);
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
-            header("Location: AdminView.php"); // replace with your real page
+            header("Location: AdminView.php");
             exit();
         } else {
             $error = "Invalid username or password.";
