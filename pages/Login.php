@@ -11,11 +11,11 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $username = $_POST['username'] ?? '';
+        $username = $_POST['staff_id'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Name_staff= ? AND Password = ?");
-        $stmt->execute([$username, $password]);
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id= ? AND Password = ?");
+        $stmt->execute([$staff_id, $password]);
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
