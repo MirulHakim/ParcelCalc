@@ -2,7 +2,7 @@
 $host = "localhost"; // or your DB host
 $username = "root"; // your DB username
 $password = ""; // your DB password
-$dbname = "systemparcel"; // change to your actual DB name
+$dbname = "parcelsystem"; // change to your actual DB name
 
 $conn = new mysqli($host, $username, $password, $dbname);
 
