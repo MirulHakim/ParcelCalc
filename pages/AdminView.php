@@ -1,13 +1,13 @@
 <?php
 session_start();
 
+// Strict check for admin login
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-  session_destroy();
+    // If not logged in, redirect to login page
     header("Location: Login.php");
     exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
