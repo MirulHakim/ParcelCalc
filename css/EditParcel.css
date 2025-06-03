@@ -10,6 +10,7 @@
   font-size: 2.2rem; /* responsive font size */
   font-weight: 700;  /* 'Black' implies bold */
   margin: 25px auto 0 auto;
+  padding-right: 100px;
   text-align: center;
 }
 
@@ -88,7 +89,6 @@ select {
     grid-template-columns: 1fr; /* Ensures single column on smaller screens */
   }
 }
-
 
 .btn {
   padding: 12px;

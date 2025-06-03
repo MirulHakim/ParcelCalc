@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* min-height: 100vh; */
+  min-height: 100vh;
   padding-bottom: 50px;
 }
 
@@ -13,24 +13,22 @@
   justify-content: space-between;
 }
 
+.title {
+  color: #ffffff;
+  font-family: "Roboto-Black", sans-serif;
+  font-size: 2.2rem; /* responsive font size */
+  font-weight: 700;  /* 'Black' implies bold */
+  margin: 25px auto 0 auto;
+  padding-right: 100px;
+  text-align: center;
+}
+
 .parcel-form {
   color: white;
   width: 90%;
   display: flex;
   flex-direction: column;
   padding: 20px;
-}
-
-.title {
-  color: #ffffff;
-  font-family: "Roboto-Black", sans-serif;
-  font-size: 48px;
-  font-weight: 400;
-  margin: 0px;
-  margin-top: 0.5%;
-  margin-left: auto;
-  margin-right: auto;
-  transform: translateX(-9%);
 }
 
 label {

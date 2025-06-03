@@ -25,7 +25,7 @@
       <a onclick="history.back()"
         ><img class="back" src="../resources/Login/arrow-back0.svg"
       /></a>
-      <p class="title" style="margin-top: 1.1%">Add New Parcel</p>
+      <p class="title">ADD NEW PARCEL</p>
     </div>
 
     <div class="enter-new-parcel">
