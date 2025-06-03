@@ -5,7 +5,6 @@ $host = 'localhost';
 $db   = 'parcelsystem';
 $user = 'root';
 $pass = '';
-
 $error = '';
 
 try {
