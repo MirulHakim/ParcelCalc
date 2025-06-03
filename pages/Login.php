@@ -11,15 +11,15 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $username = $_POST['staff_id'] ?? '';
+        $staff_id = $_POST['staff_id'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id= ? AND Password = ?");
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
         $stmt->execute([$staff_id, $password]);
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
-            header("Location: AdminView.php"); // replace with your real page
+            header("Location: AdminView.php");
             exit();
         } else {
             $error = "Invalid username or password.";
@@ -82,20 +82,24 @@ try {
         Enter your username and password to continue in admin view
       </p>
 
-      <form action="AdminView.php" method="post">
+      <?php if (!empty($error)): ?>
+        <p style="color: red; text-align: center;"><?= htmlspecialchars($error) ?></p>
+      <?php endif; ?>
+
+      <form action="" method="post">
         <div class="login-wrap">
           <input
             class="login"
             type="text"
-            id="name"
-            name="name"
+            id="staff_id"
+            name="staff_id"
             placeholder="Username"
           /><br />
           <input
             class="login"
-            type="text"
-            id="name"
-            name="name"
+            type="password"
+            id="password"
+            name="password"
             placeholder="Password"
           /><br />
 
