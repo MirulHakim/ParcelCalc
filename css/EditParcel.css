@@ -62,9 +62,10 @@
 
 .form-group {
   color: white;
-    display: flex;
+  display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%; /* Ensures consistency */
 }
 
 input,
@@ -73,8 +74,21 @@ select {
   border-radius: 6px;
   border: none;
   font-size: 14px;
-  width: 100%;
+  width: 100%; /* Forces uniform width across all inputs and selects */
+  box-sizing: border-box; /* Ensures padding doesn’t affect width */
 }
+
+.form-group select {
+  appearance: none; /* Removes default dropdown styling */
+  background-color: #f9f9f9;
+}
+
+@media screen and (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr; /* Ensures single column on smaller screens */
+  }
+}
+
 
 .btn {
   padding: 12px;
