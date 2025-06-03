@@ -1,11 +1,10 @@
-
 .enter-new-parcel {
-    font-family: "Exo-Bold", sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding-bottom: 50px;
+  font-family: "Exo-Bold", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* min-height: 100vh; */
+  padding-bottom: 50px;
 }
 
 .row {
@@ -15,11 +14,11 @@
 }
 
 .parcel-form {
-    color: white;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
+  color: white;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .title {
@@ -49,7 +48,8 @@ label {
   padding-right: 5px;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 10px;
   border: none;
