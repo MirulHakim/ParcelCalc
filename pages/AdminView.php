@@ -10,9 +10,9 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 include 'db_connection.php'; // include your DB connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $phone = $_POST['phone'];
-    $parcel_type = $_POST['parcel_type'];
-    $owner = $_POST['owner'];
+    $phone = $_POST['PhoneNum'];
+    $parcel_type = $_POST['Parcel_type'];
+    $owner = $_POST['Parcel_name'];
 
     // Insert into database
     $stmt = $conn->prepare("INSERT INTO parcel_test (PhoneNum, Parcel_type, Parcel_name) VALUES (?, ?, ?)");
