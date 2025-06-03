@@ -1,47 +1,3 @@
-body {
-  margin: 0px;
-  background-color: #151f42;
-}
-
-.box {
-  flex: 1; /* allow equal width or responsive growth */
-  height: 100px;
-}
-.blue {
-  background: #495bbf;
-  width: 50vw;
-  transform: scaleX(1.5);
-}
-.red {
-  background: #fd0000;
-  width: 50vw;
-}
-.trapezium {
-  width: 0;
-  height: 0;
-  border-bottom: 100px solid #fd0000; /* height and color of the trapezium */
-  border-left: 50px solid transparent;
-}
-.logos {
-  position: absolute;
-  top: 5px;
-  left: 51.5%;
-  translate: -65%;
-  z-index: 1;
-}
-.logo {
-  object-fit: cover;
-  aspect-ratio: 56.31/70.46;
-}
-.x {
-  color: #ffffff;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  margin: auto;
-}
-
 .login-button {
   background: #4e0000;
   border-radius: 12px;
@@ -86,7 +42,7 @@ input[type="text"] {
       rgba(255, 255, 255, 0.7),
       rgba(255, 255, 255, 0.7)
     ),
-    url("../resources/icon0.svg") no-repeat 96% center;
+    url("../resources/Homepage/icon0.svg") no-repeat 96% center;
   margin-bottom: 25px;
   background-color: #ece6f0;
   border-radius: 94px;
@@ -124,12 +80,9 @@ input[type="date"] {
     padding: 5px;
   }  
 input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  pointer-events: none;
-}
-.date-wrapper {
-  position: relative;
-  display: inline-block;
+  /* opacity: 0; */
+  padding: 20px;
+  transform: scale(1.5);
 }
 .date {
   margin-bottom: 20px;
@@ -142,17 +95,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 58px;
   max-width: 720px;
 }
-.date-wrapper::after {
-  content: "";
-  background: url("../resources/icon1.svg") no-repeat center;
-  background-size: 30px 30px;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 20px;
-  top: 39%;
-  transform: translateY(-50%);
-}
 .submit {
   margin: 0px;
   border-radius: 94px;
@@ -161,27 +103,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-bottom: 20px;
 }
 
-.trademark {
-  margin: 30px;
-  color: #d3d3d3;
-  text-align: center;
-  font-family: "Exo-Bold", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-}
 
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex: 1;
-  min-width: 250px;
-}
-
-.row {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap; /* Optional: wrap to new line on small screens */
-}

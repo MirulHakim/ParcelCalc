@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/Homepage.css" />
+    <link rel="stylesheet" href="../css/style.css" />
     <title>Homepage</title>
   </head>
   <body>
@@ -13,11 +14,11 @@
         <div class="box blue" style="position: relative; z-index: 0"></div>
         <div class="box trapezium" style="position: relative; z-index: 1"></div>
         <div class="row logos">
-          <img class="logo" src="../resources/image-10.png" />
+          <img class="logo" src="../resources/Header/image-10.png" />
           <div class="x">X</div>
-          <img class="logo" src="../resources/logo-k-14-10.png" />
+          <img class="logo" src="../resources/Header/logo-k-14-10.png" />
         </div>
-        <a href="#">
+        <a href="Login.php">
           <button class="login-button">LOGIN</button>
         </a>
       </div>
@@ -30,7 +31,7 @@
         Serumpun’s database
       </p>
       <form action="" method="post">
-        <input class="search" type="text" id="name" name="name" placeholder="Search">
+        <input class="search" type="text" id="name" name="name" placeholder="Enter your parcel ID">
       </form>
 
       <div class="divide">

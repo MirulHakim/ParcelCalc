@@ -1,9 +1,48 @@
 body {
-  background-color: blue;
-  background-image: url(https://github.com/MirulHakim/ParcelCalc/blob/main/resources/logo_k14.jpg);
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: start;
+  margin: 0px;
+  background-color: #151f42;
+}
+
+.back {
+  margin: 20px;
+}
+.box {
+  flex: 1; /* allow equal width or responsive growth */
+  height: 100px;
+}
+.blue {
+  background: #495bbf;
+  width: 50vw;
+  transform: scaleX(1.5);
+}
+.red {
+  background: #fd0000;
+  width: 50vw;
+}
+.trapezium {
+  width: 0;
+  height: 0;
+  border-bottom: 100px solid #fd0000; /* height and color of the trapezium */
+  border-left: 50px solid transparent;
+}
+.logos {
+  position: absolute;
+  top: 5px;
+  left: 51.5%;
+  translate: -65%;
+  z-index: 1;
+}
+.logo {
+  object-fit: cover;
+  aspect-ratio: 56.31/70.46;
+}
+.x {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  margin: auto;
 }
 
 .container {
@@ -11,6 +50,15 @@ background-color: whitesmoke;
 border: solid 1px black;
 color: black;
 padding: 10px 5px;
+}
+
+.trademark {
+  margin: 30px;
+  color: #d3d3d3;
+  text-align: center;
+  font-family: "Exo-Bold", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .column {
@@ -29,9 +77,9 @@ padding: 10px 5px;
   flex-wrap: wrap; /* Optional: wrap to new line on small screens */
 }
 
-input[type="date"] {
+/* input[type="date"] {
     padding: 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 16px;
-  }
+  } */
