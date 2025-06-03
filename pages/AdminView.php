@@ -1,7 +1,8 @@
 <?php
 session_start();
-var_dump($_SESSION);
+
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    session_destroy();
     header("Location: Login.php");
     exit;
 }
