@@ -2,7 +2,7 @@
 session_start();
 var_dump($_SESSION);
 exit();
-
+?>
 
 <!DOCTYPE html>
 <html lang="en">
