@@ -95,7 +95,7 @@ try {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE username = ? AND password = ?");
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
         $stmt->execute([$username, $password]);
 
         if ($stmt->rowCount() > 0) {
