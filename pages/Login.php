@@ -82,20 +82,24 @@ try {
         Enter your username and password to continue in admin view
       </p>
 
-      <form action="AdminView.php" method="post">
+      <?php if (!empty($error)): ?>
+        <p style="color: red; text-align: center;"><?= htmlspecialchars($error) ?></p>
+      <?php endif; ?>
+
+      <form action="" method="post">
         <div class="login-wrap">
           <input
             class="login"
             type="text"
-            id="name"
-            name="name"
+            id="staff_id"
+            name="staff_id"
             placeholder="Username"
           /><br />
           <input
             class="login"
-            type="text"
-            id="name"
-            name="name"
+            type="password"
+            id="password"
+            name="password"
             placeholder="Password"
           /><br />
 
