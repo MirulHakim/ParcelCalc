@@ -100,7 +100,7 @@ try {
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
-            header("Location: dashboard.php"); // replace with your real page
+            header("Location: AdminView.php"); // replace with your real page
             exit();
         } else {
             $error = "Invalid username or password.";
