@@ -83,7 +83,6 @@ body {
   flex-direction: column;
   gap: 20px;
   flex: 1;
-  min-width: 250px;
 }
 
 .row {
