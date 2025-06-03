@@ -22,7 +22,7 @@
         </div>
     </div>
     <!-- back button & title -->
-    <div class="row2">
+    <div class="row">
       <a onclick="history.back()"
         ><img class="back" src="../resources/Login/arrow-back0.svg"
       /></a>
@@ -47,7 +47,7 @@
       <div class="form-group">
           <label>Parcel Status</label>
           <select>
-            <option value="">Parcel Status</option>
+            <option value="">Select Parcel </option>
             <option value=False>Not claim</option>
             <option value=True>Claimed</option>
           </select>
