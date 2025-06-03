@@ -1,20 +1,3 @@
-.login-button {
-  background: #4e0000;
-  border-radius: 12px;
-  color: #ffffff;
-  text-align: center;
-  font-family: "Exo-Regular", sans-serif;
-  font-size: 30px;
-  font-weight: 400;
-  width: 12%;
-  height: 60px;
-  position: absolute;
-  left: 85%;
-  right: 15%;
-  top: 20px;
-  z-index: 1;
-}
-
 .content {
   text-align: center;
 }
@@ -35,8 +18,8 @@ p {
   font-weight: 700;
 }
 input[type="text"] {
-    font-size: 18px; /* or any size you want */
-  }  
+  font-size: 18px; /* or any size you want */
+}
 .search {
   background: linear-gradient(
       rgba(255, 255, 255, 0.7),
@@ -76,11 +59,11 @@ input[type="text"] {
 }
 
 input[type="date"] {
-    font-size: 18px;  /* or any size you want */
-    padding: 5px;
-  }  
+  font-size: 18px; /* or any size you want */
+  padding: 5px;
+}
 input[type="date"]::-webkit-calendar-picker-indicator {
-  /* opacity: 0; */
+  opacity: 50;
   padding: 20px;
   transform: scale(1.5);
 }
@@ -102,5 +85,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 30px;
   margin-bottom: 20px;
 }
-
-

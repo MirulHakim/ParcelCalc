@@ -3,6 +3,23 @@ body {
   background-color: #151f42;
 }
 
+.login-button {
+  background: #4e0000;
+  border-radius: 12px;
+  color: #ffffff;
+  text-align: center;
+  font-family: "Exo-Regular", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  width: 12%;
+  height: 60px;
+  position: absolute;
+  left: 85%;
+  right: 15%;
+  top: 20px;
+  z-index: 1;
+}
+
 .back {
   margin: 20px;
 }
@@ -46,10 +63,10 @@ body {
 }
 
 .container {
-background-color: whitesmoke;
-border: solid 1px black;
-color: black;
-padding: 10px 5px;
+  background-color: whitesmoke;
+  border: solid 1px black;
+  color: black;
+  padding: 10px 5px;
 }
 
 .trademark {

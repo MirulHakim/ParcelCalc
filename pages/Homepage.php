@@ -6,7 +6,7 @@
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/Homepage.css" />
     <link rel="stylesheet" href="../css/style.css" />
-    <title>Homepage</title>
+    <title>Parcel Serumpun</title>
   </head>
   <body>
     <div class="header">
@@ -44,9 +44,9 @@
       <p>
         Generate a PDF report for the list of parcels arrived at a specific date
       </p>
-      <form action="" method="post">
+      <form action="PDF.php" method="post">
         <div class="date-wrapper">
-          <input class="date" type="date" id="name" name="name">
+          <input class="date" type="date" id="name" name="name" required>
         </div><br>
         <input class="submit" type="submit">
       </form>
