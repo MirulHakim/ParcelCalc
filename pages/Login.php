@@ -50,7 +50,7 @@
         Enter your username and password to continue in admin view
       </p>
 
-      <form action="" method="post">
+      <form action="AdminView.php" method="post">
         <div class="login-wrap">
           <input
             class="login"

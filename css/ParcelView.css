@@ -34,8 +34,37 @@ input[type="text"] {
   width: 258px;
 }
 .section-box {
-    background-color: #ffffff;
-    border-radius: 10px;
-    width: 60vw;
-    height: 10vh;
+  background-color: #ffffff;
+  border-radius: 10px;
+  width: 60vw;
+}
+
+.owner {
+  margin: 10px;
+  color: #353535;
+  font-family: "Inter-Medium", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  width: 363.59px;
+  height: 23.79px;
+}
+.details {
+    margin: 0px;
+    padding: 5px 0px;
+  color: #434242;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  width: 150px;
+  height: 19.03px;
+}
+.ans {
+  width: fit-content;
+}
+.dash {
+  margin: auto;
+  background: #353535;
+  border-radius: 50%;
+  width: 6.49px;
+  height: 3.17px;
 }
