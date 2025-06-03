@@ -1,5 +1,5 @@
 <?php
-session_start(); 
+session_start();
 
 $host = 'localhost';
 $db   = 'parcelsystem';
@@ -11,15 +11,15 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $staff_id = $_POST['staff_id'] ?? '';
+        $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
-        $stmt->execute([$staff_id, $password]);
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id= ? AND Password = ?");
+        $stmt->execute([$username, $password]);
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
-            header("Location: AdminView.php");
+            header("Location: AdminView.php"); // replace with your real page
             exit();
         } else {
             $error = "Invalid username or password.";
@@ -82,25 +82,23 @@ try {
         Enter your username and password to continue in admin view
       </p>
 
-      <?php if (!empty($error)): ?>
-        <p style="color: red; text-align: center;"><?= htmlspecialchars($error) ?></p>
-      <?php endif; ?>
-
-      <form action="" method="post">
+      <form action="login.php" method="post">
         <div class="login-wrap">
           <input
             class="login"
             type="text"
-            id="staff_id"
-            name="staff_id"
+            id="username"
+            name="username"
             placeholder="Username"
+            required
           /><br />
           <input
             class="login"
-            type="password"
+            type="text"
             id="password"
             name="password"
             placeholder="Password"
+            required
           /><br />
 
           <input class="submit" type="submit" value="Login" />
