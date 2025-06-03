@@ -38,49 +38,51 @@
     <input type="hidden" name="id" value="<?= $parcel['id'] ?>" />
 
     <div class="form-grid">
-      <div class="form-group">
-        <label>Owner's Name</label>
-        <input type="text" value="<?= $parcel['owner_name'] ?>" disabled />
-        <input type="text" name="new_owner_name" placeholder="New Owner's name" />
-      </div>
-
-      <div class="form-group">
-          <label>Parcel Status</label>
-          <select>
-            <option value="">Select Parcel </option>
-            <option value=False>Not claim</option>
-            <option value=True>Claimed</option>
-          </select>
+        <div class="form-group">
+            <label>Owner's Name</label>
+            <input type="text" value="<?= $parcel['owner_name'] ?>" disabled />
+            <input type="text" name="new_owner_name" placeholder="New Owner's name" />
         </div>
 
-      <div class="form-group">
-        <label>Parcel Type</label>
-        <select disabled>
-          <option><?= $parcel['parcel_type'] ?></option>
-        </select>
-        <select name="new_type">
-          <option value="">Select new type</option>
-          <option value="kotak">KOTAK</option>
-          <option value="putih">PUTIH</option>
-          <option value="hitam">HITAM</option>
-          <option value="kelabu">KELABU</option>
-          <option value="others">OTHERS</option>
-        </select>
-      </div>
+        <div class="form-group">
+            <label>Parcel Status</label>
+            <select>
+                <option value="">Select Parcel</option>
+                <option value=False>Not claim</option>
+                <option value=True>Claimed</option>
+            </select>
+        </div>
 
-      <div class="form-group">
-        <label>Owner's Contact Info</label>
-        <input type="text" value="<?= $parcel['contact_info'] ?>" disabled />
-        <input type="text" name="new_contact" placeholder="New contact info" />
-      </div>
+        <div class="form-group">
+            <label>Parcel Type</label>
+            <select disabled>
+                <option><?= $parcel['parcel_type'] ?></option>
+            </select>
+            <select name="new_type">
+                <option value="">Select new type</option>
+                <option value="kotak">KOTAK</option>
+                <option value="putih">PUTIH</option>
+                <option value="hitam">HITAM</option>
+                <option value="kelabu">KELABU</option>
+                <option value="others">OTHERS</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Owner's Contact Info</label>
+            <input type="text" value="<?= $parcel['contact_info'] ?>" disabled />
+            <input type="text" name="new_contact" placeholder="New contact info" />
+        </div>
     </div>
 
     <button type="submit" class="btn confirm">Confirm</button>
     <form method="POST" action="delete_parcel.php" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
-  <input type="hidden" name="id" value="<?= $parcel['id'] ?>" />
-  <button type="submit" class="btn delete">Delete</button>
+        <input type="hidden" name="id" value="<?= $parcel['id'] ?>" />
+    <button type="submit" class="btn delete">Delete</button>
   </form>
 </div>
-
+<footer class="trademark">
+    Trademark ® 2025 Parcel Serumpun. All Rights Reserved
+</footer>
 </body>
 </html>
