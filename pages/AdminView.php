@@ -12,10 +12,10 @@ include 'db_connection.php'; // include your DB connection
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['PhoneNum'];
     $parcel_type = $_POST['Parcel_type'];
-    $owner = $_POST['Parcel_name'];
+    $owner = $_POST['Parcel_owner'];
 
     // Insert into database
-    $stmt = $conn->prepare("INSERT INTO parcel_test (PhoneNum, Parcel_type, Parcel_name) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO parcel_test (PhoneNum, Parcel_type, Parcel_owner) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $phone, $parcel_type, $owner);
 
     if ($stmt->execute()) {
