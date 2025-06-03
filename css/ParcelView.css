@@ -62,7 +62,7 @@ input[type="text"] {
   width: fit-content;
 }
 .dash {
-  margin: auto;
+  margin: auto 5px;
   background: #353535;
   border-radius: 50%;
   width: 6.49px;
