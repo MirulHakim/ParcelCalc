@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // ✅ Only call this ONCE at the top
 
 $host = 'localhost';
 $db   = 'parcelsystem';
@@ -29,16 +29,6 @@ try {
     $error = "Database error: " . $e->getMessage();
 }
 ?>
-
-<?php
-session_start();
-
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: Login.php');
-    exit;
-}
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
