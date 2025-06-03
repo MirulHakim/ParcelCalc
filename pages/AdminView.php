@@ -67,40 +67,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="main-content">
       <h2>Add New Parcel</h2>
-<form method="POST" action="">
-  <label for="phone">Phone Number:</label><br>
-  <input
-    type="text"
-    id="phone"
-    name="PhoneNum"  <!-- ✅ Match your DB column -->
-    placeholder="Enter Phone Number"
-    required
-    style="width: 88.3%;"
-  /><br>
-
-  <label for="parcel-type">Parcel Type:</label><br>
-  <select id="parcel-type" name="Parcel_type" style="width: 90%;"> <!-- ✅ Match your DB column -->
-    <option value="kotak">KOTAK</option>
-    <option value="hitam">HITAM</option>
-    <option value="putih">PUTIH</option>
-    <option value="kelabu">KELABU</option>
-    <option value="others">OTHERS</option>
-  </select><br>
-
-  <label for="owner">Parcel Owner:</label><br>
-  <input
-    type="text"
-    id="owner"
-    name="Parcel_owner"  <!-- ✅ Match your DB column -->
-    placeholder="Enter Owner's Name"
-    required
-    style="width: 88.2%;"
-  /><br>
-
-  <button type="submit" style="width: 90%;">Add to list</button>
-</form>
-
-
+      <form method="POST" action="">
+        <label for="phone">Phone Number:</label><br>
+        <input
+          type="text"
+          id="phone"
+          placeholder="Enter Phone Number"
+          required
+          style="width: 88.3%;"
+        /><br>
+        <label for="parcel-type">Parcel Type:</label><br>
+        <select id="parcel-type" style="width: 90%;">
+          <option value="kotak">KOTAK</option>
+          <option value="hitam">HITAM</option>
+          <option value="putih">PUTIH</option>
+          <option value="kelabu">KELABU</option>
+          <option value="others">OTHERS</option>
+        </select><br>
+        <label for="owner">Parcel Owner:</label><br>
+        <input
+          type="text"
+          id="owner"
+          placeholder="Enter Owner's Name"
+          required
+          style="width: 88.2%;"
+        /><br>
+        <button type="submit" style="width: 90%;">Add to list</button>
+      </form>
       <h3>Parcel Info</h3>
       <input type="text" placeholder="Enter parcel ID" style="width: 88.3%;" />
       <p>Parcel ID Searching</p>
