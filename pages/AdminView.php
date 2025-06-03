@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+//check if the admin is logged in
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    // Redirect to login page if not logged in
+    header("Location: Login.php");
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

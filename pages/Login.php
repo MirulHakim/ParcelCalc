@@ -1,5 +1,5 @@
 <?php
-session_start(); // ✅ Only call this ONCE at the top
+session_start(); 
 
 $host = 'localhost';
 $db   = 'parcelsystem';
