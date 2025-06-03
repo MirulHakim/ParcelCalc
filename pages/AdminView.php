@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $owner = $_POST['owner'];
 
     // Insert into database
-    $stmt = $conn->prepare("INSERT INTO parcel (PhoneNum, Parcel_type, Parcel_name) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO parcel_test (PhoneNum, Parcel_type, Parcel_name) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $phone, $parcel_type, $owner);
 
     if ($stmt->execute()) {
