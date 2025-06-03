@@ -1,265 +1,79 @@
-.enter-new-parcel,
-.enter-new-parcel * {
-  box-sizing: border-box;
-}
+
 .enter-new-parcel {
-  background: #151f42;
-  height: 1024px;
-  position: relative;
-  overflow: hidden;
+    font-family: "Exo-Bold", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-bottom: 50px;
 }
 
-.continue {
-  width: 1290.31px;
-  height: 40.81px;
-  position: absolute;
-  left: 95px;
-  top: 883.19px;
-}
-.rectangle-6 {
-  background: #fdffff;
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  right: 0%;
-  left: 0%;
-  bottom: 0%;
-  top: 0%;
-}
-.add {
-  color: #000000;
-  text-align: left;
-  font-family: "Roboto-ExtraBold", sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  position: absolute;
-  right: 36.47%;
-  left: 42.24%;
-  width: 21.29%;
-  bottom: 36.64%;
-  top: 16.7%;
-  height: 46.67%;
-}
-.textfield {
-  width: 1290.31px;
-  height: 40.81px;
-  position: absolute;
-  left: 99px;
-  top: 582px;
-}
-.rectangle-62 {
-  background: #fdffff;
-  border-radius: 10px;
-  border-style: solid;
-  border-color: var(--primarytext-color, #554bc1);
-  border-width: 1px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  right: 0%;
-  left: 0%;
-  bottom: 0%;
-  top: 0%;
-}
-.enter-parcel-contact-info {
-  color: var(--btn-color, #6d6d6d);
-  text-align: left;
-  font-family: "Roboto-Regular", sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  position: absolute;
-  right: 58.79%;
-  left: 1.86%;
-  width: 39.35%;
-  bottom: 30.6%;
-  top: 29.4%;
-  height: 40%;
-}
-.contact-info {
-  color: #fdffff;
-  text-align: left;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  position: absolute;
-  right: 52.83%;
-  left: 7.57%;
-  width: 39.6%;
-  bottom: 46.58%;
-  top: 51.56%;
-  height: 1.86%;
-}
-.textfield2 {
-  width: 1290.31px;
-  height: 40.81px;
-  position: absolute;
-  left: 99px;
-  top: 454px;
-}
-.kotak {
-  color: #000000;
-  text-align: left;
-  font-family: "Roboto-Regular", sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  position: absolute;
-  right: 90.06%;
-  left: 1.55%;
-  width: 8.39%;
-  bottom: 30.6%;
-  top: 29.4%;
-  height: 40%;
-}
-.keyboard-arrow-down {
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 1246px;
-  top: 9px;
-  overflow: visible;
-  aspect-ratio: 1;
-}
-.parcel-type {
-  color: #fdffff;
-  text-align: left;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  position: absolute;
-  right: 52.83%;
-  left: 7.57%;
-  width: 39.6%;
-  bottom: 57.71%;
-  top: 40.43%;
-  height: 1.86%;
-}
-.textfield3 {
-  width: 1290.31px;
-  height: 40.81px;
-  position: absolute;
-  left: 98.69px;
-  top: 339.91px;
-}
-.enter-phone-number {
-  color: var(--btn-color, #6d6d6d);
-  text-align: left;
-  font-family: "Roboto-Regular", sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  position: absolute;
-  right: 43.26%;
-  left: 1.57%;
-  width: 55.16%;
-  bottom: 30.37%;
-  top: 29.63%;
-  height: 40%;
-}
-.phone-number {
-  color: #fdffff;
-  text-align: left;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  position: absolute;
-  right: 54.55%;
-  left: 7.59%;
-  width: 37.87%;
-  bottom: 68.84%;
-  top: 29.3%;
-  height: 1.86%;
-}
-.arrow-back {
-  border-radius: 52px;
-  width: 48px;
-  height: 48px;
-  position: absolute;
-  left: 47px;
-  top: 158px;
-  overflow: visible;
-}
-.add-new-parcel {
-  color: #fdffff;
-  text-align: left;
-  font-family: "Roboto-Bold", sans-serif;
-  font-size: 36px;
-  font-weight: 700;
-  position: absolute;
-  right: 18.18%;
-  left: 42.22%;
-  width: 39.6%;
-  bottom: 78.8%;
-  top: 19.34%;
-  height: 1.86%;
-}
-.header {
-  width: 1440px;
-  height: 152px;
-  position: absolute;
-  left: 0px;
-  top: -5px;
-}
-.rectangle-1 {
-  background: #495bbf;
-  width: 1440px;
-  height: 109px;
-  position: absolute;
-  left: 0px;
-  top: 5px;
-}
-.rectangle-2 {
-  background: #fd0000;
-  width: 676px;
-  height: 112px;
-  position: absolute;
-  left: 764px;
-  top: 2px;
-}
-.polygon-1 {
-  width: 203px;
-  height: 152px;
-  position: absolute;
-  left: calc(50% - 58px);
-  top: 0px;
-  overflow: visible;
-}
-.logos {
-  width: 173px;
-  height: 82.46px;
-  position: absolute;
-  left: 634px;
-  top: 19px;
-}
-.image-1 {
-  width: 73.84px;
-  height: 82.46px;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  object-fit: cover;
-  aspect-ratio: 73.84/82.46;
-}
-.logo-k-14-1 {
-  width: 64.31px;
-  height: 82.46px;
-  position: absolute;
-  left: 108.69px;
-  top: 0px;
-  object-fit: cover;
-  aspect-ratio: 64.31/82.46;
-}
-.x {
-  color: #ffffff;
-  text-align: center;
-  font-family: "Inter-Bold", sans-serif;
-  font-size: 26px;
-  font-weight: 700;
-  position: absolute;
-  left: 79.22px;
-  top: 30.72px;
-  width: 24.25px;
-  height: 21.02px;
+.row {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.parcel-form {
+    color: white;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.title {
+  color: #ffffff;
+  font-family: "Roboto-Black", sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  margin: 0px;
+  margin-top: 0.5%;
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateX(-9%);
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  display: block;
+}
+
+.textfield {
+  position: relative;
+  margin-bottom: 10px;
+  background-color: white;
+  border-radius: 8px;
+  padding-right: 5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+  color: black;
+}
+
+.add-button {
+  width: 100%;
+  margin-top: 30px;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-button:hover {
+  background-color: #ddd;
 }

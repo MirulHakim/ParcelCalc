@@ -4,28 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
-    <!-- <link rel="stylesheet" href="../css/NewParcel.css" /> -->
-    <!-- <link rel="stylesheet" href="../css/style.css" /> -->
+    <link rel="stylesheet" href="../css/NewParcel.css" />
+    <link rel="stylesheet" href="../css/style.css" />
     <title>Parcel Serumpun - Add Parcel</title>
 </head>
 <body>
-  <div class="enter-new-parcel">
-    <div class="header">
-      <div class="rectangle-1"></div>
-      <div class="rectangle-2"></div>
-      <img class="polygon-1" src="polygon-10.svg" />
-      <div class="logos">
-        <img class="image-1" src="resources/image-10.png" />
-        <img class="logo-k-14-1" src="resources/logo-k-14-10.png" />
+  <div class="header">
+    <div class="row" style="gap: 0px">
+      <div class="box blue" style="position: relative; z-index: 0"></div>
+      <div class="box trapezium" style="position: relative; z-index: 1"></div>
+      <div class="row logos">
+        <img class="logo" src="../resources/Header/image-10.png" />
         <div class="x">X</div>
+        <img class="logo" src="../resources/Header/logo-k-14-10.png" />
       </div>
     </div>
+  </div>
+  <div class="enter-new-parcel">
     <form class="parcel-form">
-      <h2 class="form-heading">Add New Parcel</h2>
+      <div class="row">
+      <a onclick="history.back()"
+        ><img class="back" src="../resources/Login/arrow-back0.svg"
+      /></a>
+      <p class="title">Add New Parcel</p>
+    </div>
   
       <label for="parcel-type">Parcel Type</label>
       <div class="textfield">
-        <div class="rectangle-62"></div>
         <select id="parcel-type" name="parcelType" required>
           <option value="">Select Parcel Type</option>
           <option value="kotak">KOTAK</option>
@@ -38,13 +43,11 @@
 
       <label for="phone">Phone Number</label>
       <div class="textfield">
-        <div class="rectangle-62"></div>
         <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required />
       </div>
 
       <label for="name">Owner's Name</label>
       <div class="textfield">
-        <div class="rectangle-62"></div>
         <input type="text" id="name" name="name" placeholder="Enter receiver's name" required />
       </div>
 
