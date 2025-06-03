@@ -1,10 +1,12 @@
 <?php
-session_start(); 
+session_start();
 
 $host = 'localhost';
 $db   = 'parcelsystem';
 $user = 'root';
 $pass = '';
+
+$error = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
@@ -14,11 +16,14 @@ try {
         $staff_id = $_POST['staff_id'] ?? '';
         $password = $_POST['password'] ?? '';
 
+        // NOTE: For production, never store plain passwords. Use password_hash & password_verify.
+
         $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
         $stmt->execute([$staff_id, $password]);
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
+            $_SESSION['staff_id'] = $staff_id;  // optional: store user id
             header("Location: AdminView.php");
             exit();
         } else {
