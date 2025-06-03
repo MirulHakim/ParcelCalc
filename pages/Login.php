@@ -6,20 +6,25 @@ $db   = 'parcelsystem';
 $user = 'root';
 $pass = '';
 
+$error = '';
+
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $username = $_POST['username'] ?? '';
+        $staff_id = $_POST['staff_id'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id= ? AND Password = ?");
-        $stmt->execute([$username, $password]);
+        // NOTE: For production, never store plain passwords. Use password_hash & password_verify.
+
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
+        $stmt->execute([$staff_id, $password]);
 
         if ($stmt->rowCount() > 0) {
             $_SESSION['admin_logged_in'] = true;
-            header("Location: AdminView.php"); // replace with your real page
+            $_SESSION['staff_id'] = $staff_id;  // optional: store user id
+            header("Location: AdminView.php");
             exit();
         } else {
             $error = "Invalid username or password.";
@@ -82,23 +87,25 @@ try {
         Enter your username and password to continue in admin view
       </p>
 
-      <form action="login.php" method="post">
+      <?php if (!empty($error)): ?>
+        <p style="color: red; text-align: center;"><?= htmlspecialchars($error) ?></p>
+      <?php endif; ?>
+
+      <form action="" method="post">
         <div class="login-wrap">
           <input
             class="login"
             type="text"
-            id="username"
-            name="username"
+            id="staff_id"
+            name="staff_id"
             placeholder="Username"
-            required
           /><br />
           <input
             class="login"
-            type="text"
+            type="password"
             id="password"
             name="password"
             placeholder="Password"
-            required
           /><br />
 
           <input class="submit" type="submit" value="Login" />
