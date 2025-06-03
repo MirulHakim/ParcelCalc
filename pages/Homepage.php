@@ -30,7 +30,7 @@
         Search for your parcel id number to check its availability in<br />Parcel
         Serumpun’s database
       </p>
-      <form action="" method="post">
+      <form action="ParcelView.php" method="post">
         <input class="search" type="text" id="name" name="name" placeholder="Enter your parcel ID">
       </form>
 
