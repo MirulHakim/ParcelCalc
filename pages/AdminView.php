@@ -10,36 +10,41 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 require_once "pdo.php"; // Include DB connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $phone = $_POST['PhoneNum'];
-    $parcel_type = $_POST['Parcel_type'];
-    $owner = $_POST['Parcel_owner'];
-    $parcel_id = $_POST['Parcel_Id'];
+    if (isset($_POST['delete'])) {
+        // Delete block
+        $delete_id = $_POST['delete_id'];
 
-    try {
-        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  VALUES (:phone, :type, :owner, :parcel_id)");
-        $stmt->execute([
-            ':phone' => $phone,
-            ':type' => $parcel_type,
-            ':owner' => $owner,
-            ':parcel_id' => $parcel_id
-        ]);
-        echo "<script>alert('Parcel added successfully');</script>";
-    } catch (PDOException $e) {
-        echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+        try {
+            $stmt = $pdo->prepare("DELETE FROM Parcel_info WHERE Parcel_id = :parcel_id");
+            $stmt->execute([':parcel_id' => $delete_id]);
+            echo "<script>alert('Parcel deleted successfully');</script>";
+        } catch (PDOException $e) {
+            echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
+        }
+
+    } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_Id'])) {
+        // Add new parcel block
+        $phone = $_POST['PhoneNum'];
+        $parcel_type = $_POST['Parcel_type'];
+        $owner = $_POST['Parcel_owner'];
+        $parcel_id = $_POST['Parcel_id'];
+
+        try {
+            $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
+                                   VALUES (:phone, :type, :owner, :parcel_id)");
+            $stmt->execute([
+                ':phone' => $phone,
+                ':type' => $parcel_type,
+                ':owner' => $owner,
+                ':parcel_id' => $parcel_id
+            ]);
+            echo "<script>alert('Parcel added successfully');</script>";
+        } catch (PDOException $e) {
+            echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+        }
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
-    $delete_id = $_POST['delete_id'];
-
-    try {
-        $stmt = $pdo->prepare("DELETE FROM Parcel_info WHERE Parcel_id = :parcel_id");
-        $stmt->execute([':parcel_id' => $delete_id]);
-        echo "<script>alert('Parcel deleted successfully');</script>";
-    } catch (PDOException $e) {
-        echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
-    }
-}
 
 
 ?>
