@@ -123,24 +123,41 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>
 
 
-    <h3>Parcel Info</h3>
-    <input type="text" placeholder="Enter parcel ID" style="width: 88.3%;" />
-    <p>Parcel ID Searching</p>
+   <h3>Parcel Info</h3>
+<form method="POST" action="">
+  <input type="text" name="search_id" placeholder="Enter Parcel ID" required style="width: 88.3%;" />
+  <button type="submit" name="search" style="width: 90%; background: #495bbf;">Search</button>
+</form>
 
-    <div class="parcel-info">
-      <div class="parcel-detail"><span>Owner's Name:</span><span>-</span></div>
-      <div class="parcel-detail"><span>Arrive Date:</span><span>24 June</span></div>
-      <div class="parcel-detail"><span>Parcel ID:</span><span>246-05</span></div>
-      <div class="parcel-detail"><span>Phone Number:</span><span>010-676 9035</span></div>
-      <div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>
-      <div class="parcel-detail"><span>Status:</span><span>Not Claimed</span></div>
-      <div class="button-group">
-        <button class="button edit-btn">✏️ Edit</button>
-        <button class="button delete-btn">🗑 Delete</button>
-        <button class="button claim-btn">✅ Claim</button>
-      </div>
-    </div>
-  </div>
-  <footer>Trademark © 2025 Parcel Serumpun. All Rights Reserved</footer>
-</body>
-</html>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
+    $search_id = $_POST['search_id'];
+
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :parcel_id");
+        $stmt->execute([':parcel_id' => $search_id]);
+        $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($parcel) {
+            echo '<div class="parcel-info">';
+            echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($parcel['Parcel_owner']) . '</span></div>';
+            echo '<div class="parcel-detail"><span>Arrive Date:</span><span>Not Available</span></div>';
+            echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
+            echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
+            echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
+            echo '<div class="parcel-detail"><span>Status:</span><span>Not Claimed</span></div>';
+            echo '<div class="button-group">';
+            // You can implement Edit and Claim features later
+            echo '<form method="POST" action="" onsubmit="return confirm(\'Delete this parcel?\');" style="display: inline;">';
+            echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($parcel['Parcel_id']) . '">';
+            echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
+            echo '</form>';
+            echo '</div></div>';
+        } else {
+            echo "<p>No parcel found with ID: " . htmlspecialchars($search_id) . "</p>";
+        }
+    } catch (PDOException $e) {
+        echo "<p>Error: " . $e->getMessage() . "</p>";
+    }
+}
+?>
