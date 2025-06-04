@@ -37,13 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
         ':id' => $id
     ]);
 
-    echo "<script>alert('Parcel updated successfully.');</script>";
+    // Store success message in session
+    $_SESSION['success'] = 'Parcel updated successfully.';
 
-    // Reload updated parcel
-    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
-    $stmt->execute([':id' => $id]);
-    $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
-}
+    // Redirect with Parcel ID as GET parameter
+    header("Location: EditParcel.php?search_id=" . urlencode($id));
+    exit;
 ?>
 
 <!DOCTYPE html>
