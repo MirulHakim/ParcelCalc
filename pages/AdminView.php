@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" id="owner" name="Parcel_owner" placeholder="Enter Owner's Name" required style="width: 88.2%;" /><br>
 
       <label for="parcelID">Parcel ID:</label><br>
-      <input type="text" id="parcelID" name="Parcel_Id" placeholder="Enter Parcel ID" required style="width: 88.2%;" /><br>
+      <input type="text" id="parcelID" name="Parcel_id" placeholder="Enter Parcel ID" required style="width: 88.2%;" /><br>
 
       <button type="submit" style="width: 90%; background: #495bbf;">Add to list</button>
     </form>
