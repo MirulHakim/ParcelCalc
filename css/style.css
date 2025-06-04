@@ -12,11 +12,12 @@ body {
   font-family: "Exo-Regular", sans-serif;
   font-size: 30px;
   font-weight: 400;
-  width: 12%;
+  width: 120px;
   height: 60px;
+  margin-right: 10px;
   position: absolute;
-  left: 85%;
-  right: 15%;
+  left: 80%;
+  right: 20%;
   top: 20px;
   z-index: 1;
 }
@@ -88,10 +89,18 @@ body {
 
 .row {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap; /* Optional: wrap to new line on small screens */
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: #ffffff;
+  font-family: "Roboto-Black", sans-serif;
+  font-size: 2.2rem; /* responsive font size */
+  font-weight: 700;  /* 'Black' implies bold */
+  margin: 25px auto 0 auto;
+  padding-right: 100px;
+  text-align: center;
 }
 
 /* input[type="date"] {

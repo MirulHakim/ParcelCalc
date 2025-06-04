@@ -124,12 +124,12 @@ if (isset($_SESSION['success'])) {
     <form class="edit-parcel-form" method="POST" action="">
         <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
 
-        <div class="form-grid">
-            <div class="form-group">
-                <label>Owner's Name</label>
-                <input type="text" value="<?= htmlspecialchars($parcel['Parcel_owner']) ?>" disabled />
-                <input type="text" name="new_owner_name" placeholder="New Owner's name" />
-            </div>
+    <div class="form-grid">
+        <div class="form-group">
+            <label>Owner's Name</label>
+            <input type="text" value="<?= $parcel['owner_name'] ?>" disabled />
+            <input type="text" name="new_owner_name" placeholder="New Owner's name" />
+        </div>
 
             <div class="form-group">
                 <label>Parcel Status</label>
@@ -140,27 +140,27 @@ if (isset($_SESSION['success'])) {
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>Parcel Type</label>
-                <select disabled>
-                    <option><?= htmlspecialchars($parcel['Parcel_type']) ?></option>
-                </select>
-                <select name="new_type">
-                    <option value="">Select new type</option>
-                    <option value="kotak">KOTAK</option>
-                    <option value="putih">PUTIH</option>
-                    <option value="hitam">HITAM</option>
-                    <option value="kelabu">KELABU</option>
-                    <option value="others">OTHERS</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Owner's Contact Info</label>
-                <input type="text" value="<?= htmlspecialchars($parcel['PhoneNum']) ?>" disabled />
-                <input type="text" name="new_contact" placeholder="New contact info" />
-            </div>
+        <div class="form-group">
+            <label>Parcel Type</label>
+            <select disabled>
+                <option><?= $parcel['parcel_type'] ?></option>
+            </select>
+            <select name="new_type">
+                <option value="">Select new type</option>
+                <option value="kotak">KOTAK</option>
+                <option value="putih">PUTIH</option>
+                <option value="hitam">HITAM</option>
+                <option value="kelabu">KELABU</option>
+                <option value="others">OTHERS</option>
+            </select>
         </div>
+
+        <div class="form-group">
+            <label>Owner's Contact Info</label>
+            <input type="text" value="<?= $parcel['contact_info'] ?>" disabled />
+            <input type="text" name="new_contact" placeholder="New contact info" />
+        </div>
+    </div>
 
         <button type="submit" name="update" class="btn confirm">Confirm</button>
     </form>
