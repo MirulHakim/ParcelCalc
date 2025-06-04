@@ -7,12 +7,20 @@
   padding-bottom: 50px;
 }
 
-.parcel-form {
-  color: white;
-  width: 90%;
+.row {
   display: flex;
-  flex-direction: column;
-  padding: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: #ffffff;
+  font-family: "Roboto-Black", sans-serif;
+  font-size: 2.2rem; /* responsive font size */
+  font-weight: 700;  /* 'Black' implies bold */
+  margin: 25px auto 0 auto;
+  padding-right: 100px;
+  text-align: center;
 }
 
 label {

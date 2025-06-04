@@ -12,12 +12,11 @@ body {
   font-family: "Exo-Regular", sans-serif;
   font-size: 30px;
   font-weight: 400;
-  width: 120px;
+  width: 12%;
   height: 60px;
-  margin-right: 10px;
   position: absolute;
-  left: 80%;
-  right: 20%;
+  left: 85%;
+  right: 15%;
   top: 20px;
   z-index: 1;
 }
@@ -89,8 +88,10 @@ body {
 
 .row {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap; /* Optional: wrap to new line on small screens */
 }
 
 .title {
