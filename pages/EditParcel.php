@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
 
     $_SESSION['success'] = 'Parcel updated successfully.';
 
-    // Redirect to avoid form resubmission and load updated parcel
+    // Redirect to avoid form resubmission
     header("Location: AdminView.php");
     exit;
 }
@@ -166,8 +166,9 @@ if (isset($_SESSION['success'])) {
     </form>
 
     <!-- Delete Parcel Form -->
-    <form method="POST" action="delete_parcel.php" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
+    <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
         <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
+        <input type="hidden" name="delete" value="1" />
         <button type="submit" class="btn delete">Delete</button>
     </form>
 
