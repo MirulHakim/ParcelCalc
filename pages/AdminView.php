@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
         }
 
-    } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_Id'])) {
+    } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_id'])) {
         // Add new parcel block
         $phone = $_POST['PhoneNum'];
         $parcel_type = $_POST['Parcel_type'];
