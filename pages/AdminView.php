@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <?php
 
-// Fetch all parcels
+/* Fetch all parcels
 $stmt = $pdo->query("SELECT * FROM Parcel_info ORDER BY Parcel_id DESC"); // Adjust column name if needed
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '<div class="parcel-info">';
@@ -119,7 +119,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
     echo '</form>';
     echo '</div>';
-}
+}*/
 ?>
 
 
