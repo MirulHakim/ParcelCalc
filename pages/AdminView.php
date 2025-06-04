@@ -28,9 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<h1>Welcome to Admin View</h1>
-<a href="logout.php">Logout</a>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
