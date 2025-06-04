@@ -6,6 +6,22 @@ require_once "pdo.php";
 $parcel = null;
 $successMessage = null;
 
+// Handle parcel deletion
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
+    $idToDelete = $_POST["id"] ?? null;
+
+    if ($idToDelete) {
+        $stmt = $pdo->prepare("DELETE FROM Parcel_info WHERE Parcel_id = :id");
+        $stmt->execute([':id' => $idToDelete]);
+
+        $_SESSION['success'] = "Parcel deleted successfully.";
+
+        // Clear $parcel and $searchId to "vanish" parcel info on page
+        $parcel = null;
+        $searchId = null;
+    }
+}
+
 // Handle parcel update
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $id = $_POST["id"];
