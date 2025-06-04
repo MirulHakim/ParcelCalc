@@ -101,12 +101,12 @@ select {
 }
 
 .confirm {
-  background-color: #ffffff;
+  background: #495bbf;
   color: #000;
 }
 
 .delete {
-  background-color: #ffffff;
+  background: #495bbf;
   color: #000;
 }
 
