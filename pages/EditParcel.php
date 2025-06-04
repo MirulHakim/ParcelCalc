@@ -100,7 +100,7 @@ if (isset($_SESSION['success'])) {
 
 <!-- Back button & title -->
 <div class="row">
-    <a onclick="history.back()"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
+    <a href="AdminView.php"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
     <p class="title">EDIT/DELETE PARCEL INFO</p>
 </div>
 
