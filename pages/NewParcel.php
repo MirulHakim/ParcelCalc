@@ -1,17 +1,19 @@
 <?php
-require_once "pdo.php"; // make sure pdo.php is in the same folder or update the path
+require_once "pdo.php"; // ensure correct relative path
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $parcel_type = $_POST['parcelType'];
-    $phone = $_POST['phone'];
-    $owner = $_POST['name'];
+    $phone = $_POST['PhoneNum'];
+    $parcel_type = $_POST['Parcel_type'];
+    $owner = $_POST['Parcel_owner'];
+    $parcel_id = $_POST['Parcel_Id'];
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO parcel_test (PhoneNum, Parcel_type, Parcel_owner) VALUES (:phone, :type, :owner)");
+        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  VALUES (:phone, :type, :owner, :parcel_id)");
         $stmt->execute([
             ':phone' => $phone,
             ':type' => $parcel_type,
-            ':owner' => $owner
+            ':owner' => $owner,
+            ':parcel_id' => $parcel_id
         ]);
         echo "<script>alert('Parcel added successfully!');</script>";
     } catch (PDOException $e) {
@@ -69,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input
           type="tel"
           id="phone"
-          name="phone"
+          name="PhoneNum"
           placeholder="Enter phone number"
           required
         />
@@ -80,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input
           type="text"
           id="name"
-          name="name"
+          name="Parcel_owner"
           placeholder="Enter receiver's name"
           required
         />
@@ -91,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input
           type="text"
           id="parcelID"
-          parcelID="parcelID"
+          name="Parcel_id"
           placeholder="Enter parcel ID"
           required
         />
