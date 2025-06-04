@@ -4,14 +4,7 @@ require_once "pdo.php";
 
 // Initialize parcel variable
 $parcel = null;
-
-// Handle parcel search
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["search_id"])) {
-    $searchId = $_POST["search_id"];
-    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
-    $stmt->execute([':id' => $searchId]);
-    $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
-}
+$successMessage = null;
 
 // Handle parcel update
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
@@ -21,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $newStatus = $_POST["new_status"] ?? null;
     $newContact = $_POST["new_contact"] ?? null;
 
-    // Update parcel
     $stmt = $pdo->prepare("UPDATE Parcel_info SET 
         Parcel_owner = COALESCE(:owner, Parcel_owner),
         Parcel_type = COALESCE(:type, Parcel_type),
@@ -32,17 +24,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $stmt->execute([
         ':owner' => $newOwner ?: null,
         ':type' => $newType ?: null,
-        ':status' => $newStatus ?: null,
+        ':status' => $newStatus !== '' ? $newStatus : null,
         ':contact' => $newContact ?: null,
         ':id' => $id
     ]);
 
-    // Store success message in session
     $_SESSION['success'] = 'Parcel updated successfully.';
 
-    // Redirect with Parcel ID as GET parameter
+    // Redirect to avoid form resubmission and load updated parcel
     header("Location: EditParcel.php?search_id=" . urlencode($id));
     exit;
+}
+
+// Handle parcel search from POST or GET
+$searchId = null;
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["search_id"])) {
+    $searchId = $_POST["search_id"];
+} elseif (isset($_GET["search_id"])) {
+    $searchId = $_GET["search_id"];
+}
+
+if ($searchId) {
+    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
+    $stmt->execute([':id' => $searchId]);
+    $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Get success message from session if exists
+if (isset($_SESSION['success'])) {
+    $successMessage = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -76,13 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     <p class="title">EDIT/DELETE PARCEL INFO</p>
 </div>
 
+<!-- Show success message if any -->
+<?php if ($successMessage): ?>
+    <script>alert("<?= htmlspecialchars($successMessage) ?>");</script>
+<?php endif; ?>
+
 <!-- Searchbar Parcel ID -->
 <form action="" method="post">
-    <input class="search" type="text" name="search_id" placeholder="Enter parcel ID" required />
+    <input class="search" type="text" name="search_id" placeholder="Enter parcel ID" required
+        value="<?= htmlspecialchars($searchId ?? '') ?>" />
     <button type="submit" class="btn confirm">Search</button>
 </form>
 
-<?php if (isset($parcel) && $parcel): ?>
+<?php if ($parcel): ?>
 <!-- Parcel Detail -->
 <div class="edit-parcel-container">
 
@@ -97,15 +115,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
                 <input type="text" name="new_owner_name" placeholder="New Owner's name" />
             </div>
 
-        <div class="form-group">
+            <div class="form-group">
                 <label>Parcel Status</label>
                 <select name="new_status">
                     <option value="">Select Status</option>
-                    <option value="0">Not claimed</option>
-                    <option value="1">Claimed</option>
+                    <option value="0" <?= $parcel['Status'] === '0' ? 'selected' : '' ?>>Not claimed</option>
+                    <option value="1" <?= $parcel['Status'] === '1' ? 'selected' : '' ?>>Claimed</option>
                 </select>
-        </div>
-
+            </div>
 
             <div class="form-group">
                 <label>Parcel Type</label>
