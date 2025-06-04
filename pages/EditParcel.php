@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PhoneNum'])) {
 
     <!-- Update Parcel Form -->
     <form class="edit-parcel-form" method="POST" action="update_parcel.php">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['id']) ?>" />
+        <input type="hidden" name="id" value="<?= isset($parcel['id']) ? htmlspecialchars($parcel['id']) : '' ?>" />
 
         <div class="form-grid">
             <div class="form-group">
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PhoneNum'])) {
 
     <!-- Delete Parcel Form -->
     <form method="POST" action="delete_parcel.php" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['id']) ?>" />
+        <input type="hidden" name="id" value="<?= isset($parcel['id']) ? htmlspecialchars($parcel['id']) : '' ?>" />
         <button type="submit" class="btn delete">Delete</button>
     </form>
 
