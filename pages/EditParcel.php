@@ -40,7 +40,7 @@
     <div class="form-grid">
         <div class="form-group">
             <label>Owner's Name</label>
-            <input type="text" value="<?= $parcel['owner_name'] ?>" disabled />
+            <input style="background-color: white;" type="text" value="<?= $parcel['owner_name'] ?>" disabled />
             <input type="text" name="new_owner_name" placeholder="New Owner's name" />
         </div>
 
@@ -55,7 +55,7 @@
 
         <div class="form-group">
             <label>Parcel Type</label>
-            <select disabled>
+            <select disabled; style="background-color: white;">
                 <option><?= $parcel['parcel_type'] ?></option>
             </select>
             <select name="new_type">
@@ -70,7 +70,7 @@
 
         <div class="form-group">
             <label>Owner's Contact Info</label>
-            <input type="text" value="<?= $parcel['contact_info'] ?>" disabled />
+            <input style="background-color: white;" type="text" value="<?= $parcel['contact_info'] ?>" disabled />
             <input type="text" name="new_contact" placeholder="New contact info" />
         </div>
     </div>
