@@ -7,19 +7,21 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-require_once "pdo.php"; // include your DB connection
+require_once "pdo.php"; // Include DB connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['PhoneNum'];
     $parcel_type = $_POST['Parcel_type'];
     $owner = $_POST['Parcel_owner'];
+    $parcel_id = $_POST['Parcel_Id'];
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO parcel_test (PhoneNum, Parcel_type, Parcel_owner) VALUES (:phone, :type, :owner)");
+        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  VALUES (:phone, :type, :owner, :parcel_id)");
         $stmt->execute([
             ':phone' => $phone,
             ':type' => $parcel_type,
-            ':owner' => $owner
+            ':owner' => $owner,
+            ':parcel_id' => $parcel_id
         ]);
         echo "<script>alert('Parcel added successfully');</script>";
     } catch (PDOException $e) {
@@ -27,9 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-<h1>Welcome to Admin View</h1>
-<a href="logout.php">Logout</a>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <img class="logo" src="../resources/Header/logo-k-14-10.png" />
       </div>
     </div>
-    <a href="Login.php">
+    <a href="logout.php">
       <button class="login-button">LOGOUT</button>
     </a>
   </div>
@@ -83,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" id="owner" name="Parcel_owner" placeholder="Enter Owner's Name" required style="width: 88.2%;" /><br>
 
       <label for="parcelID">Parcel ID:</label><br>
-      <input type="text" id="parcelID" name="Parcel_ID" placeholder="Enter Parcel ID" required style="width: 88.2%;" /><br>
+      <input type="text" id="parcelID" name="Parcel_Id" placeholder="Enter Parcel ID" required style="width: 88.2%;" /><br>
 
       <button type="submit" style="width: 90%;">Add to list</button>
     </form>
@@ -106,7 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
   </div>
-
   <footer>Trademark © 2025 Parcel Serumpun. All Rights Reserved</footer>
 </body>
 </html>
