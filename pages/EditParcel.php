@@ -1,44 +1,51 @@
 <?php
 session_start();
-require_once "pdo.php"; // DB connection
+require_once "pdo.php";
 
+// Initialize parcel variable
 $parcel = null;
 
-// Handle Parcel Search
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_id'])) {
-    $search_id = $_POST['search_id'];
-
-    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :parcel_id");
-    $stmt->execute([':parcel_id' => $search_id]);
+// Handle parcel search
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["search_id"])) {
+    $searchId = $_POST["search_id"];
+    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
+    $stmt->execute([':id' => $searchId]);
     $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$parcel) {
-        echo "<script>alert('Parcel ID not found.');</script>";
-    }
 }
 
-// Handle New Parcel Insertion
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PhoneNum'])) {
-    $phone = $_POST['PhoneNum'];
-    $parcel_type = $_POST['Parcel_type'];
-    $owner = $_POST['Parcel_owner'];
-    $parcel_id = $_POST['Parcel_Id'];
+// Handle parcel update
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
+    $id = $_POST["id"];
+    $newOwner = $_POST["new_owner_name"] ?? null;
+    $newType = $_POST["new_type"] ?? null;
+    $newStatus = $_POST["new_status"] ?? null;
+    $newContact = $_POST["new_contact"] ?? null;
 
-    try {
-        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
-                               VALUES (:phone, :type, :owner, :parcel_id)");
-        $stmt->execute([
-            ':phone' => $phone,
-            ':type' => $parcel_type,
-            ':owner' => $owner,
-            ':parcel_id' => $parcel_id
-        ]);
-        echo "<script>alert('Parcel added successfully');</script>";
-    } catch (PDOException $e) {
-        echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
-    }
+    // Update parcel
+    $stmt = $pdo->prepare("UPDATE Parcel_info SET 
+        Parcel_owner = COALESCE(:owner, Parcel_owner),
+        Parcel_type = COALESCE(:type, Parcel_type),
+        Status = COALESCE(:status, Status),
+        PhoneNum = COALESCE(:contact, PhoneNum)
+        WHERE Parcel_id = :id");
+
+    $stmt->execute([
+        ':owner' => $newOwner ?: null,
+        ':type' => $newType ?: null,
+        ':status' => $newStatus ?: null,
+        ':contact' => $newContact ?: null,
+        ':id' => $id
+    ]);
+
+    echo "<script>alert('Parcel updated successfully.');</script>";
+
+    // Reload updated parcel
+    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
+    $stmt->execute([':id' => $id]);
+    $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PhoneNum'])) {
 <div class="edit-parcel-container">
 
     <!-- Update Parcel Form -->
-    <form class="edit-parcel-form" method="POST" action="update_parcel.php">
-        <input type="hidden" name="id" value="<?= isset($parcel['id']) ? htmlspecialchars($parcel['id']) : '' ?>" />
+    <form class="edit-parcel-form" method="POST" action="">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
 
         <div class="form-grid">
             <div class="form-group">
@@ -95,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PhoneNum'])) {
                 <label>Parcel Status</label>
                 <select name="new_status">
                     <option value="">Select Status</option>
-                    <option value="0">Not claimed</option>
-                    <option value="1">Claimed</option>
+                    <option value="0" <?= $parcel['Status'] == '0' ? 'selected' : '' ?>>Not claimed</option>
+                    <option value="1" <?= $parcel['Status'] == '1' ? 'selected' : '' ?>>Claimed</option>
                 </select>
             </div>
 
@@ -122,12 +129,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['PhoneNum'])) {
             </div>
         </div>
 
-        <button type="submit" class="btn confirm">Confirm</button>
+        <button type="submit" name="update" class="btn confirm">Confirm</button>
     </form>
 
     <!-- Delete Parcel Form -->
     <form method="POST" action="delete_parcel.php" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
-        <input type="hidden" name="id" value="<?= isset($parcel['id']) ? htmlspecialchars($parcel['id']) : '' ?>" />
+        <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
         <button type="submit" class="btn delete">Delete</button>
     </form>
 
