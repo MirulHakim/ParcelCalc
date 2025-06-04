@@ -28,6 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+    $delete_id = $_POST['delete_id'];
+
+    try {
+        $stmt = $pdo->prepare("DELETE FROM Parcel_info WHERE Parcel_id = :parcel_id");
+        $stmt->execute([':parcel_id' => $delete_id]);
+        echo "<script>alert('Parcel deleted successfully');</script>";
+    } catch (PDOException $e) {
+        echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +100,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <button type="submit" style="width: 90%; background: #495bbf;">Add to list</button>
     </form>
+    <?php
+
+// Fetch all parcels
+$stmt = $pdo->query("SELECT * FROM Parcel_info ORDER BY Parcel_id DESC"); // Adjust column name if needed
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo '<div class="parcel-info">';
+    echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($row['Parcel_owner']) . '</span></div>';
+    echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($row['PhoneNum']) . '</span></div>';
+    echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($row['Parcel_id']) . '</span></div>';
+    echo '<form method="POST" action="" onsubmit="return confirm(\'Are you sure you want to delete this parcel?\');">';
+    echo '<input type="hidden" name="delete_id" value="' . $row['Parcel_id'] . '">';
+    echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
+    echo '</form>';
+    echo '</div>';
+}
+?>
+
 
     <h3>Parcel Info</h3>
     <input type="text" placeholder="Enter parcel ID" style="width: 88.3%;" />
