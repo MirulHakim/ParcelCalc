@@ -98,14 +98,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
                 <input type="text" name="new_owner_name" placeholder="New Owner's name" />
             </div>
 
-        <?php $status = $parcel['Status']; ?>
-
         <div class="form-group">
-            <label>Parcel Status</label>
+                <label>Parcel Status</label>
                 <select name="new_status">
                     <option value="">Select Status</option>
-                    <option value="0" <?= $status == '0' ? 'selected' : '' ?>>Not claimed</option>
-                    <option value="1" <?= $status == '1' ? 'selected' : '' ?>>Claimed</option>
+                    <option value="0">Not claimed</option>
+                    <option value="1">Claimed</option>
                 </select>
         </div>
 
