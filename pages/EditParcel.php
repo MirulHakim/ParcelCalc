@@ -76,53 +76,41 @@ if (isset($_SESSION['success'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/EditParcel.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <title>Parcel Serumpun - Edit Parcel</title>
 </head>
 <body>
-
-<!-- Header logo -->
-<div class="header">
-    <div class="row" style="gap: 0px">
-        <div class="box blue" style="position: relative; z-index: 0"></div>
-        <div class="box trapezium" style="position: relative; z-index: 1"></div>
-        <div class="row logos">
-            <img class="logo" src="../resources/Header/image-10.png" />
-            <div class="x">X</div>
-            <img class="logo" src="../resources/Header/logo-k-14-10.png" />
+    <!-- Header logo -->
+    <div class="header">
+        <div class="row" style="gap: 0px">
+            <div class="box blue" style="position: relative; z-index: 0"></div>
+            <div class="box trapezium" style="position: relative; z-index: 1"></div>
+            <div class="row logos">
+                <img class="logo" src="../resources/Header/image-10.png" />
+                <div class="x">X</div>
+                <img class="logo" src="../resources/Header/logo-k-14-10.png" />
+            </div>
         </div>
     </div>
-</div>
-
-<!-- Back button & title -->
-<div class="row">
-    <a href="AdminView.php"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
-    <p class="title">EDIT/DELETE PARCEL INFO</p>
-</div>
-
-<!-- Show success message if any -->
-<?php if ($successMessage): ?>
-    <script>alert("<?= htmlspecialchars($successMessage) ?>");</script>
-<?php endif; ?>
-
-<!-- Searchbar Parcel ID -->
-<form action="" method="post">
-    <input class="search" type="text" name="search_id" placeholder="Enter parcel ID" required
-        value="<?= htmlspecialchars($searchId ?? '') ?>" />
-    <button type="submit" class="btn confirm">Search</button>
-</form>
-
-<?php if ($parcel): ?>
-<!-- Parcel Detail -->
-<div class="edit-parcel-container">
-
-    <!-- Update Parcel Form -->
-    <form class="edit-parcel-form" method="POST" action="">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
+    <!-- back button & title -->
+    <div class="row">
+      <a onclick="history.back()"
+        ><img class="back" src="../resources/Login/arrow-back0.svg"
+      /></a>
+      <p class="title">EDIT/DELETE PARCEL INFO</p>
+    </div>
+    <!-- Searchbar Parcel ID -->
+    <form action="" method="post">
+        <input class="search" type="text" id="name" name="name" placeholder="Enter parcel ID">
+    </form>
+    <!-- Parcel Detail -->
+    <div class="edit-parcel-container">
+  <form class="edit-parcel-form" method="POST" action="update_parcel.php">
+    <input type="hidden" name="id" value="<?= $parcel['id'] ?>" />
 
     <div class="form-grid">
         <div class="form-group">
@@ -131,14 +119,14 @@ if (isset($_SESSION['success'])) {
             <input type="text" name="new_owner_name" placeholder="New Owner's name" />
         </div>
 
-            <div class="form-group">
-                <label>Parcel Status</label>
-                <select name="new_status">
-                    <option value="">Select Status</option>
-                    <option value="0" <?= $parcel['Status'] === '0' ? 'selected' : '' ?>>Not claimed</option>
-                    <option value="1" <?= $parcel['Status'] === '1' ? 'selected' : '' ?>>Claimed</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label>Parcel Status</label>
+            <select>
+                <option value="">Select Parcel</option>
+                <option value=False>Not claim</option>
+                <option value=True>Claimed</option>
+            </select>
+        </div>
 
         <div class="form-group">
             <label>Parcel Type</label>
@@ -162,19 +150,12 @@ if (isset($_SESSION['success'])) {
         </div>
     </div>
 
-        <button type="submit" name="update" class="btn confirm">Confirm</button>
-    </form>
-
-    <!-- Delete Parcel Form -->
-    <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
-        <input type="hidden" name="delete" value="1" />
-        <button type="submit" class="btn delete">Delete</button>
-    </form>
-
+    <button type="submit" class="btn confirm">Confirm</button>
+    <form method="POST" action="delete_parcel.php" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
+        <input type="hidden" name="id" value="<?= $parcel['id'] ?>" />
+    <button type="submit" class="btn delete">Delete</button>
+  </form>
 </div>
-<?php endif; ?>
-
 <footer class="trademark">
     Trademark ® 2025 Parcel Serumpun. All Rights Reserved
 </footer>
