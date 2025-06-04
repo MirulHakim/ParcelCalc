@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form class="parcel-form" method="POST" action="">
       <label for="parcel-type">Parcel Type</label>
       <div class="textfield">
-        <select id="parcel-type" name="parcelType" required>
+        <select id="parcel-type" name="Parcel_type" required>
           <option value="">Select Parcel Type</option>
           <option value="kotak">KOTAK</option>
           <option value="hitam">HITAM</option>
