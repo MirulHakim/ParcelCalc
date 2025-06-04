@@ -86,6 +86,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         />
       </div>
 
+      <label for="parcelID">Parcel ID</label>
+      <div class="textfield">
+        <input
+          type="text"
+          id="parcelID"
+          parcelID="parcelID"
+          placeholder="Enter parcel ID"
+          required
+        />
+      </div>
+
       <button type="submit" class="add-button">Add</button>
     </form>
   </div>
