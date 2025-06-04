@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $_SESSION['success'] = 'Parcel updated successfully.';
 
     // Redirect to avoid form resubmission and load updated parcel
-    header("Location: EditParcel.php?search_id=" . urlencode($id));
+    header("Location: AdminView.php");
     exit;
 }
 
