@@ -70,7 +70,7 @@
   width: 100%; /* Ensures consistency */
 }
 
-input.old-owner[readonly] {
+input[readonly] {
   color: whitesmoke !important;
   background-color: grey !important;
   opacity: 1 !important;
