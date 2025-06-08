@@ -71,8 +71,8 @@
 }
 
 input.old-owner:disabled {
-  background-color: pink !important;
-  color: whitesmoke !important;
+  background-color: grey !important;
+  color: black !important;
 }
 
 input,

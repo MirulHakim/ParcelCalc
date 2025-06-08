@@ -157,7 +157,7 @@ if (isset($_SESSION['success'])) {
 
             <div class="form-group">
                 <label>Owner's Contact Info</label>
-                <input type="text" value="<?= htmlspecialchars($parcel['PhoneNum']) ?>" disabled />
+                <input type="text" disabled class="old-owner" value="<?= htmlspecialchars($parcel['PhoneNum']) ?>"  />
                 <input type="text" name="new_contact" placeholder="New contact info" />
             </div>
         </div>
