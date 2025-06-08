@@ -142,7 +142,7 @@ if (isset($_SESSION['success'])) {
 
             <div class="form-group">
                 <label>Parcel Type</label>
-                <select disabled>
+                <select disabled class="old-owner">
                     <option><?= htmlspecialchars($parcel['Parcel_type']) ?></option>
                 </select>
                 <select name="new_type">
