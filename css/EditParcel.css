@@ -70,6 +70,10 @@
   width: 100%; /* Ensures consistency */
 }
 
+.old-owner{
+  color: grey;
+}
+
 input,
 select {
   padding: 10px;
