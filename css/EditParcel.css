@@ -72,8 +72,8 @@
 
 .old-owner:disabled {
   color: whitesmoke !important;
-  background-color: #151f42; /* optional: matches dark background */
-  opacity: 1; /* important to override dimmed look */
+  background-color: pink !important; /* optional: matches dark background */
+  opacity: 1 !important; /* important to override dimmed look */
 }
 
 input,
