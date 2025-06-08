@@ -70,9 +70,9 @@
   width: 100%; /* Ensures consistency */
 }
 
-.old-owner {
+.old-owner [read-only]{
   color: whitesmoke !important;
-  background-color: pink !important; /* optional: matches dark background */
+  background-color: grey!important; /* optional: matches dark background */
   opacity: 1 !important; /* important to override dimmed look */
 }
 
