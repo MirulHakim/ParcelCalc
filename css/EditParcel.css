@@ -70,7 +70,7 @@
   width: 100%; /* Ensures consistency */
 }
 
-.old-owner:disabled {
+.edit-parcel-form .form-group input.old-owner:disabled {
   color: whitesmoke !important;
   background-color: pink !important; /* optional: matches dark background */
   opacity: 1 !important; /* important to override dimmed look */
