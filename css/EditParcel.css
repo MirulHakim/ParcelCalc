@@ -71,7 +71,7 @@
 }
 
 .old-owner{
-  color: whitesmoke;
+  color: whitesmoke !important;
 }
 
 input,
