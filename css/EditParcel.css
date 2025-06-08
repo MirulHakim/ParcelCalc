@@ -70,10 +70,9 @@
   width: 100%; /* Ensures consistency */
 }
 
-input[readonly] {
+input.old-owner:read-only {
+  background-color: pink !important;
   color: whitesmoke !important;
-  background-color: grey !important;
-  opacity: 1 !important;
 }
 
 input,
