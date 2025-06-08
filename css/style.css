@@ -29,7 +29,7 @@ body {
   height: 100px;
 }
 .blue {
-  background: #495bbf;
+  background: pink;
   width: 50vw;
   transform: scaleX(1.5);
 }
