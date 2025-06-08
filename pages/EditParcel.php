@@ -127,7 +127,7 @@ if (isset($_SESSION['success'])) {
         <div class="form-grid">
             <div class="form-group">
                 <label>Owner's Name</label>
-                <input type="text" readonly class="old-owner" value="<?= htmlspecialchars($parcel['Parcel_owner']) ?>"  />
+                <input type="text" disabled class="old-owner" value="<?= htmlspecialchars($parcel['Parcel_owner']) ?>"  />
                 <input type="text" name="new_owner_name" placeholder="New Owner's name" />
             </div>
 

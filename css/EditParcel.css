@@ -70,7 +70,7 @@
   width: 100%; /* Ensures consistency */
 }
 
-input.old-owner:read-only {
+input.old-owner:disabled {
   background-color: pink !important;
   color: whitesmoke !important;
 }
