@@ -70,10 +70,10 @@
   width: 100%; /* Ensures consistency */
 }
 
-.old-owner [read-only]{
+input.old-owner[readonly] {
   color: whitesmoke !important;
-  background-color: grey!important; /* optional: matches dark background */
-  opacity: 1 !important; /* important to override dimmed look */
+  background-color: grey !important;
+  opacity: 1 !important;
 }
 
 input,
