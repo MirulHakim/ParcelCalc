@@ -70,7 +70,7 @@
   width: 100%; /* Ensures consistency */
 }
 
-input.old-owner:disabled {
+.old-owner:disabled {
   background-color: grey !important;
   color: black !important;
 }
