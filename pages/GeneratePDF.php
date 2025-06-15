@@ -1,28 +1,33 @@
 <?php
-require('fpdf.php');
+require_once __DIR__ . '/vendor/autoload.php';
+
 $pdo = new PDO('mysql:host=localhost;dbname=parcelsystem', 'root', '');
 
-$pdf = new FPDF();
-$pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 12);
+if (isset($_POST["submit"])) {
+    $data = '<h1>Parcel</h1>';
+    $data .= '<table border="1" cellspacing="0" cellpadding="5">';
+    $data .= '<tr>
+                <th>Parcel ID</th>
+                <th>Parcel Owner</th>
+                <th>Parcel Type</th>
+              </tr>';
 
-// Optional: Add table headers
-$pdf->Cell(40, 10, 'Parcel ID');
-$pdf->Cell(60, 10, 'Parcel Owner');
-$pdf->Cell(60, 10, 'Parcel Type');
-$pdf->Ln(); // move to next line
+    // Fetch data
+    $stmt = $pdo->query("SELECT * FROM parcel_info");
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $data .= '<tr>';
+        $data .= '<td>' . $row['Parcel_id'] . '</td>';
+        $data .= '<td>' . $row['Parcel_owner'] . '</td>';
+        $data .= '<td>' . $row['Parcel_type'] . '</td>';
+        $data .= '</tr>';
+    }
 
-$pdf->SetFont('Arial', '', 12); //set the font
+    $data .= '</table>';
 
-// Fetch data
-$stmt = $pdo->query("SELECT * FROM parcel_info");
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $pdf->Cell(40, 10, $row['Parcel_id']);
-    $pdf->Cell(60, 10, $row['Parcel_owner']);
-    $pdf->Cell(60, 10, $row['Parcel_type']);
-    $pdf->Ln();//move next line
+    // Create PDF
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->WriteHTML($data);
+    $mpdf->Output("parcelsystem.pdf", "D");
 }
-
-$pdf->Output('D', 'parcel_report.pdf'); // D = force download, I = inline display
 ?>
 
