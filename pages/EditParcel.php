@@ -20,6 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
         $parcel = null;
         $searchId = null;
     }
+    // Redirect to avoid form resubmission
+    header("Location: AdminView.php");
+    exit;
 }
 
 // Handle parcel update
