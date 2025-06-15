@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $pdo = new PDO('mysql:host=localhost;dbname=parcelsystem', 'root', '');
@@ -12,7 +16,6 @@ if (isset($_POST["submit"])) {
                 <th>Parcel Type</th>
               </tr>';
 
-    // Fetch data
     $stmt = $pdo->query("SELECT * FROM parcel_info");
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $data .= '<tr>';
@@ -24,7 +27,6 @@ if (isset($_POST["submit"])) {
 
     $data .= '</table>';
 
-    // Create PDF
     $mpdf = new \Mpdf\Mpdf();
     $mpdf->WriteHTML($data);
     $mpdf->Output("parcelsystem.pdf", "D");
