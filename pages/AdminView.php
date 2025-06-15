@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="#">Menu</a>
     <a href="NewParcel.php">Add New Parcel</a>
     <a href="EditParcel.php">Edit/Delete Parcel Info</a>
-    <form action="GeneratePDF.php" method="post">
+    <form action="ParcelCalc/pages/GeneratePDF.php" method="post">
       <button type="submit">Create PDF</button>
   </form>
   </div>

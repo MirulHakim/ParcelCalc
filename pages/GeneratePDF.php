@@ -13,7 +13,7 @@ $pdo = new PDO('mysql:host=localhost;dbname=parcelsystem', 'root', '');
 // 4. Check if the form was submitted
 if (isset($_POST["submit"])) {
 
-    // 5. Start building PDF content
+    // 5. Start building PDF content 
     $data = '<h1>Parcel</h1>';
     $data .= '<table border="1" cellspacing="0" cellpadding="5">';
     $data .= '<tr>
