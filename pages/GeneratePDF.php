@@ -12,7 +12,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Fetch data
-    $stmt = $pdo->query("SELECT Parcel_id, Recipient_name, Address, Weight, Status FROM parcel_info");
+    $stmt = $pdo->query("SELECT Parcel_id, Parcel_owner, Parcel_type, PhoneNum FROM parcel_info");
     $parcels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Start HTML content
