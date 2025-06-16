@@ -22,10 +22,9 @@ try {
         <thead>
             <tr>
                 <th>Parcel ID</th>
-                <th>Recipient</th>
-                <th>Address</th>
-                <th>Weight</th>
-                <th>Status</th>
+                <th>Owner</th>
+                <th>Parcel Type</th>
+                <th>Phone Number</th>
             </tr>
         </thead>
         <tbody>
@@ -36,10 +35,9 @@ try {
         $html .= '
         <tr>
             <td>' . htmlspecialchars($parcel['Parcel_id']) . '</td>
-            <td>' . htmlspecialchars($parcel['Recipient_name']) . '</td>
-            <td>' . htmlspecialchars($parcel['Address']) . '</td>
-            <td>' . htmlspecialchars($parcel['Weight']) . '</td>
-            <td>' . htmlspecialchars($parcel['Status']) . '</td>
+            <td>' . htmlspecialchars($parcel['Parcel_owner']) . '</td>
+            <td>' . htmlspecialchars($parcel['Parcel_type']) . '</td>
+            <td>' . htmlspecialchars($parcel['PhoneNum']) . '</td>
         </tr>
         ';
     }
@@ -51,7 +49,7 @@ try {
     // Create PDF
     $mpdf = new \Mpdf\Mpdf();
     $mpdf->WriteHTML($html);
-    $mpdf->Output("Parcel.pdf", "D"); // Download as Parcel.pdf
+    $mpdf->Output("Parcel.pdf", "D");
 
 } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
