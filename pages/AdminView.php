@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
             echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
             echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
             $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
-            echo '<div class="parcel-detail"><span>Status:</span><span>' . htmlspecialchars($parcel['Status']') . '</span></div>';
+            echo '<div class="parcel-detail"><span>Status:</span><span>' . htmlspecialchars($parcel['Status']?? 'Unknown') . '</span></div>';
             echo '<div class="button-group">';
 
             // You can implement Edit and Claim features later
