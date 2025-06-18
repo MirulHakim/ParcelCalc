@@ -1,5 +1,9 @@
 <?php
 session_start();
+// Generate CSRF token if not already generated
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Check login
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -10,10 +14,14 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 require_once "pdo.php"; // Include DB connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Invalid CSRF token.");
+    }
+
     if (isset($_POST['delete'])) {
         // Delete block
         $delete_id = $_POST['delete_id'];
-
         try {
             $stmt = $pdo->prepare("DELETE FROM Parcel_info WHERE Parcel_id = :parcel_id");
             $stmt->execute([':parcel_id' => $delete_id]);
@@ -22,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
         }
 
+    } elseif (isset($_POST['search'])) {
+        // Do nothing here — search handled below after HTML
     } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_id'])) {
         // Add new parcel block
         $phone = $_POST['PhoneNum'];
@@ -29,21 +39,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $owner = $_POST['Parcel_owner'];
         $parcel_id = $_POST['Parcel_id'];
 
-        try {
-            $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
-                                   VALUES (:phone, :type, :owner, :parcel_id)");
-            $stmt->execute([
-                ':phone' => $phone,
-                ':type' => $parcel_type,
-                ':owner' => $owner,
-                ':parcel_id' => $parcel_id
-            ]);
-            echo "<script>alert('Parcel added successfully');</script>";
-        } catch (PDOException $e) {
-            echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+        // Prevent duplicate Parcel_id
+        $check = $pdo->prepare("SELECT COUNT(*) FROM Parcel_info WHERE Parcel_id = :parcel_id");
+        $check->execute([':parcel_id' => $parcel_id]);
+        if ($check->fetchColumn() > 0) {
+            echo "<script>alert('Parcel ID already exists!');</script>";
+        } else {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
+                                       VALUES (:phone, :type, :owner, :parcel_id)");
+                $stmt->execute([
+                    ':phone' => $phone,
+                    ':type' => $parcel_type,
+                    ':owner' => $owner,
+                    ':parcel_id' => $parcel_id
+                ]);
+                echo "<script>alert('Parcel added successfully');</script>";
+            } catch (PDOException $e) {
+                echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+            }
         }
     }
 }
+
 
 
 
@@ -87,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="main-content">
     <h2>Add New Parcel</h2>
     <form method="POST" action="">
+      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
       <label for="phone">Phone Number:</label><br>
       <input type="text" id="phone" name="PhoneNum" placeholder="Enter Phone Number" required style="width: 88.3%;" /><br>
 
@@ -127,6 +146,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
    <h3>Parcel Info</h3>
 <form method="POST" action="">
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
   <input type="text" name="search_id" placeholder="Enter Parcel ID" required style="width: 88.3%;" />
   <button type="submit" name="search" style="width: 90%; background: #495bbf;">Search</button>
 </form>
@@ -141,25 +161,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
         $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($parcel) {
-            echo '<div class="parcel-info">';
-            echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($parcel['Parcel_owner']) . '</span></div>';
-            echo '<div class="parcel-detail"><span>Arrive Date:</span><span>' . htmlspecialchars($parcel['Date_arrived'] ?? 'Not Available') . '</span></div>';
-            echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
-            echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
-            echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
-            $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
-            echo '<div class="parcel-detail"><span>Status:</span><span>' . htmlspecialchars($statusText) . '</span></div>';
-            echo '<div class="button-group">';
+        echo '<div class="parcel-info">';
+        echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($parcel['Parcel_owner']) . '</span></div>';
+        echo '<div class="parcel-detail"><span>Arrive Date:</span><span>' . htmlspecialchars($parcel['Date_arrived'] ?? 'Not Available') . '</span></div>';
+        echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
+        echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
+        echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
+        $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
+        $statusColor = ($parcel['Status'] == 1 ? 'green' : 'red');
+        echo '<div class="parcel-detail"><span>Status:</span><span style="color:' . $statusColor . ';">' . htmlspecialchars($statusText) . '</span></div>';
 
-            // You can implement Edit and Claim features later
-            echo '<form method="POST" action="" onsubmit="return confirm(\'Delete this parcel?\');" style="display: inline;">';
-            echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($parcel['Parcel_id']) . '">';
-            echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
-            echo '</form>';
-            echo '</div></div>';
+        echo '<div class="button-group">';
+        echo '<form method="POST" action="" onsubmit="return confirm(\'Delete this parcel?\');" style="display: inline;">';
+        echo '<input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">';
+        echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($parcel['Parcel_id']) . '">';
+        echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
+        echo '</form>';
+        echo '</div></div>';
         } else {
-            echo "<p>No parcel found with ID: " . htmlspecialchars($search_id) . "</p>";
-        }
+              echo "<div class='parcel-info'><p style='color:red;'>❌ No parcel found with ID: " . htmlspecialchars($search_id) . "</p></div>";
+}
+
     } catch (PDOException $e) {
         echo "<p>Error: " . $e->getMessage() . "</p>";
     }
