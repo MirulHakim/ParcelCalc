@@ -1,8 +1,21 @@
 <?php
 session_start();
-// Generate CSRF token if not already generated
+
+// CSRF token setup
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Flash messages
+$successMsg = '';
+$errorMsg = '';
+if (isset($_SESSION['success'])) {
+    $successMsg = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $errorMsg = $_SESSION['error'];
+    unset($_SESSION['error']);
 }
 
 // Check login
@@ -11,41 +24,43 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-require_once "pdo.php"; // Include DB connection
+require_once "pdo.php";
 
+// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check CSRF token
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("Invalid CSRF token.");
     }
 
     if (isset($_POST['delete'])) {
-        // Delete block
         $delete_id = $_POST['delete_id'];
         try {
             $stmt = $pdo->prepare("DELETE FROM Parcel_info WHERE Parcel_id = :parcel_id");
             $stmt->execute([':parcel_id' => $delete_id]);
-            echo "<script>alert('Parcel deleted successfully');</script>";
+            $_SESSION['success'] = "Parcel deleted successfully.";
+            header("Location: AdminView.php");
+            exit();
         } catch (PDOException $e) {
-            echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
+            $_SESSION['error'] = "Delete Error: " . $e->getMessage();
+            header("Location: AdminView.php");
+            exit();
         }
 
     } elseif (isset($_POST['search'])) {
-        // Do nothing here — search handled below after HTML
+        // Handled later in HTML section
     } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_id'])) {
-        // Add new parcel block
         $phone = $_POST['PhoneNum'];
         $parcel_type = $_POST['Parcel_type'];
         $owner = $_POST['Parcel_owner'];
         $parcel_id = $_POST['Parcel_id'];
 
-        // Prevent duplicate Parcel_id
-        $check = $pdo->prepare("SELECT COUNT(*) FROM Parcel_info WHERE Parcel_id = :parcel_id");
-        $check->execute([':parcel_id' => $parcel_id]);
-        if ($check->fetchColumn() > 0) {
-            echo "<script>alert('Parcel ID already exists!');</script>";
-        } else {
-            try {
+        try {
+            // Check duplicate Parcel ID
+            $check = $pdo->prepare("SELECT COUNT(*) FROM Parcel_info WHERE Parcel_id = :parcel_id");
+            $check->execute([':parcel_id' => $parcel_id]);
+            if ($check->fetchColumn() > 0) {
+                $_SESSION['error'] = "❌ Parcel ID already exists!";
+            } else {
                 $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
                                        VALUES (:phone, :type, :owner, :parcel_id)");
                 $stmt->execute([
@@ -54,17 +69,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':owner' => $owner,
                     ':parcel_id' => $parcel_id
                 ]);
-                echo "<script>alert('Parcel added successfully');</script>";
-            } catch (PDOException $e) {
-                echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+                $_SESSION['success'] = "✅ Parcel added successfully!";
             }
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Insert Error: " . $e->getMessage();
         }
+        header("Location: AdminView.php");
+        exit();
     }
 }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -103,6 +116,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 
   <div class="main-content">
+    <?php
+      if ($successMsg) echo "<p style='color: green; font-weight:bold;'>$successMsg</p>";
+      if ($errorMsg) echo "<p style='color: red; font-weight:bold;'>$errorMsg</p>";
+    ?>
+
     <h2>Add New Parcel</h2>
     <form method="POST" action="">
       <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
