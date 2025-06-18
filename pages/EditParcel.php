@@ -2,6 +2,11 @@
 session_start();
 require_once "pdo.php";
 
+// Generate CSRF token if not already generated
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // CSRF token setup
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -14,6 +19,10 @@ $successMessage = null;
 // Handle parcel deletion
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
     // CSRF check
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Invalid CSRF token.");
+    }
+
     if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         die("Invalid CSRF token.");
     }
@@ -33,12 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
 
     // Redirect to avoid resubmission
     header("Location: EditParcel.php");
+    header("Location: AdminView.php");
     exit;
 }
 
 // Handle parcel update
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     // CSRF check
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Invalid CSRF token.");
+    }
+
     if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         die("Invalid CSRF token.");
     }
@@ -67,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $_SESSION['success'] = 'Parcel updated successfully.';
 
     header("Location: EditParcel.php?search_id=" . urlencode($id));
+    header("Location: AdminView.php");
     exit;
 }
 
@@ -142,6 +157,7 @@ if (isset($_SESSION['success'])) {
     <form class="edit-parcel-form" method="POST" action="">
         <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
 
         <div class="form-grid">
             <div class="form-group">
@@ -189,6 +205,7 @@ if (isset($_SESSION['success'])) {
         <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
         <input type="hidden" name="delete" value="1" />
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
         <button type="submit" class="btn delete">Delete</button>
     </form>
 
