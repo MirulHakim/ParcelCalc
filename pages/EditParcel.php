@@ -99,10 +99,10 @@ if ($searchId) {
     $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$parcel) {
-        $successMessage = "No parcel found with ID: " . htmlspecialchars($searchId);
-        header("Location: AdminView.php");
-        exit;
-    }
+    $_SESSION['success'] = "No parcel found with ID: " . htmlspecialchars($searchId);
+    header("Location: AdminView.php");
+    exit;
+}
 }
 
 // Get success message from session
