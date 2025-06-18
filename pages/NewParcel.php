@@ -1,5 +1,11 @@
 <?php
-require_once "pdo.php"; // ensure correct relative path
+session_start();
+require_once "pdo.php";
+
+// Generate CSRF token if not already generated
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Function to generate auto-incrementing parcel ID
 function generateParcelId($pdo) {
@@ -117,6 +123,14 @@ function getNextParcelIdPreview($pdo) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF token validation
+    if (
+        !isset($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid CSRF token.");
+    }
+
     $phone = $_POST['PhoneNum'];
     $parcel_type = $_POST['Parcel_type'];
     $owner = $_POST['Parcel_owner'];
@@ -171,6 +185,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="enter-new-parcel">
     <form class="parcel-form" method="POST" action="">
+      <!-- CSRF Token -->
+      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
       <label for="parcel-type">Parcel Type</label>
       <div class="textfield">
         <select id="parcel-type" name="Parcel_type" required>
