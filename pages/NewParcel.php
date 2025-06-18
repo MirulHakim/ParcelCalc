@@ -192,11 +192,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="textfield">
         <select id="parcel-type" name="Parcel_type" required>
           <option value="">Select Parcel Type</option>
-          <option value="kotak">KOTAK</option>
-          <option value="hitam">HITAM</option>
-          <option value="putih">PUTIH</option>
-          <option value="kelabu">KELABU</option>
-          <option value="others">OTHERS</option>
+          <option value="KOTAK">KOTAK</option>
+          <option value="HITAM">HITAM</option>
+          <option value="PUTIH">PUTIH</option>
+          <option value="KELABU">KELABU</option>
+          <option value="OTHERS">OTHERS</option>
         </select>
       </div>
 

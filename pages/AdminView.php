@@ -314,11 +314,11 @@ function generateParcelIdNoSession($pdo) {
 
       <label for="parcel-type">Parcel Type:</label><br>
       <select id="parcel-type" name="Parcel_type" required style="width: 90%;">
-        <option value="kotak">KOTAK</option>
-        <option value="hitam">HITAM</option>
-        <option value="putih">PUTIH</option>
-        <option value="kelabu">KELABU</option>
-        <option value="others">OTHERS</option>
+        <option value="KOTAK">KOTAK</option>
+        <option value="HITAM">HITAM</option>
+        <option value="PUTIH">PUTIH</option>
+        <option value="KELABU">KELABU</option>
+        <option value="OTHERS">OTHERS</option>
       </select><br>
 
       <label for="owner">Parcel Owner:</label><br>
