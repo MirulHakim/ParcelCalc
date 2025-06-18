@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+// Generate CSRF token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $host = 'localhost';
 $db   = 'parcelsystem';
 $user = 'root';
@@ -12,17 +17,22 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // CSRF check
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            die("Invalid CSRF token.");
+        }
+
         $staff_id = $_POST['staff_id'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        // NOTE: For production, never store plain passwords. Use password_hash & password_verify.
+        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ?");
+        $stmt->execute([$staff_id]);
 
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
-        $stmt->execute([$staff_id, $password]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt->rowCount() > 0) {
+        if ($user && password_verify($password, $user['Password'])) {
             $_SESSION['admin_logged_in'] = true;
-            $_SESSION['staff_id'] = $staff_id;  // optional: store user id
+            $_SESSION['staff_id'] = $staff_id;
             header("Location: AdminView.php");
             exit();
         } else {
@@ -32,6 +42,7 @@ try {
 } catch (PDOException $e) {
     $error = "Database error: " . $e->getMessage();
 }
+
 ?>
 
 <!DOCTYPE html>
