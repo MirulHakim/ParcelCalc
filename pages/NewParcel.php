@@ -148,19 +148,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':parcel_id' => $parcel_id,
             ':image' => ''
         ]);
-        echo "<script>alert('Parcel added successfully!');</script>";
+        $_SESSION['success'] = "Parcel added successfully with ID: $parcel_id!";
     } catch (PDOException $e) {
         if ($e->errorInfo[1] == 1062) {
-            $_SESSION['success'] = "Parcel ID already exists.";
+            $_SESSION['error'] = "Parcel ID already exists.";
         } else {
-            $_SESSION['success'] = "Error adding parcel: " . $e->getMessage();
+            $_SESSION['error'] = "Error adding parcel: " . $e->getMessage();
         }
     }
 
-    // Redirect to AdminView after processing
-    header("Location: AdminView.php");
+    // Redirect to self to show message
+    header("Location: NewParcel.php");
     exit;
 }
+
+// Show messages at the top of the form
+$successMsg = isset($_SESSION['success']) ? $_SESSION['success'] : '';
+$errorMsg = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+unset($_SESSION['success'], $_SESSION['error']);
 ?>
 
 <!DOCTYPE html>
@@ -277,6 +282,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <div class="enter-new-parcel">
     <div class="parcel-card">
+      <?php if ($successMsg): ?>
+        <div style="color: #1a7f37; background: #e6f9ed; border: 1.5px solid #b6e7d7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
+          <?= htmlspecialchars($successMsg) ?>
+        </div>
+      <?php endif; ?>
+      <?php if ($errorMsg): ?>
+        <div style="color: #b91c1c; background: #fbeaea; border: 1.5px solid #f5c2c7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
+          <?= htmlspecialchars($errorMsg) ?>
+        </div>
+      <?php endif; ?>
       <form class="parcel-form" method="POST" action="">
         <!-- CSRF Token -->
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
