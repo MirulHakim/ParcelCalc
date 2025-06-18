@@ -50,6 +50,7 @@ try {
     $mpdf = new \Mpdf\Mpdf();
     $mpdf->WriteHTML($html);
     $mpdf->Output("Parcel.pdf", "D");
+    //D for forced download, Parcel.pdf nama file tu
 
 } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
