@@ -57,7 +57,7 @@ try {
       </div>
     </div>
 
-    <a onclick="history.back()"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
+    <a href="Homepage.php"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
     <div class="content">
       <div
         class="row"
