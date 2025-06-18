@@ -39,8 +39,6 @@ try {
             <td>' . htmlspecialchars($parcel['Parcel_owner']) . '</td>
             <td>' . htmlspecialchars($parcel['Parcel_type']) . '</td>
             <td>' . htmlspecialchars($parcel['PhoneNum']) . '</td>
-            <td>' . htmlspecialchars($parcel['Date_Arrived']) . '</td>
-
         </tr>
         ';
     }
