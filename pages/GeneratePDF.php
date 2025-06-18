@@ -11,11 +11,12 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Fetch data
-    $stmt = $pdo->query("SELECT Parcel_id, Parcel_owner, Parcel_type, PhoneNum FROM parcel_info");
+    //Fetch data
+    $stmt = $pdo->query("SELECT Parcel_id, Parcel_owner, Parcel_type, PhoneNum, Date_Arrived FROM parcel_info
+                        WHERE Status=0");
     $parcels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Start HTML content
+    //Start HTML content
     $html = '
     <h2>Parcel Report</h2>
     <table border="1" width="100%" style="border-collapse: collapse;">
@@ -25,6 +26,7 @@ try {
                 <th>Owner</th>
                 <th>Parcel Type</th>
                 <th>Phone Number</th>
+                <th>Arrived</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +40,8 @@ try {
             <td>' . htmlspecialchars($parcel['Parcel_owner']) . '</td>
             <td>' . htmlspecialchars($parcel['Parcel_type']) . '</td>
             <td>' . htmlspecialchars($parcel['PhoneNum']) . '</td>
+            <td>' . htmlspecialchars($parcel['Date_Arrived']) . '</td>
+
         </tr>
         ';
     }
@@ -46,7 +50,7 @@ try {
         </tbody>
     </table>';
 
-    // Create PDF
+    //Create PDF
     $mpdf = new \Mpdf\Mpdf();
     $mpdf->WriteHTML($html);
     $mpdf->Output("Parcel.pdf", "D");
