@@ -63,20 +63,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     $newStatus = $_POST["new_status"] ?? null;
     $newContact = $_POST["new_contact"] ?? null;
 
-    $stmt = $pdo->prepare("UPDATE Parcel_info SET 
-        Parcel_owner = COALESCE(:owner, Parcel_owner),
-        Parcel_type = COALESCE(:type, Parcel_type),
-        Status = COALESCE(:status, Status),
-        PhoneNum = COALESCE(:contact, PhoneNum)
-        WHERE Parcel_id = :id");
+    $query = "UPDATE Parcel_info SET 
+    Parcel_owner = COALESCE(:owner, Parcel_owner),
+    Parcel_type = COALESCE(:type, Parcel_type),
+    Status = COALESCE(:status, Status),
+    PhoneNum = COALESCE(:contact, PhoneNum)";
 
-    $stmt->execute([
-        ':owner' => $newOwner ?: null,
-        ':type' => $newType ?: null,
-        ':status' => $newStatus !== '' ? $newStatus : null,
-        ':contact' => $newContact ?: null,
-        ':id' => $id
-    ]);
+    $params = [
+    ':owner' => $newOwner ?: null,
+    ':type' => $newType ?: null,
+    ':status' => $newStatus,
+    ':contact' => $newContact ?: null,
+    ':id' => $id
+    ];
+
+    // If status is set to "1" (Claimed), add Date_received = NOW()
+    if ($newStatus === "1") {
+        $query .= ", Date_received = NOW()";
+    }
+
+    $query .= " WHERE Parcel_id = :id";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+
 
     $_SESSION['success'] = 'Parcel updated successfully.';
 
