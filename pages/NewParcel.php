@@ -122,6 +122,7 @@ function getNextParcelIdPreview($pdo) {
     return $day . $month . '/' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 }
 
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CSRF token validation
     if (
@@ -139,17 +140,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $parcel_id = generateParcelId($pdo);
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image) VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, '')");
+        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  VALUES (:phone, :type, :owner, :parcel_id)");
         $stmt->execute([
             ':phone' => $phone,
             ':type' => $parcel_type,
             ':owner' => $owner,
             ':parcel_id' => $parcel_id
         ]);
-        echo "<script>alert('Parcel added successfully with ID: " . $parcel_id . "!');</script>";
+        echo "<script>alert('Parcel added successfully!');</script>";
     } catch (PDOException $e) {
-        echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+        if ($e->errorInfo[1] == 1062) {
+            $_SESSION['success'] = "Parcel ID already exists.";
+        } else {
+            $_SESSION['success'] = "Error adding parcel: " . $e->getMessage();
+        }
     }
+
+    // Redirect to AdminView after processing
+    header("Location: AdminView.php");
+    exit;
 }
 ?>
 
