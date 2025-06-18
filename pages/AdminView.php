@@ -61,14 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($check->fetchColumn() > 0) {
                 $_SESSION['error'] = "❌ Parcel ID already exists!";
             } else {
-                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
-                                       VALUES (:phone, :type, :owner, :parcel_id)");
+                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived)  
+                       VALUES (:phone, :type, :owner, :parcel_id, NOW())");
                 $stmt->execute([
-                    ':phone' => $phone,
-                    ':type' => $parcel_type,
-                    ':owner' => $owner,
-                    ':parcel_id' => $parcel_id
-                ]);
+                                ':phone' => $phone,
+                                ':type' => $parcel_type,
+                                ':owner' => $owner,
+                                ':parcel_id' => $parcel_id
+                              ]);
                 $_SESSION['success'] = "✅ Parcel added successfully!";
             }
         } catch (PDOException $e) {
