@@ -28,9 +28,10 @@ require_once "pdo.php";
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid CSRF token.");
-    }
+   if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || 
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    die("Invalid CSRF token.");
+}
 
     if (isset($_POST['delete'])) {
         $delete_id = $_POST['delete_id'];
