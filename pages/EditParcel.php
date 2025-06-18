@@ -97,6 +97,10 @@ if ($searchId) {
     $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
     $stmt->execute([':id' => $searchId]);
     $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$parcel) {
+        $successMessage = "No parcel found with ID: " . htmlspecialchars($searchId);
+    }
 }
 
 // Get success message from session
