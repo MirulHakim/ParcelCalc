@@ -7,6 +7,7 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CSRF token validation
     if (
@@ -22,17 +23,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $parcel_id = $_POST['Parcel_id'];
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  VALUES (:phone, :type, :owner, :parcel_id)");
+        $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
+                               VALUES (:phone, :type, :owner, :parcel_id)");
         $stmt->execute([
             ':phone' => $phone,
             ':type' => $parcel_type,
             ':owner' => $owner,
             ':parcel_id' => $parcel_id
         ]);
-        echo "<script>alert('Parcel added successfully!');</script>";
+        $_SESSION['success'] = "Parcel added successfully.";
     } catch (PDOException $e) {
-        echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+        if ($e->errorInfo[1] == 1062) {
+            $_SESSION['success'] = "Parcel ID already exists.";
+        } else {
+            $_SESSION['success'] = "Error adding parcel: " . $e->getMessage();
+        }
     }
+
+    // Redirect to AdminView after processing
+    header("Location: AdminView.php");
+    exit;
 }
 ?>
 
