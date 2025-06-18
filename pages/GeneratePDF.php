@@ -12,7 +12,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     //Fetch data
-    $stmt = $pdo->query("SELECT Parcel_id, Parcel_owner, Parcel_type, PhoneNum, Date_Arrived FROM parcel_info
+    $stmt = $pdo->query("SELECT Parcel_id, Parcel_owner, Parcel_type, PhoneNum FROM parcel_info
                         WHERE Status=0");
     $parcels = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -26,7 +26,6 @@ try {
                 <th>Owner</th>
                 <th>Parcel Type</th>
                 <th>Phone Number</th>
-                <th>Arrived</th>
             </tr>
         </thead>
         <tbody>
