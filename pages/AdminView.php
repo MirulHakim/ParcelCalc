@@ -143,12 +143,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
         if ($parcel) {
             echo '<div class="parcel-info">';
             echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($parcel['Parcel_owner']) . '</span></div>';
-            echo '<div class="parcel-detail"><span>Arrive Date:</span><span>Not Available</span></div>';
+            echo '<div class="parcel-detail"><span>Arrive Date:</span><span>' . htmlspecialchars($parcel['Date_arrived'] ?? 'Not Available') . '</span></div>';
             echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
             echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
             echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
-            echo '<div class="parcel-detail"><span>Status:</span><span>Not Claimed</span></div>';
+            $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
+            echo '<div class="parcel-detail"><span>Status:</span><span>' . htmlspecialchars($statusText) . '</span></div>';
             echo '<div class="button-group">';
+
             // You can implement Edit and Claim features later
             echo '<form method="POST" action="" onsubmit="return confirm(\'Delete this parcel?\');" style="display: inline;">';
             echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($parcel['Parcel_id']) . '">';
