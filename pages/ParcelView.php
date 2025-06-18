@@ -25,7 +25,7 @@
     </div>
 
     <div class="row">
-      <a onclick="history.back()"
+      <a href="Homepage.php"
         ><img class="back" src="../resources/Login/arrow-back0.svg"
       /></a>
       <form action="" method="post">
