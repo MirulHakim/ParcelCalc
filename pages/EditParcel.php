@@ -2,12 +2,21 @@
 session_start();
 require_once "pdo.php";
 
+// Generate CSRF token if not already generated
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // Initialize parcel variable
 $parcel = null;
 $successMessage = null;
 
 // Handle parcel deletion
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Invalid CSRF token.");
+    }
+
     $idToDelete = $_POST["id"] ?? null;
 
     if ($idToDelete) {
@@ -20,13 +29,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete"])) {
         $parcel = null;
         $searchId = null;
     }
-    // Redirect to avoid form resubmission
     header("Location: AdminView.php");
     exit;
 }
 
 // Handle parcel update
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Invalid CSRF token.");
+    }
+
     $id = $_POST["id"];
     $newOwner = $_POST["new_owner_name"] ?? null;
     $newType = $_POST["new_type"] ?? null;
@@ -49,8 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
     ]);
 
     $_SESSION['success'] = 'Parcel updated successfully.';
-
-    // Redirect to avoid form resubmission
     header("Location: AdminView.php");
     exit;
 }
@@ -126,6 +136,7 @@ if (isset($_SESSION['success'])) {
     <!-- Update Parcel Form -->
     <form class="edit-parcel-form" method="POST" action="">
         <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
 
         <div class="form-grid">
             <div class="form-group">
@@ -172,6 +183,7 @@ if (isset($_SESSION['success'])) {
     <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
         <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
         <input type="hidden" name="delete" value="1" />
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
         <button type="submit" class="btn delete">Delete</button>
     </form>
 
