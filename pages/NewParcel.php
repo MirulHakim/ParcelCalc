@@ -145,7 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':phone' => $phone,
             ':type' => $parcel_type,
             ':owner' => $owner,
-            ':parcel_id' => $parcel_id
+            ':parcel_id' => $parcel_id,
+            ':image' => ''
         ]);
         echo "<script>alert('Parcel added successfully!');</script>";
     } catch (PDOException $e) {
