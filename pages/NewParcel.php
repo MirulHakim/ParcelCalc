@@ -139,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Generate auto-incrementing parcel ID
     $parcel_id = generateParcelId($pdo);
 
+    $success = false;
     try {
         $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, Status)  VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, 0)");
         $stmt->execute([
@@ -149,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':image' => ''
         ]);
         $_SESSION['success'] = "Parcel added successfully with ID: $parcel_id!";
+        $success = true;
     } catch (PDOException $e) {
         if ($e->errorInfo[1] == 1062) {
             $_SESSION['error'] = "Parcel ID already exists.";
@@ -157,8 +159,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Redirect to self to show message
-    header("Location: NewParcel.php");
+    if ($success) {
+        header("Location: AdminView.php");
+    } else {
+        header("Location: NewParcel.php");
+    }
     exit;
 }
 
