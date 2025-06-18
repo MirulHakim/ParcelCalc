@@ -100,6 +100,8 @@ if ($searchId) {
 
     if (!$parcel) {
         $successMessage = "No parcel found with ID: " . htmlspecialchars($searchId);
+        header("Location: AdminView.php");
+        exit;
     }
 }
 
