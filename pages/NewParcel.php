@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 
   <div class="row">
-    <a onclick="history.back()">
+    <a href="AdminView.php">
       <img class="back" src="../resources/Login/arrow-back0.svg" />
     </a>
     <p class="title">ADD NEW PARCEL</p>
