@@ -188,11 +188,11 @@ if (isset($_SESSION['success'])) {
                 </select>
                 <select name="new_type">
                     <option value="">Select new type</option>
-                    <option value="kotak">KOTAK</option>
-                    <option value="putih">PUTIH</option>
-                    <option value="hitam">HITAM</option>
-                    <option value="kelabu">KELABU</option>
-                    <option value="others">OTHERS</option>
+                    <option value="KOTAK">KOTAK</option>
+                    <option value="PUTIH">PUTIH</option>
+                    <option value="HITAM">HITAM</option>
+                    <option value="KELABU">KELABU</option>
+                    <option value="OTHERS">OTHERS</option>
                 </select>
             </div>
 

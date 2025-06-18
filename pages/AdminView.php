@@ -26,6 +26,107 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 
 require_once "pdo.php";
 
+// Function to generate auto-incrementing parcel ID
+function generateParcelId($pdo) {
+    $day = date('d');
+    $month = strtoupper(date('M'));
+    $todayPrefix = $day . $month . '/';
+    $pattern = $todayPrefix . '%';
+
+    // Check if we have a session key for today's last generated ID
+    $sessionKey = 'last_generated_' . $day . $month;
+
+    // If we already generated an ID in this session, increment it
+    if (isset($_SESSION[$sessionKey])) {
+        $lastNumber = $_SESSION[$sessionKey];
+        $nextNumber = $lastNumber + 1;
+    } else {
+        // First time generating for today, check database
+        $stmt = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
+        $stmt->execute([':pattern' => $pattern]);
+        $allParcels = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Only keep IDs that start with the exact prefix (case-insensitive)
+            if (stripos($row['Parcel_id'], $todayPrefix) === 0) {
+                $allParcels[] = $row['Parcel_id'];
+            }
+        }
+        // Extract numbers
+        $existingNumbers = [];
+        foreach ($allParcels as $parcelId) {
+            if (preg_match('/\/(\d+)$/', $parcelId, $matches)) {
+                $existingNumbers[] = intval($matches[1]);
+            }
+        }
+        if (empty($existingNumbers)) {
+            $nextNumber = 1;
+        } else {
+            sort($existingNumbers);
+            $nextNumber = 1;
+            foreach ($existingNumbers as $num) {
+                if ($num == $nextNumber) {
+                    $nextNumber++;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+    // Do NOT store this number in session here!
+    return $todayPrefix . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+}
+
+// Function to get preview of next parcel ID (for display only)
+function getNextParcelIdPreview($pdo) {
+    $day = date('d'); // Day of month
+    $month = strtoupper(date('M')); // Month abbreviation in uppercase
+    
+    // Get all parcel IDs for today with different possible formats
+    $patterns = [
+        $day . ' ' . $month . '/%',      // "19 JUN/%"
+        $day . ' ' . ucfirst(strtolower($month)) . '/%',  // "19 Jun/%"
+        $day . $month . '/%',            // "19JUN/%"
+        $day . ucfirst(strtolower($month)) . '/%'         // "19Jun/%"
+    ];
+    
+    $allParcels = [];
+    foreach ($patterns as $pattern) {
+        $stmt = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
+        $stmt->execute([':pattern' => $pattern]);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $allParcels[] = $row['Parcel_id'];
+        }
+    }
+    
+    // Extract numbers from existing parcel IDs
+    $existingNumbers = [];
+    foreach ($allParcels as $parcelId) {
+        if (preg_match('/\/(\d+)$/', $parcelId, $matches)) {
+            $existingNumbers[] = intval($matches[1]);
+        }
+    }
+    
+    // Find the next available number
+    if (empty($existingNumbers)) {
+        $nextNumber = 1;
+    } else {
+        sort($existingNumbers);
+        $nextNumber = 1;
+        
+        // Find the first gap or the next number after the highest
+        foreach ($existingNumbers as $num) {
+            if ($num == $nextNumber) {
+                $nextNumber++;
+            } else {
+                break; // Found a gap, use this number
+            }
+        }
+    }
+    
+    // Format: 19JUN/01 (with leading zero for numbers < 10)
+    return $day . $month . '/' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+}
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || 
@@ -49,36 +150,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } elseif (isset($_POST['search'])) {
         // Handled later in HTML section
-    } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_id'])) {
+    } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'])) {
         $phone = $_POST['PhoneNum'];
         $parcel_type = $_POST['Parcel_type'];
         $owner = $_POST['Parcel_owner'];
-        $parcel_id = $_POST['Parcel_id'];
+        
+        // Debug: Let's see what's happening
+        error_log("=== FORM SUBMISSION DEBUG ===");
+        error_log("Phone: $phone, Type: $parcel_type, Owner: $owner");
+        
+        // Generate auto-incrementing parcel ID (first attempt uses session)
+        $parcel_id = generateParcelId($pdo);
+        error_log("Generated Parcel ID: $parcel_id");
 
-        try {
-            // Check duplicate Parcel ID
-            $check = $pdo->prepare("SELECT COUNT(*) FROM Parcel_info WHERE Parcel_id = :parcel_id");
-            $check->execute([':parcel_id' => $parcel_id]);
-            if ($check->fetchColumn() > 0) {
-                $_SESSION['error'] = "❌ Parcel ID already exists!";
-            } else {
-                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, Status)  
-                  VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, 0)");
+        $inserted = false;
+        $retry = 0;
+        $max_retries = 5;
+        $errorMsg = '';
+        while (!$inserted && $retry < $max_retries) {
+            error_log("Attempt #$retry with Parcel ID: $parcel_id");
+            try {
+                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image)  
+                           VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image)");
                 $stmt->execute([
-                                ':phone' => $phone,
-                                ':type' => $parcel_type,
-                                ':owner' => $owner,
-                                ':parcel_id' => $parcel_id,
-                                ':image' => $imageData
-                              ]);
-                $_SESSION['success'] = "✅ Parcel added successfully!";
+                                    ':phone' => $phone,
+                                    ':type' => $parcel_type,
+                                    ':owner' => $owner,
+                                    ':parcel_id' => $parcel_id,
+                                    ':image' => ''
+                                  ]);
+                error_log("Parcel inserted successfully with ID: $parcel_id");
+                $_SESSION['success'] = "✅ Parcel added successfully with ID: " . $parcel_id;
+                // Only update session after successful insert
+                $sessionKey = 'last_generated_' . date('d') . strtoupper(date('M'));
+                if (preg_match('/\/(\d+)$/', $parcel_id, $matches)) {
+                    $_SESSION[$sessionKey] = intval($matches[1]);
+                }
+                $inserted = true;
+            } catch (PDOException $e) {
+                $errorMsg = $e->getMessage();
+                error_log("Insert Error: " . $errorMsg);
+                // Log all existing parcel IDs for today
+                $day = date('d');
+                $month = strtoupper(date('M'));
+                $patterns = [
+                    $day . ' ' . $month . '/%',
+                    $day . ' ' . ucfirst(strtolower($month)) . '/%',
+                    $day . $month . '/%',
+                    $day . ucfirst(strtolower($month)) . '/%'
+                ];
+                $allParcels = [];
+                foreach ($patterns as $pattern) {
+                    $stmt2 = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
+                    $stmt2->execute([':pattern' => $pattern]);
+                    while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                        $allParcels[] = $row['Parcel_id'];
+                    }
+                }
+                error_log("All found parcels for today: " . implode(', ', $allParcels));
+                if (strpos($errorMsg, 'Duplicate') !== false || strpos($errorMsg, '1062') !== false) {
+                    // Duplicate Parcel ID, try again
+                    $_SESSION['error'] = "Sorry, this parcel ID already exists. Retrying with a new ID... (" . htmlspecialchars($errorMsg) . ")";
+                    // On retry, always recalculate from DB and do NOT use session
+                    $parcel_id = generateParcelIdNoSession($pdo);
+                    $retry++;
+                } else {
+                    $_SESSION['error'] = "Insert Error: " . $errorMsg;
+                    break;
+                }
             }
-        } catch (PDOException $e) {
-            $_SESSION['error'] = "Insert Error: " . $e->getMessage();
+        }
+        if (!$inserted) {
+            $_SESSION['error'] = $errorMsg ?: "Insert Error: Could not add parcel after multiple attempts.";
         }
         header("Location: AdminView.php");
         exit();
     }
+}
+
+// Helper function: always calculate next available Parcel ID from DB, ignoring session
+function generateParcelIdNoSession($pdo) {
+    $day = date('d');
+    $month = strtoupper(date('M'));
+    $todayPrefix = $day . $month . '/';
+    $pattern = $todayPrefix . '%';
+    $stmt = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
+    $stmt->execute([':pattern' => $pattern]);
+    $allParcels = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if (stripos($row['Parcel_id'], $todayPrefix) === 0) {
+            $allParcels[] = $row['Parcel_id'];
+        }
+    }
+    $existingNumbers = [];
+    foreach ($allParcels as $parcelId) {
+        if (preg_match('/\/(\d+)$/', $parcelId, $matches)) {
+            $existingNumbers[] = intval($matches[1]);
+        }
+    }
+    if (empty($existingNumbers)) {
+        $nextNumber = 1;
+    } else {
+        sort($existingNumbers);
+        $nextNumber = 1;
+        foreach ($existingNumbers as $num) {
+            if ($num == $nextNumber) {
+                $nextNumber++;
+            } else {
+                break;
+            }
+        }
+    }
+    return $todayPrefix . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 }
 ?>
 
@@ -131,18 +314,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <label for="parcel-type">Parcel Type:</label><br>
       <select id="parcel-type" name="Parcel_type" required style="width: 90%;">
-        <option value="kotak">KOTAK</option>
-        <option value="hitam">HITAM</option>
-        <option value="putih">PUTIH</option>
-        <option value="kelabu">KELABU</option>
-        <option value="others">OTHERS</option>
+        <option value="KOTAK">KOTAK</option>
+        <option value="HITAM">HITAM</option>
+        <option value="PUTIH">PUTIH</option>
+        <option value="KELABU">KELABU</option>
+        <option value="OTHERS">OTHERS</option>
       </select><br>
 
       <label for="owner">Parcel Owner:</label><br>
       <input type="text" id="owner" name="Parcel_owner" placeholder="Enter Owner's Name" required style="width: 88.2%;" /><br>
 
-      <label for="parcelID">Parcel ID:</label><br>
-      <input type="text" id="parcelID" name="Parcel_id" placeholder="Enter Parcel ID" required style="width: 88.2%;" /><br>
+      <p style="color: #666; font-style: italic;">
+        Current Date: <?php echo date('Y-m-d H:i:s'); ?><br>
+        Parcel ID will be automatically generated (e.g., <?php echo getNextParcelIdPreview($pdo); ?>)
+      </p>
 
       <button type="submit" style="width: 90%; background: #495bbf;">Add to list</button>
     </form>
