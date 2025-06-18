@@ -61,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($check->fetchColumn() > 0) {
                 $_SESSION['error'] = "❌ Parcel ID already exists!";
             } else {
-                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image)  
-                       VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image)");
+                $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, Status)  
+                  VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, 0)");
                 $stmt->execute([
                                 ':phone' => $phone,
                                 ':type' => $parcel_type,
