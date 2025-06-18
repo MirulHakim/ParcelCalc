@@ -162,6 +162,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="../css/NewParcel.css" />
   <link rel="stylesheet" href="../css/style.css" />
   <title>Parcel Serumpun - Add Parcel</title>
+  <style>
+    /* --- Modern Card Container --- */
+    .parcel-card {
+      background: #fff;
+      box-shadow: 0 4px 24px 0 rgba(73,91,191,0.10), 0 1.5px 6px 0 rgba(73,91,191,0.08);
+      border-radius: 18px;
+      padding: 36px 32px 28px 32px;
+      max-width: 420px;
+      width: 100%;
+      margin: 40px auto 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      transition: box-shadow 0.2s;
+    }
+    .parcel-card:hover {
+      box-shadow: 0 8px 32px 0 rgba(73,91,191,0.18), 0 3px 12px 0 rgba(73,91,191,0.12);
+    }
+    /* --- Enhanced Info Box --- */
+    .parcel-info-box {
+      background: #f5f7ff;
+      border: 1.5px solid #dbe3ff;
+      border-radius: 10px;
+      padding: 16px 12px;
+      margin: 18px 0 0 0;
+      text-align: center;
+      color: #495bbf;
+      font-size: 1.08rem;
+      font-family: 'Exo-Bold', sans-serif;
+      box-shadow: 0 1px 4px 0 rgba(73,91,191,0.06);
+    }
+    /* --- Field and Button Tweaks --- */
+    .parcel-form label {
+      font-size: 1.08rem;
+      color: #495bbf;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 18px;
+    }
+    .parcel-form input,
+    .parcel-form select {
+      background: #f7f8fa;
+      border: 1.5px solid #dbe3ff;
+      font-size: 1rem;
+      color: #222;
+      margin-bottom: 8px;
+      transition: border 0.2s;
+    }
+    .parcel-form input:focus,
+    .parcel-form select:focus {
+      border: 1.5px solid #495bbf;
+      outline: none;
+      background: #fff;
+    }
+    .add-button {
+      background: linear-gradient(90deg, #495bbf 60%, #6e7ff3 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 28px;
+      padding: 12px 0;
+      box-shadow: 0 2px 8px 0 rgba(73,91,191,0.10);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .add-button:hover {
+      background: linear-gradient(90deg, #6e7ff3 0%, #495bbf 100%);
+      box-shadow: 0 4px 16px 0 rgba(73,91,191,0.16);
+    }
+    @media (max-width: 600px) {
+      .parcel-card {
+        padding: 18px 8px 18px 8px;
+        max-width: 98vw;
+      }
+      .title {
+        font-size: 1.3rem;
+        padding-right: 0;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="header">
@@ -184,54 +266,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 
   <div class="enter-new-parcel">
-    <form class="parcel-form" method="POST" action="">
-      <!-- CSRF Token -->
-      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+    <div class="parcel-card">
+      <form class="parcel-form" method="POST" action="">
+        <!-- CSRF Token -->
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
-      <label for="parcel-type">Parcel Type</label>
-      <div class="textfield">
-        <select id="parcel-type" name="Parcel_type" required>
-          <option value="">Select Parcel Type</option>
-          <option value="KOTAK">KOTAK</option>
-          <option value="HITAM">HITAM</option>
-          <option value="PUTIH">PUTIH</option>
-          <option value="KELABU">KELABU</option>
-          <option value="OTHERS">OTHERS</option>
-        </select>
-      </div>
+        <label for="parcel-type">Parcel Type</label>
+        <div class="textfield">
+          <select id="parcel-type" name="Parcel_type" required>
+            <option value="">Select Parcel Type</option>
+            <option value="KOTAK">KOTAK</option>
+            <option value="HITAM">HITAM</option>
+            <option value="PUTIH">PUTIH</option>
+            <option value="KELABU">KELABU</option>
+            <option value="OTHERS">OTHERS</option>
+          </select>
+        </div>
 
-      <label for="phone">Phone Number</label>
-      <div class="textfield">
-        <input
-          type="tel"
-          id="phone"
-          name="PhoneNum"
-          placeholder="Enter phone number"
-          required
-        />
-      </div>
+        <label for="phone">Phone Number</label>
+        <div class="textfield">
+          <input
+            type="tel"
+            id="phone"
+            name="PhoneNum"
+            placeholder="Enter phone number"
+            required
+          />
+        </div>
 
-      <label for="name">Owner's Name</label>
-      <div class="textfield">
-        <input
-          type="text"
-          id="name"
-          name="Parcel_owner"
-          placeholder="Enter receiver's name"
-          required
-        />
-      </div>
+        <label for="name">Owner's Name</label>
+        <div class="textfield">
+          <input
+            type="text"
+            id="name"
+            name="Parcel_owner"
+            placeholder="Enter receiver's name"
+            required
+          />
+        </div>
 
-      <div style="text-align: center; margin: 20px 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
-        <p style="margin: 0; color: #666; font-style: italic;">
+        <div class="parcel-info-box">
           Current Date: <?php echo date('Y-m-d H:i:s'); ?><br>
           Parcel ID will be automatically generated<br>
           <strong>Next ID: <?php echo getNextParcelIdPreview($pdo); ?></strong>
-        </p>
-      </div>
+        </div>
 
-      <button type="submit" class="add-button">Add</button>
-    </form>
+        <button type="submit" class="add-button">Add</button>
+      </form>
+    </div>
   </div>
 
   <footer class="trademark">
