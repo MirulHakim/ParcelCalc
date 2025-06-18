@@ -1,17 +1,26 @@
 <?php
 session_start();
 
-// Check login
+// Optional: Debug POST data (remove in production)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+}
+
+// Check if admin is logged in
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: Login.php");
     exit();
 }
 
-require_once "pdo.php"; // Include DB connection
+require_once "pdo.php"; // DB connection
 
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['delete'])) {
-        // Delete block
+
+    // Handle delete request
+    if (isset($_POST['delete']) && isset($_POST['delete_id'])) {
         $delete_id = $_POST['delete_id'];
 
         try {
@@ -22,32 +31,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "<script>alert('Delete Error: " . $e->getMessage() . "');</script>";
         }
 
-    } elseif (isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_id'])) {
-        // Add new parcel block
+    }
+    
+    // Handle insert (add parcel)
+    elseif (
+        isset($_POST['PhoneNum'], $_POST['Parcel_type'], $_POST['Parcel_owner'], $_POST['Parcel_id'])
+    ) {
         $phone = $_POST['PhoneNum'];
         $parcel_type = $_POST['Parcel_type'];
         $owner = $_POST['Parcel_owner'];
         $parcel_id = $_POST['Parcel_id'];
 
+        // Default values
+        $status = 0; // 0 = Unclaimed, 1 = Claimed (example)
+        $date_arrived = date('Y-m-d'); // current date
+
         try {
-            $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id)  
-                                   VALUES (:phone, :type, :owner, :parcel_id)");
+            $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Status, Date_arrived)
+                                   VALUES (:phone, :type, :owner, :parcel_id, :status, :date_arrived)");
             $stmt->execute([
                 ':phone' => $phone,
                 ':type' => $parcel_type,
                 ':owner' => $owner,
-                ':parcel_id' => $parcel_id
+                ':parcel_id' => $parcel_id,
+                ':status' => $status,
+                ':date_arrived' => $date_arrived
             ]);
             echo "<script>alert('Parcel added successfully');</script>";
         } catch (PDOException $e) {
-            echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+            echo "<script>alert('Insert Error: " . $e->getMessage() . "');</script>";
         }
     }
 }
-
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
