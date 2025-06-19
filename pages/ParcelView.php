@@ -1,3 +1,18 @@
+<?php
+require_once "pdo.php";
+$parcel = null;
+$errorMsg = '';
+$priceText = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+    $searchId = trim($_POST['name']);
+    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :id");
+    $stmt->execute([':id' => $searchId]);
+    $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$parcel) {
+        $errorMsg = "No parcel found with ID: " . htmlspecialchars($searchId);
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +22,7 @@
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/ParcelView.css" />
+    <script src="../js/calc.js"></script>
   </head>
   <body>
     <div class="header">
@@ -24,11 +40,11 @@
       </div>
     </div>
 
-    <div class="row">
-      <a href="Homepage.php"
-        ><img class="back" src="../resources/Login/arrow-back0.svg"
-      /></a>
-      <form action="" method="post">
+    <div class="center-row-relative">
+      <a href="Homepage.php" class="back-absolute">
+        <img class="back" src="../resources/Login/arrow-back0.svg" />
+      </a>
+      <form action="" method="post" class="center-search-form">
         <input
           class="search"
           type="text"
@@ -42,32 +58,54 @@
     <div class="content">
       <div class="column">
         <p class="section-title">Parcel Info</p>
+        <?php if ($errorMsg): ?>
+          <div class="success-message" style="background: #fbeaea; color: #b91c1c; border: 1.5px solid #f5c2c7;">
+            <?= htmlspecialchars($errorMsg) ?>
+          </div>
+        <?php endif; ?>
+        <?php if ($parcel): ?>
         <div class="container">
-          <div class="image"></div>
+          <div class="image">
+            <?php if (!empty($parcel['Parcel_image'])): ?>
+              <img src="data:image/jpeg;base64,<?= base64_encode($parcel['Parcel_image']) ?>" alt="Parcel Image" style="max-width: 100%; max-height: 180px; border-radius: 12px;" />
+            <?php else: ?>
+              <img src="../resources/no_image.jpg" alt="No Image" style="max-width: 100%; max-height: 180px; border-radius: 12px; opacity: 0.5;" />
+            <?php endif; ?>
+          </div>
           <div class="details">
-              <p class="title">Owner’s name</p>
+              <p class="title">Owner's name: <?= htmlspecialchars($parcel['Parcel_owner']) ?></p>
               <div class="info">
                   <span>Arrive date -</span>
-                  <span>24 June</span>
+                  <span id="arrive-date-text"><?= htmlspecialchars($parcel['Date_arrived']) ?></span>
               </div>
               <div class="info">
                   <span>Parcel ID -</span>
-                  <span>24/6-05</span>
+                  <span><?= htmlspecialchars($parcel['Parcel_id']) ?></span>
               </div>
               <div class="info">
                   <span>Phone number -</span>
-                  <span>010-876 9035</span>
+                  <span><?= htmlspecialchars($parcel['PhoneNum']) ?></span>
               </div>
               <div class="info">
                   <span>Price -</span>
-                  <span>RM 2.50</span>
+                  <span id="result">RM 2.50</span>
               </div>
               <div class="info">
                   <span>Status -</span>
-                  <span>Not Claimed</span>
+                  <span><?= ($parcel['Status'] == 1 ? 'Claimed' : 'Not Claimed') ?></span>
               </div>
+              <input type="hidden" id="date" value="<?= htmlspecialchars($parcel['Date_arrived']) ?>" />
+              <script>
+                // Only run if there is a parcel
+                document.addEventListener('DOMContentLoaded', function() {
+                  if (document.getElementById('date')) {
+                    checkDate();
+                  }
+                });
+              </script>
           </div>
       </div>
+      <?php endif; ?>
       </div>
 
       <div class="column">

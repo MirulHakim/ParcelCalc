@@ -1,0 +1,105 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #151f42;
+}
+
+.register-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(73, 91, 191, 0.12);
+  max-width: 400px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 44px 36px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  min-height: 520px;
+}
+.register-card h2 {
+  color: #495bbf;
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.register-card label {
+  color: #495bbf;
+  font-weight: 600;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+.register-card input {
+  background: #f7f8fa;
+  border: 1.5px solid #dbe3ff;
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  padding: 12px 14px;
+  transition: border 0.2s, background 0.2s;
+}
+.register-card input:focus {
+  border: 1.5px solid #495bbf;
+  background: #fff;
+}
+.register-card .add-button {
+  margin-top: 24px;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #495bbf 60%, #6e7ff3 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(73, 91, 191, 0.1);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.register-card .add-button:hover {
+  background: linear-gradient(90deg, #6e7ff3 0%, #495bbf 100%);
+  box-shadow: 0 4px 16px 0 rgba(73, 91, 191, 0.16);
+}
+.register-card .success-message {
+  background: #e6f9ed;
+  color: #1a7f37;
+  border: 1.5px solid #b6e7d7;
+  border-radius: 7px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+.register-card .error-message {
+  background: #fbeaea;
+  color: #b91c1c;
+  border: 1.5px solid #f5c2c7;
+  border-radius: 7px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+.register-card a {
+  color: #495bbf;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.register-card a:hover {
+  color: #6e7ff3;
+}
+@media (max-width: 600px) {
+  .register-card {
+    padding: 18px 8px 18px 8px;
+    max-width: 98vw;
+    min-height: unset;
+  }
+  .register-card h2 {
+    font-size: 1.3rem;
+  }
+}

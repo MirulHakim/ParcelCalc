@@ -1,36 +1,37 @@
 <?php
 session_start();
 
-$host = 'localhost';
-$db   = 'parcelsystem';
-$user = 'root';
-$pass = '';
+require_once "pdo.php";
 $error = '';
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $user_id = $_POST['staff_id'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $staff_id = $_POST['staff_id'] ?? '';
-        $password = $_POST['password'] ?? '';
-
-        // NOTE: For production, never store plain passwords. Use password_hash & password_verify.
-
-        $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ? AND Password = ?");
-        $stmt->execute([$staff_id, $password]);
-
-        if ($stmt->rowCount() > 0) {
-            $_SESSION['admin_logged_in'] = true;
-            $_SESSION['staff_id'] = $staff_id;  // optional: store user id
-            header("Location: AdminView.php");
-            exit();
-        } else {
-            $error = "Invalid username or password.";
-        }
+    // 1. Try staff login (plain password)
+    $stmt = $pdo->prepare("SELECT * FROM staff WHERE Staff_id = ?");
+    $stmt->execute([$user_id]);
+    $staff = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($staff && isset($staff['Password']) && $password === $staff['Password']) {
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['staff_id'] = $user_id;
+        header("Location: AdminView.php");
+        exit();
     }
-} catch (PDOException $e) {
-    $error = "Database error: " . $e->getMessage();
+
+    // 2. Try student login (hashed password)
+    $stmt = $pdo->prepare("SELECT * FROM student WHERE Student_id = ?");
+    $stmt->execute([$user_id]);
+    $student = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($student && isset($student['Password']) && password_verify($password, $student['Password'])) {
+        $_SESSION['student_logged_in'] = true;
+        $_SESSION['student_id'] = $user_id;
+        header("Location: Homepage.php");
+        exit();
+    }
+
+    // 3. If neither, show error
+    $error = "Invalid username or password.";
 }
 ?>
 

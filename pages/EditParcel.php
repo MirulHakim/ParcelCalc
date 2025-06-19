@@ -149,7 +149,7 @@ if (isset($_SESSION['success'])) {
 
 <!-- Back button & title -->
 <div class="row">
-    <a onclick="history.back()"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
+    <a href="AdminView.php"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
     <p class="title">EDIT/DELETE PARCEL INFO</p>
 </div>
 
@@ -159,11 +159,13 @@ if (isset($_SESSION['success'])) {
 <?php endif; ?>
 
 <!-- Searchbar Parcel ID -->
+<div class="searchbar-center">
 <form action="" method="post">
     <input class="search" type="text" name="search_id" placeholder="Enter parcel ID" required
         value="<?= htmlspecialchars($searchId ?? '') ?>" />
     <button type="submit" class="btn confirm">Search</button>
 </form>
+</div>
 
 <?php if ($parcel): ?>
 <!-- Parcel Detail -->
