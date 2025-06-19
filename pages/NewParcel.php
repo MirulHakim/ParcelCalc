@@ -133,23 +133,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $parcel_type = $_POST['Parcel_type'];
   $owner = $_POST['Parcel_owner'];
   $imageData = file_get_contents($_FILES["parcel_image"]["tmp_name"]);
-  $imageType = mime_content_type($_FILES["parcel_image"]["tmp_name"]);
-
 
   // Generate auto-incrementing parcel ID
   $parcel_id = generateParcelId($pdo);
 
   $success = false;
   try {
-    $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, image_type, Status)  
-      VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, :image_type, 0)");
+    $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, Status)  VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, 0)");
     $stmt->bindParam(':phone', $phone);
     $stmt->bindParam(':type', $parcel_type);
     $stmt->bindParam(':owner', $owner);
     $stmt->bindParam(':parcel_id', $parcel_id);
     $stmt->bindParam(':image', $imageData, PDO::PARAM_LOB);
-    $stmt->bindParam(':image_type', $imageType);
-
     $stmt->execute();
     $_SESSION['success'] = "Parcel added successfully with ID: $parcel_id!";
     $success = true;
@@ -177,7 +172,6 @@ unset($_SESSION['success'], $_SESSION['error']);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -186,7 +180,6 @@ unset($_SESSION['success'], $_SESSION['error']);
   <link rel="stylesheet" href="../css/style.css" />
   <title>Parcel Serumpun - Add Parcel</title>
 </head>
-
 <body>
   <div class="header">
     <div class="row" style="gap: 0px">
@@ -210,14 +203,12 @@ unset($_SESSION['success'], $_SESSION['error']);
   <div class="enter-new-parcel">
     <div class="parcel-card">
       <?php if ($successMsg): ?>
-        <div
-          style="color: #1a7f37; background: #e6f9ed; border: 1.5px solid #b6e7d7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
+        <div style="color: #1a7f37; background: #e6f9ed; border: 1.5px solid #b6e7d7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
           <?= htmlspecialchars($successMsg) ?>
         </div>
       <?php endif; ?>
       <?php if ($errorMsg): ?>
-        <div
-          style="color: #b91c1c; background: #fbeaea; border: 1.5px solid #f5c2c7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
+        <div style="color: #b91c1c; background: #fbeaea; border: 1.5px solid #f5c2c7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
           <?= htmlspecialchars($errorMsg) ?>
         </div>
       <?php endif; ?>
@@ -267,5 +258,4 @@ unset($_SESSION['success'], $_SESSION['error']);
     Trademark ® 2025 Parcel Serumpun. All Rights Reserved
   </footer>
 </body>
-
 </html>
