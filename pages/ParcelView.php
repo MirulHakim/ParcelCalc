@@ -1,3 +1,27 @@
+<?php
+
+// Database connection
+$host = 'localhost';
+$db = 'parcelsystem';
+$user = 'root';
+$pass = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+$stmt = $pdo->prepare("SELECT * FROM parcel WHERE Parcel_id = ?");
+$stmt->execute([$parcelId]);
+$parcel = $stmt->fetch();
+
+if (!$parcel) {
+    die("Parcel not found.");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,30 +62,31 @@
             <img src="get_image.php?Parcel_id=19JUN/09" width="300">
           </div>
           <div class="details">
-              <p class="title">Owner’s name</p>
-              <div class="info">
-                  <span>Arrive date -</span>
-                  <span>24 June</span>
-              </div>
-              <div class="info">
-                  <span>Parcel ID -</span>
-                  <span>24/6-05</span>
-              </div>
-              <div class="info">
-                  <span>Phone number -</span>
-                  <span>010-876 9035</span>
-              </div>
-              <div class="info">
-                  <span>Price -</span>
-                  <span>RM 2.50</span>
-              </div>
-              <div class="info">
-                  <span>Status -</span>
-                  <span>Not Claimed</span>
-              </div>
+              <p class="title"><?php echo htmlspecialchars($parcel['Owner_name']); ?></p>
+          <div class="info">
+              <span>Arrive date -</span>
+              <span><?php echo htmlspecialchars($parcel['Arrive_date']); ?></span>
+          </div>
+          <div class="info">
+              <span>Parcel ID -</span>
+              <span><?php echo htmlspecialchars($parcel['Parcel_id']); ?></span>
+          </div>
+          <div class="info">
+              <span>Phone number -</span>
+              <span><?php echo htmlspecialchars($parcel['Phone_number']); ?></span>
+          </div>
+          <div class="info">
+              <span>Price -</span>
+              <span>RM <?php echo number_format($parcel['Price'], 2); ?></span>
+          </div>
+          <div class="info">
+              <span>Status -</span>
+              <span><?php echo $parcel['Status'] == 0 ? 'Not Claimed' : 'Claimed'; ?></span>
           </div>
       </div>
-      </div>
+    </div>
+  </div>
+</div>
 
       <div class="column">
         <div class="row"></div>
