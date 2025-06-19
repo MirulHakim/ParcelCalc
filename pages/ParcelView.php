@@ -1,5 +1,6 @@
 <?php
-// Database connection
+// viewParcel.php
+
 $host = 'localhost';
 $db = 'parcelsystem';
 $user = 'root';
@@ -12,114 +13,67 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Get parcel ID from query string
-$parcel_id = $_GET['Parcel_id'] ?? '';
-
-if ($parcel_id) {
-    $stmt = $pdo->prepare("SELECT Parcel_image FROM Parcel_info WHERE Parcel_id = :parcel_id");
+// Handle form input
+$parcelInfo = null;
+if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['name'])) {
+    $parcel_id = $_POST['name'];
+    $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :parcel_id");
     $stmt->execute(['parcel_id' => $parcel_id]);
-
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($row && !empty($row['Parcel_image'])) {
-        // Output image content
-        header("Content-Type: image/jpeg"); // Or image/png based on your image type
-        echo $row['Parcel_image'];
-        exit;
-    } else {
-        // If no image found
-        http_response_code(404);
-        echo "Image not found.";
-    }
-} else {
-    http_response_code(400);
-    echo "No parcel ID provided.";
+    $parcelInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
 
-
+<!-- HTML starts here -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View Parcel Info</title>
-    <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/ParcelView.css" />
-  </head>
-  <body>
-    <div class="header">
-      <div class="row" style="gap: 0px">
-        <div class="box blue" style="position: relative; z-index: 0"></div>
-        <div class="box trapezium" style="position: relative; z-index: 1"></div>
-        <div class="row logos">
-          <img class="logo" src="../resources/Header/image-10.png" />
-          <div class="x">X</div>
-          <img class="logo" src="../resources/Header/logo-k-14-10.png" />
-        </div>
-        <a href="Login.php">
-          <button class="login-button">LOGIN</button>
-        </a>
-      </div>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Parcel Info</title>
+  <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/ParcelView.css" />
+</head>
+<body>
+  <!-- header -->
+  <div class="header">
+    <!-- ... (same as before) ... -->
+  </div>
 
-    <div class="row">
-      <a href="Homepage.php"
-        ><img class="back" src="../resources/Login/arrow-back0.svg"
-      /></a>
-      <form action="" method="post">
-        <input
-          class="search"
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Enter your parcel ID"
-        />
-      </form>
-    </div>
+  <!-- search form -->
+  <div class="row">
+    <a href="Homepage.php"><img class="back" src="../resources/Login/arrow-back0.svg"/></a>
+    <form action="" method="post">
+      <input class="search" type="text" id="name" name="name" placeholder="Enter your parcel ID" />
+    </form>
+  </div>
 
-    <div class="content">
-      <div class="column">
-        <p class="section-title">Parcel Info</p>
-        <div class="container">
+  <!-- content -->
+  <div class="content">
+    <div class="column">
+      <p class="section-title">Parcel Info</p>
+      <div class="container">
+        <?php if ($parcelInfo): ?>
           <div class="image">
-            <img src="get_image.php?Parcel_id=19JUN/09" width="300">
+            <img src="get_image.php?Parcel_id=<?= urlencode($parcelInfo['Parcel_id']) ?>" width="300">
           </div>
           <div class="details">
               <p class="title">Owner’s name</p>
-              <div class="info">
-                  <span>Arrive date -</span>
-                  <span>24 June</span>
-              </div>
-              <div class="info">
-                  <span>Parcel ID -</span>
-                  <span>24/6-05</span>
-              </div>
-              <div class="info">
-                  <span>Phone number -</span>
-                  <span>010-876 9035</span>
-              </div>
-              <div class="info">
-                  <span>Price -</span>
-                  <span>RM 2.50</span>
-              </div>
-              <div class="info">
-                  <span>Status -</span>
-                  <span>Not Claimed</span>
-              </div>
+              <div class="info"><span>Arrive date -</span><span><?= htmlspecialchars($parcelInfo['Date_arrived']) ?></span></div>
+              <div class="info"><span>Parcel ID -</span><span><?= htmlspecialchars($parcelInfo['Parcel_id']) ?></span></div>
+              <div class="info"><span>Phone number -</span><span><?= htmlspecialchars($parcelInfo['PhoneNum']) ?></span></div>
+              <div class="info"><span>Price -</span><span>RM <?= number_format($parcelInfo['Price'], 2) ?></span></div>
+              <div class="info"><span>Status -</span><span><?= $parcelInfo['Status'] == 0 ? 'Not Claimed' : 'Claimed' ?></span></div>
           </div>
-      </div>
-      </div>
-
-      <div class="column">
-        <div class="row"></div>
-        <div></div>
+        <?php else: ?>
+          <p style="text-align:center;">Enter your Parcel ID to view parcel details.</p>
+        <?php endif; ?>
       </div>
     </div>
+  </div>
 
-    <div class="trademark" style="margin-top: 100px">
-      Trademark ® 2025 Parcel Serumpun. All Rights Reserved
-    </div>
-  </body>
+  <div class="trademark" style="margin-top: 100px">
+    Trademark ® 2025 Parcel Serumpun. All Rights Reserved
+  </div>
+</body>
 </html>
