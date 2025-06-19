@@ -24,13 +24,10 @@
       </div>
     </div>
 
-    <div class="center-row-relative">
-      <a href="Homepage.php" class="back-absolute">
+    <div class="back-wrapper">
+      <a href="Homepage.php">
         <img class="back" src="../resources/Login/arrow-back0.svg" />
       </a>
-    <form action="" method="post" class="center-search-form">
-      <input class="search" type="text" id="name" name="name" placeholder="Enter your parcel ID" />
-    </form>
     </div>
 
     <div class="content">
