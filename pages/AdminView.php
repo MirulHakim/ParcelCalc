@@ -397,10 +397,16 @@ function generateParcelIdNoSession($pdo)
                     //harga ikut current date 
                     $arrivedDate = $parcel['Date_arrived'] ?? '';
                     $jsArrivedDate = $arrivedDate ? $arrivedDate : date('Y-m-d');
-                    echo '<div class="parcel-detail"><span>Price:</span><span id="result">Calculating...</span></div>';
-                    echo '<input type="hidden" id="date" value="' . htmlspecialchars($jsArrivedDate) . '">';
-                    echo '<script>checkDate();</script>';
+                    $arrived = new DateTime($arrivedDate);
+                    $today = new DateTime();
+                    $interval = $today->diff($arrived);
+                    $days = $interval->days;
 
+                    $price = 1.00;
+                    if ($today > $arrived && $days > 1) {
+                        $price += ($days - 1) * 0.50;
+                    }
+                    echo '<div class="parcel-detail"><span>Price:</span><span>RM ' . number_format($price, 2) . '</span></div>';
 
                     $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
                     $statusColor = ($parcel['Status'] == 1 ? 'green' : 'red');
