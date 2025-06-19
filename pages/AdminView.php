@@ -27,7 +27,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 require_once "pdo.php";
 
 // Function to generate auto-incrementing parcel ID
-function generateParcelId($pdo) {
+function generateParcelId($pdo)
+{
     $day = date('d');
     $month = strtoupper(date('M'));
     $todayPrefix = $day . $month . '/';
@@ -77,12 +78,13 @@ function generateParcelId($pdo) {
 }
 
 // Function to get preview of next parcel ID (for display only)
-function getNextParcelIdPreview($pdo) {
+function getNextParcelIdPreview($pdo)
+{
     $day = date('d');
     $month = strtoupper(date('M'));
     $todayPrefix = $day . $month . '/';
     $pattern = $todayPrefix . '%';
-    
+
     $stmt = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
     $stmt->execute([':pattern' => $pattern]);
     $allParcels = [];
@@ -92,7 +94,7 @@ function getNextParcelIdPreview($pdo) {
             $allParcels[] = $row['Parcel_id'];
         }
     }
-    
+
     // Extract numbers from existing parcel IDs
     $existingNumbers = [];
     foreach ($allParcels as $parcelId) {
@@ -100,14 +102,14 @@ function getNextParcelIdPreview($pdo) {
             $existingNumbers[] = intval($matches[1]);
         }
     }
-    
+
     // Find the next available number
     if (empty($existingNumbers)) {
         $nextNumber = 1;
     } else {
         sort($existingNumbers);
         $nextNumber = 1;
-        
+
         // Find the first gap or the next number after the highest
         foreach ($existingNumbers as $num) {
             if ($num == $nextNumber) {
@@ -117,17 +119,19 @@ function getNextParcelIdPreview($pdo) {
             }
         }
     }
-    
+
     // Format: 19JUN/01 (with leading zero for numbers < 10)
     return $todayPrefix . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 }
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || 
-    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-    die("Invalid CSRF token.");
-}
+    if (
+        !isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid CSRF token.");
+    }
 
     if (isset($_POST['delete'])) {
         $delete_id = $_POST['delete_id'];
@@ -150,11 +154,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $parcel_type = $_POST['Parcel_type'];
         $owner = $_POST['Parcel_owner'];
         $image = $_POST['parcel_image'];
-        
+
         // Debug: Let's see what's happening
         error_log("=== FORM SUBMISSION DEBUG ===");
         error_log("Phone: $phone, Type: $parcel_type, Owner: $owner");
-        
+
         // Generate auto-incrementing parcel ID (first attempt uses session)
         $parcel_id = generateParcelId($pdo);
         error_log("Generated Parcel ID: $parcel_id");
@@ -169,12 +173,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, Status)  
                            VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, 0)");
                 $stmt->execute([
-                                    ':phone' => $phone,
-                                    ':type' => $parcel_type,
-                                    ':owner' => $owner,
-                                    ':parcel_id' => $parcel_id,
-                                    ':image' => $image,
-                                  ]);
+                    ':phone' => $phone,
+                    ':type' => $parcel_type,
+                    ':owner' => $owner,
+                    ':parcel_id' => $parcel_id,
+                    ':image' => $image,
+                ]);
                 error_log("Parcel inserted successfully with ID: $parcel_id");
                 $_SESSION['success'] = "✅ Parcel added successfully with ID: " . $parcel_id;
                 // Only update session after successful insert
@@ -225,7 +229,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Helper function: always calculate next available Parcel ID from DB, ignoring session
-function generateParcelIdNoSession($pdo) {
+function generateParcelIdNoSession($pdo)
+{
     $day = date('d');
     $month = strtoupper(date('M'));
     $todayPrefix = $day . $month . '/';
@@ -263,138 +268,140 @@ function generateParcelIdNoSession($pdo) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AdminView</title>
-  <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
-  <link rel="stylesheet" href="../css/AdminView.css" />
-  <link rel="stylesheet" href="../css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdminView</title>
+    <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
+    <link rel="stylesheet" href="../css/AdminView.css" />
+    <link rel="stylesheet" href="../css/style.css" />
 </head>
+
 <body>
-  <div class="header">
-    <div class="row" style="gap: 0px">
-      <div class="box blue" style="position: relative; z-index: 0"></div>
-      <div class="box trapezium" style="position: relative; z-index: 1"></div>
-      <div class="row logos">
-        <img class="logo" src="../resources/Header/image-10.png" />
-        <div class="x">X</div>
-        <img class="logo" src="../resources/Header/logo-k-14-10.png" />
-      </div>
-    </div>
-    <a href="logout.php">
-      <button class="login-button">LOGOUT</button>
-    </a>
-  </div>
-
-  <div class="sidebar">
-    <a href="#">Menu</a>
-    <a href="NewParcel.php">Add New Parcel</a>
-    <a href="EditParcel.php">Edit/Delete Parcel Info</a>
-    <form action="GeneratePDF.php" method="post" style="margin: 10px 0;">
-      <button type="submit" name="submit">Create PDF</button>
-    </form>
-  </div>
-
-  <div class="main-content">
-    <?php
-      if ($successMsg) echo "<p style='color: green; font-weight:bold;'>$successMsg</p>";
-      if ($errorMsg) echo "<p style='color: red; font-weight:bold;'>$errorMsg</p>";
-    ?>
-
-    <h2>Add New Parcel</h2>
-    <form method="POST" action="">
-      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-      <label for="phone">Phone Number:</label><br>
-      <input type="text" id="phone" name="PhoneNum" placeholder="Enter Phone Number" required style="width: 88.3%;" /><br>
-
-      <label for="parcel-type">Parcel Type:</label><br>
-      <select id="parcel-type" name="Parcel_type" required style="width: 90%;">
-        <option value="">Select Parcel Type</option>
-        <option value="KOTAK">KOTAK</option>
-        <option value="HITAM">HITAM</option>
-        <option value="PUTIH">PUTIH</option>
-        <option value="KELABU">KELABU</option>
-        <option value="OTHERS">OTHERS</option>
-      </select><br>
-
-      <label for="owner">Parcel Owner:</label><br>
-      <input type="text" id="owner" name="Parcel_owner" placeholder="Enter Owner's Name" required style="width: 88.2%;" /><br>
-
-    <label for="image">Parcel Image</label>
-        <div>
-          <input 
-            type="file" 
-            id="image"
-            name="parcel_image"
-          />
+    <div class="header">
+        <div class="row" style="gap: 0px">
+            <div class="box blue" style="position: relative; z-index: 0"></div>
+            <div class="box trapezium" style="position: relative; z-index: 1"></div>
+            <div class="row logos">
+                <img class="logo" src="../resources/Header/image-10.png" />
+                <div class="x">X</div>
+                <img class="logo" src="../resources/Header/logo-k-14-10.png" />
+            </div>
         </div>
+        <a href="logout.php">
+            <button class="login-button">LOGOUT</button>
+        </a>
+    </div>
 
-      <p style="color: #666; font-style: italic;">
-        Current Date: <?php echo date('Y-m-d H:i:s'); ?><br>
-        Parcel ID will be automatically generated (<?php echo getNextParcelIdPreview($pdo); ?>)
-      </p>
+    <div class="sidebar">
+        <a href="#">Menu</a>
+        <a href="NewParcel.php">Add New Parcel</a>
+        <a href="EditParcel.php">Edit/Delete Parcel Info</a>
+        <form action="GeneratePDF.php" method="post" style="margin: 10px 0;">
+            <button type="submit" name="submit">Create PDF</button>
+        </form>
+    </div>
 
-      <button type="submit" style="width: 90%; background: #495bbf;">Add to list</button>
-    </form>
-    <?php
+    <div class="main-content">
+        <?php
+        if ($successMsg)
+            echo "<p style='color: green; font-weight:bold;'>$successMsg</p>";
+        if ($errorMsg)
+            echo "<p style='color: red; font-weight:bold;'>$errorMsg</p>";
+        ?>
 
-/* Fetch all parcels
-$stmt = $pdo->query("SELECT * FROM Parcel_info ORDER BY Parcel_id DESC"); // Adjust column name if needed
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo '<div class="parcel-info">';
-    echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($row['Parcel_owner']) . '</span></div>';
-    echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($row['PhoneNum']) . '</span></div>';
-    echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($row['Parcel_id']) . '</span></div>';
-    echo '<form method="POST" action="" onsubmit="return confirm(\'Are you sure you want to delete this parcel?\');">';
-    echo '<input type="hidden" name="delete_id" value="' . $row['Parcel_id'] . '">';
-    echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
-    echo '</form>';
-    echo '</div>';
-}*/
-?>
+        <h2>Add New Parcel</h2>
+        <form method="POST" action="">
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <label for="phone">Phone Number:</label><br>
+            <input type="text" id="phone" name="PhoneNum" placeholder="Enter Phone Number" required
+                style="width: 88.3%;" /><br>
+
+            <label for="parcel-type">Parcel Type:</label><br>
+            <select id="parcel-type" name="Parcel_type" required style="width: 90%;">
+                <option value="">Select Parcel Type</option>
+                <option value="KOTAK">KOTAK</option>
+                <option value="HITAM">HITAM</option>
+                <option value="PUTIH">PUTIH</option>
+                <option value="KELABU">KELABU</option>
+                <option value="OTHERS">OTHERS</option>
+            </select><br>
+
+            <label for="owner">Parcel Owner:</label><br>
+            <input type="text" id="owner" name="Parcel_owner" placeholder="Enter Owner's Name" required
+                style="width: 88.2%;" /><br>
+
+            <label for="image">Parcel Image</label>
+            <div>
+                <input type="file" id="image" name="parcel_image" />
+            </div>
+
+            <p style="color: #666; font-style: italic;">
+                Current Date: <?php echo date('Y-m-d H:i:s'); ?><br>
+                Parcel ID will be automatically generated (<?php echo getNextParcelIdPreview($pdo); ?>)
+            </p>
+
+            <button type="submit" style="width: 90%; background: #495bbf;">Add to list</button>
+        </form>
+        <?php
+
+        /* Fetch all parcels
+        $stmt = $pdo->query("SELECT * FROM Parcel_info ORDER BY Parcel_id DESC"); // Adjust column name if needed
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo '<div class="parcel-info">';
+            echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($row['Parcel_owner']) . '</span></div>';
+            echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($row['PhoneNum']) . '</span></div>';
+            echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($row['Parcel_id']) . '</span></div>';
+            echo '<form method="POST" action="" onsubmit="return confirm(\'Are you sure you want to delete this parcel?\');">';
+            echo '<input type="hidden" name="delete_id" value="' . $row['Parcel_id'] . '">';
+            echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
+            echo '</form>';
+            echo '</div>';
+        }*/
+        ?>
 
 
-   <h3>Parcel Info</h3>
-<form method="POST" action="">
-  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-  <input type="text" name="search_id" placeholder="Enter Parcel ID" required style="width: 88.3%;" />
-  <button type="submit" name="search" style="width: 90%; background: #495bbf;">Search</button>
-</form>
+        <h3>Parcel Info</h3>
+        <form method="POST" action="">
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="text" name="search_id" placeholder="Enter Parcel ID" required style="width: 88.3%;" />
+            <button type="submit" name="search" style="width: 90%; background: #495bbf;">Search</button>
+        </form>
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
-    $search_id = $_POST['search_id'];
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
+            $search_id = $_POST['search_id'];
 
-    try {
-        $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :parcel_id");
-        $stmt->execute([':parcel_id' => $search_id]);
-        $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
+            try {
+                $stmt = $pdo->prepare("SELECT * FROM Parcel_info WHERE Parcel_id = :parcel_id");
+                $stmt->execute([':parcel_id' => $search_id]);
+                $parcel = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($parcel) {
-        echo '<div class="parcel-info">';
-        echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($parcel['Parcel_owner']) . '</span></div>';
-        echo '<div class="parcel-detail"><span>Arrive Date:</span><span>' . htmlspecialchars($parcel['Date_arrived'] ?? 'Not Available') . '</span></div>';
-        echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
-        echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
-        echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
-        $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
-        $statusColor = ($parcel['Status'] == 1 ? 'green' : 'red');
-        echo '<div class="parcel-detail"><span>Status:</span><span style="color:' . $statusColor . ';">' . htmlspecialchars($statusText) . '</span></div>';
+                if ($parcel) {
+                    echo '<div class="parcel-info">';
+                    echo '<div class="parcel-detail"><span>Owner\'s Name:</span><span>' . htmlspecialchars($parcel['Parcel_owner']) . '</span></div>';
+                    echo '<div class="parcel-detail"><span>Arrive Date:</span><span>' . htmlspecialchars($parcel['Date_arrived'] ?? 'Not Available') . '</span></div>';
+                    echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
+                    echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
+                    echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
+                    $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
+                    $statusColor = ($parcel['Status'] == 1 ? 'green' : 'red');
+                    echo '<div class="parcel-detail"><span>Status:</span><span style="color:' . $statusColor . ';">' . htmlspecialchars($statusText) . '</span></div>';
 
-        echo '<div class="button-group">';
-        echo '<form method="POST" action="" onsubmit="return confirm(\'Delete this parcel?\');" style="display: inline;">';
-        echo '<input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">';
-        echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($parcel['Parcel_id']) . '">';
-        echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
-        echo '</form>';
-        echo '</div></div>';
-        } else {
-              echo "<div class='parcel-info'><p style='color:red;'>❌ No parcel found with ID: " . htmlspecialchars($search_id) . "</p></div>";
-}
+                    echo '<div class="button-group">';
+                    echo '<form method="POST" action="" onsubmit="return confirm(\'Delete this parcel?\');" style="display: inline;">';
+                    echo '<input type="hidden" name="csrf_token" value="' . $_SESSION['csrf_token'] . '">';
+                    echo '<input type="hidden" name="delete_id" value="' . htmlspecialchars($parcel['Parcel_id']) . '">';
+                    echo '<button type="submit" name="delete" class="button delete-btn">🗑 Delete</button>';
+                    echo '</form>';
+                    echo '</div></div>';
+                } else {
+                    echo "<div class='parcel-info'><p style='color:red;'>❌ No parcel found with ID: " . htmlspecialchars($search_id) . "</p></div>";
+                }
 
-    } catch (PDOException $e) {
-        echo "<p>Error: " . $e->getMessage() . "</p>";
-    }
-}
-?>
+            } catch (PDOException $e) {
+                echo "<p>Error: " . $e->getMessage() . "</p>";
+            }
+        }
+        ?>

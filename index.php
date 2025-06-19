@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -49,32 +50,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/index.css" />
 </head>
+
 <body>
-  <div class="register-card">
-    <h2>Student Registration</h2>
-    <?php if ($successMsg): ?>
-      <div class="success-message"><?= htmlspecialchars($successMsg) ?></div>
-    <?php endif; ?>
-    <?php if ($errorMsg): ?>
-      <div class="error-message"><?= htmlspecialchars($errorMsg) ?></div>
-    <?php endif; ?>
-    <form method="POST" action="">
-      <label for="name">Full Name</label><br>
-      <input type="text" id="name" name="name" required /><br>
-      <label for="student_id">Student ID</label><br>
-      <input type="text" id="student_id" name="student_id" required /><br>
-      <label for="phone">Phone Number</label><br>
-      <input type="text" id="phone" name="phone" required /><br>
-      <label for="password">Password</label><br>
-      <input type="password" id="password" name="password" required /><br>
-      <label for="confirm">Confirm Password</label><br>
-      <input type="password" id="confirm" name="confirm" required /><br>
-      <button type="submit" class="add-button">Register</button><br>
-    </form>
-    <div style="text-align:center; margin-top: 18px; color: #495bbf;">
-      Already have an account?
-      <a href="pages/Login.php" style="color:#fff; background:#495bbf; padding:10px 24px; border-radius:8px; font-weight:600; text-decoration:none; margin-left:8px; display:inline-block;">Login</a>
+    <div class="header">
+        <div class="row" style="gap: 0px">
+            <div class="box blue" style="position: relative; z-index: 0"></div>
+            <div class="box trapezium" style="position: relative; z-index: 1"></div>
+            <div class="row logos">
+                <img class="logo" src="resources/Header/image-10.png" />
+                <div class="x">X</div>
+                <img class="logo" src="resources/Header/logo-k-14-10.png" />
+            </div>
+        </div>
     </div>
-  </div>
+
+    <!-- Main content below header -->
+    <div class="main-content">
+        <div class="register-card">
+            <h2>Student Registration</h2>
+            <?php if ($successMsg): ?>
+                <div class="success-message"><?= htmlspecialchars($successMsg) ?></div>
+            <?php endif; ?>
+            <?php if ($errorMsg): ?>
+                <div class="error-message"><?= htmlspecialchars($errorMsg) ?></div>
+            <?php endif; ?>
+            <form method="POST" action="">
+                <label for="name">Full Name</label><br>
+                <input type="text" id="name" name="name" required /><br>
+                <label for="student_id">Student ID</label><br>
+                <input type="text" id="student_id" name="student_id" required /><br>
+                <label for="phone">Phone Number</label><br>
+                <input type="text" id="phone" name="phone" required /><br>
+                <label for="password">Password</label><br>
+                <input type="password" id="password" name="password" required /><br>
+                <label for="confirm">Confirm Password</label><br>
+                <input type="password" id="confirm" name="confirm" required /><br>
+                <button type="submit" class="add-button">Register</button><br>
+            </form>
+            <div style="text-align:center; margin-top: 18px; color: #495bbf;">
+                Already have an account?
+                <a href="pages/Login.php"
+                    style="color:#fff; background:#495bbf; padding:10px 24px; border-radius:8px; font-weight:600; text-decoration:none; margin-left:8px; display:inline-block;">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="trademark">
+        Trademark ® 2025 Parcel Serumpun. All Rights Reserved
+    </div>
 </body>
-</html> 
+
+</html>
