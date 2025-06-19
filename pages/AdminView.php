@@ -286,7 +286,6 @@ function generateParcelIdNoSession($pdo)
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/AdminView.css" />
     <link rel="stylesheet" href="../css/style.css" />
-    <script src="js/calc.js" defer></script>
 </head>
 
 <body>
