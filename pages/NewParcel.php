@@ -142,7 +142,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       header("Location: NewParcel.php");
       exit;
   }
-
+  $imageData = file_get_contents($_FILES["parcel_image"]["tmp_name"]);
+  
   // Generate auto-incrementing parcel ID
   $parcel_id = generateParcelId($pdo);
 
