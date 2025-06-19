@@ -133,18 +133,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $parcel_type = $_POST['Parcel_type'];
   $owner = $_POST['Parcel_owner'];
   $imageData = file_get_contents($_FILES["parcel_image"]["tmp_name"]);
+  $imageType = mime_content_type($_FILES["parcel_image"]["tmp_name"]);
+
 
   // Generate auto-incrementing parcel ID
   $parcel_id = generateParcelId($pdo);
 
   $success = false;
   try {
-    $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, Status)  VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, 0)");
+    $stmt = $pdo->prepare("INSERT INTO Parcel_info (PhoneNum, Parcel_type, Parcel_owner, Parcel_id, Date_arrived, Date_received, Parcel_image, image_type, Status)  
+      VALUES (:phone, :type, :owner, :parcel_id, NOW(), NULL, :image, :image_type, 0)");
     $stmt->bindParam(':phone', $phone);
     $stmt->bindParam(':type', $parcel_type);
     $stmt->bindParam(':owner', $owner);
     $stmt->bindParam(':parcel_id', $parcel_id);
     $stmt->bindParam(':image', $imageData, PDO::PARAM_LOB);
+    $stmt->bindParam(':image_type', $imageType);
+
     $stmt->execute();
     $_SESSION['success'] = "Parcel added successfully with ID: $parcel_id!";
     $success = true;
