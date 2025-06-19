@@ -286,6 +286,7 @@ function generateParcelIdNoSession($pdo)
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/AdminView.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <script src="js/calc.js" defer></script>
 </head>
 
 <body>
@@ -371,7 +372,6 @@ function generateParcelIdNoSession($pdo)
         }*/
         ?>
 
-
         <h3>Parcel Info</h3>
         <form method="POST" action="">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
@@ -394,7 +394,13 @@ function generateParcelIdNoSession($pdo)
                     echo '<div class="parcel-detail"><span>Arrive Date:</span><span>' . htmlspecialchars($parcel['Date_arrived'] ?? 'Not Available') . '</span></div>';
                     echo '<div class="parcel-detail"><span>Parcel ID:</span><span>' . htmlspecialchars($parcel['Parcel_id']) . '</span></div>';
                     echo '<div class="parcel-detail"><span>Phone Number:</span><span>' . htmlspecialchars($parcel['PhoneNum']) . '</span></div>';
-                    echo '<div class="parcel-detail"><span>Price:</span><span>RM 2.50</span></div>';
+                    //harga ikut current date 
+                    $arrivedDate = $parcel['Date_arrived'] ?? '';
+                    $jsArrivedDate = $arrivedDate ? $arrivedDate : date('Y-m-d');
+                    echo '<div class="parcel-detail"><span>Price:</span><span id="result">Calculating...</span></div>';
+                    echo '<input type="hidden" id="date" value="' . htmlspecialchars($jsArrivedDate) . '">';
+                    echo '<script>document.addEventListener("DOMContentLoaded", checkDate);</script>';
+
                     $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
                     $statusColor = ($parcel['Status'] == 1 ? 'green' : 'red');
                     echo '<div class="parcel-detail"><span>Status:</span><span style="color:' . $statusColor . ';">' . htmlspecialchars($statusText) . '</span></div>';
