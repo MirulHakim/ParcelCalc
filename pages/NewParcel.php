@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $parcel_type = $_POST['Parcel_type'];
     $owner = $_POST['Parcel_owner'];
     $image = $_POST['parcel_image'];
-    $imageData = fopen($_FILES[$image]["tmp_name"],'rb');
+    $imageData = mysqli_real_escape_string($conn,$_FILES[$image]["tmp_name"]);
     
     // Generate auto-incrementing parcel ID
     $parcel_id = generateParcelId($pdo);
