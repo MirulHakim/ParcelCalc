@@ -399,7 +399,8 @@ function generateParcelIdNoSession($pdo)
                     $jsArrivedDate = $arrivedDate ? $arrivedDate : date('Y-m-d');
                     echo '<div class="parcel-detail"><span>Price:</span><span id="result">Calculating...</span></div>';
                     echo '<input type="hidden" id="date" value="' . htmlspecialchars($jsArrivedDate) . '">';
-                    echo '<script>document.addEventListener("DOMContentLoaded", checkDate);</script>';
+                    echo '<script>checkDate();</script>';
+
 
                     $statusText = ($parcel['Status'] == 1 ? 'Claimed' : 'Unclaimed');
                     $statusColor = ($parcel['Status'] == 1 ? 'green' : 'red');
