@@ -135,8 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['PhoneNum'];
     $parcel_type = $_POST['Parcel_type'];
     $owner = $_POST['Parcel_owner'];
-    $image = $_POST['parcel_image'];
-    $imageData = fopen($_FILES['parcel_image']["tmp_name"],'rb');
+    $imageData = fopen($_FILES["parcel_image"]["tmp_name"],'rb');
     
     // Generate auto-incrementing parcel ID
     $parcel_id = generateParcelId($pdo);
