@@ -78,22 +78,17 @@ function generateParcelId($pdo) {
 
 // Function to get preview of next parcel ID (for display only)
 function getNextParcelIdPreview($pdo) {
-    $day = date('d'); // Day of month
-    $month = strtoupper(date('M')); // Month abbreviation in uppercase
+    $day = date('d');
+    $month = strtoupper(date('M'));
+    $todayPrefix = $day . $month . '/';
+    $pattern = $todayPrefix . '%';
     
-    // Get all parcel IDs for today with different possible formats
-    $patterns = [
-        $day . ' ' . $month . '/%',      // "19 JUN/%"
-        $day . ' ' . ucfirst(strtolower($month)) . '/%',  // "19 Jun/%"
-        $day . $month . '/%',            // "19JUN/%"
-        $day . ucfirst(strtolower($month)) . '/%'         // "19Jun/%"
-    ];
-    
+    $stmt = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
+    $stmt->execute([':pattern' => $pattern]);
     $allParcels = [];
-    foreach ($patterns as $pattern) {
-        $stmt = $pdo->prepare("SELECT Parcel_id FROM Parcel_info WHERE Parcel_id LIKE :pattern");
-        $stmt->execute([':pattern' => $pattern]);
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Only keep IDs that start with the exact prefix (case-insensitive)
+        if (stripos($row['Parcel_id'], $todayPrefix) === 0) {
             $allParcels[] = $row['Parcel_id'];
         }
     }
@@ -124,7 +119,7 @@ function getNextParcelIdPreview($pdo) {
     }
     
     // Format: 19JUN/01 (with leading zero for numbers < 10)
-    return $day . $month . '/' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+    return $todayPrefix . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 }
 
 // Handle form submissions
@@ -315,6 +310,7 @@ function generateParcelIdNoSession($pdo) {
 
       <label for="parcel-type">Parcel Type:</label><br>
       <select id="parcel-type" name="Parcel_type" required style="width: 90%;">
+        <option value="">Select Parcel Type</option>
         <option value="KOTAK">KOTAK</option>
         <option value="HITAM">HITAM</option>
         <option value="PUTIH">PUTIH</option>
@@ -336,7 +332,7 @@ function generateParcelIdNoSession($pdo) {
 
       <p style="color: #666; font-style: italic;">
         Current Date: <?php echo date('Y-m-d H:i:s'); ?><br>
-        Parcel ID will be automatically generated (e.g., <?php echo getNextParcelIdPreview($pdo); ?>)
+        Parcel ID will be automatically generated (<?php echo getNextParcelIdPreview($pdo); ?>)
       </p>
 
       <button type="submit" style="width: 90%; background: #495bbf;">Add to list</button>
