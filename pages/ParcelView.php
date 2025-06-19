@@ -24,10 +24,19 @@
       </div>
     </div>
 
-    <div class="back-wrapper">
-      <a href="Homepage.php">
-        <img class="back" src="../resources/Login/arrow-back0.svg" />
-      </a>
+    <div class="row">
+      <a href="Homepage.php"
+        ><img class="back" src="../resources/Login/arrow-back0.svg"
+      /></a>
+      <form action="" method="post">
+        <input
+          class="search"
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Enter your parcel ID"
+        />
+      </form>
     </div>
 
     <div class="content">
@@ -38,31 +47,30 @@
             <img src="get_image.php?Parcel_id=19JUN/09" width="300">
           </div>
           <div class="details">
-              <p class="title"><?php echo htmlspecialchars($parcel['Parcel_ower']); ?></p>
-          <div class="info">
-              <span>Arrive date -</span>
-              <span><?php echo htmlspecialchars($parcel['Date_arrived']); ?></span>
-          </div>
-          <div class="info">
-              <span>Parcel ID -</span>
-              <span><?php echo htmlspecialchars($parcel['Parcel_id']); ?></span>
-          </div>
-          <div class="info">
-              <span>Phone number -</span>
-              <span><?php echo htmlspecialchars($parcel['PhoneNum']); ?></span>
-          </div>
-          <div class="info">
-              <span>Price -</span>
-              <span>RM 2.50</span>
-          </div>
-          <div class="info">
-              <span>Status -</span>
-              <span><?php echo $parcel['Status'] == 0 ? 'Not Claimed' : 'Claimed'; ?></span>
+              <p class="title">Owner’s name</p>
+              <div class="info">
+                  <span>Arrive date -</span>
+                  <span>24 June</span>
+              </div>
+              <div class="info">
+                  <span>Parcel ID -</span>
+                  <span>24/6-05</span>
+              </div>
+              <div class="info">
+                  <span>Phone number -</span>
+                  <span>010-876 9035</span>
+              </div>
+              <div class="info">
+                  <span>Price -</span>
+                  <span>RM 2.50</span>
+              </div>
+              <div class="info">
+                  <span>Status -</span>
+                  <span>Not Claimed</span>
+              </div>
           </div>
       </div>
-    </div>
-  </div>
-</div>
+      </div>
 
       <div class="column">
         <div class="row"></div>
