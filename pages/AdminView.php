@@ -153,7 +153,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phone = $_POST['PhoneNum'];
         $parcel_type = $_POST['Parcel_type'];
         $owner = $_POST['Parcel_owner'];
-        $image = $_POST['parcel_image'];
+        // Validate uploaded image
+    if (
+        !isset($_FILES['parcel_image']) ||
+        $_FILES['parcel_image']['error'] !== UPLOAD_ERR_OK ||
+        !getimagesize($_FILES['parcel_image']['tmp_name'])
+    ) {
+        $_SESSION['error'] = "Please upload a valid parcel image.";
+        header("Location: AdminView.php");
+        exit(); 
+    }
+    $image = file_get_contents($_FILES['parcel_image']['tmp_name']);
 
         // Debug: Let's see what's happening
         error_log("=== FORM SUBMISSION DEBUG ===");
@@ -312,7 +322,7 @@ function generateParcelIdNoSession($pdo)
         ?>
 
         <h2>Add New Parcel</h2>
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <label for="phone">Phone Number:</label><br>
             <input type="text" id="phone" name="PhoneNum" placeholder="Enter Phone Number" required
@@ -334,7 +344,7 @@ function generateParcelIdNoSession($pdo)
 
             <label for="image">Parcel Image</label>
             <div>
-                <input type="file" id="image" name="parcel_image" />
+                <input type="file" id="image" name="parcel_image" accept="image/*" required/>
             </div>
 
             <p style="color: #666; font-style: italic;">
