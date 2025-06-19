@@ -14,7 +14,7 @@ try {
 }
 
 $stmt = $pdo->prepare("SELECT * FROM parcel WHERE Parcel_id = ?");
-$stmt->execute([$parcelId]);
+$stmt->execute([$Parcel_id]);
 $parcel = $stmt->fetch();
 
 if (!$parcel) {
