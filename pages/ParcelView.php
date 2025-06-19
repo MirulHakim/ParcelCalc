@@ -62,10 +62,10 @@ if (!$parcel) {
             <img src="get_image.php?Parcel_id=19JUN/09" width="300">
           </div>
           <div class="details">
-              <p class="title"><?php echo htmlspecialchars($parcel['Owner_name']); ?></p>
+              <p class="title"><?php echo htmlspecialchars($parcel['Parcel_ower']); ?></p>
           <div class="info">
               <span>Arrive date -</span>
-              <span><?php echo htmlspecialchars($parcel['Arrive_date']); ?></span>
+              <span><?php echo htmlspecialchars($parcel['Date_arrived']); ?></span>
           </div>
           <div class="info">
               <span>Parcel ID -</span>
@@ -73,11 +73,11 @@ if (!$parcel) {
           </div>
           <div class="info">
               <span>Phone number -</span>
-              <span><?php echo htmlspecialchars($parcel['Phone_number']); ?></span>
+              <span><?php echo htmlspecialchars($parcel['PhoneNum']); ?></span>
           </div>
           <div class="info">
               <span>Price -</span>
-              <span>RM <?php echo number_format($parcel['Price'], 2); ?></span>
+              <span>RM 2.50</span>
           </div>
           <div class="info">
               <span>Status -</span>
