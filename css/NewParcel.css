@@ -17,7 +17,7 @@
   color: #ffffff;
   font-family: "Roboto-Black", sans-serif;
   font-size: 2.2rem; /* responsive font size */
-  font-weight: 700;  /* 'Black' implies bold */
+  font-weight: 700; /* 'Black' implies bold */
   margin: 25px auto 0 auto;
   padding-right: 100px;
   text-align: center;
@@ -66,4 +66,87 @@ select {
 
 .add-button:hover {
   background: #495bbf;
+}
+
+/* --- Modern Card Container --- */
+.parcel-card {
+  background: #fff;
+  box-shadow: 0 4px 24px 0 rgba(73, 91, 191, 0.1),
+    0 1.5px 6px 0 rgba(73, 91, 191, 0.08);
+  border-radius: 18px;
+  padding: 36px 32px 28px 32px;
+  max-width: 420px;
+  width: 100%;
+  margin: 40px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: box-shadow 0.2s;
+}
+.parcel-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(73, 91, 191, 0.18),
+    0 3px 12px 0 rgba(73, 91, 191, 0.12);
+}
+/* --- Enhanced Info Box --- */
+.parcel-info-box {
+  background: #f5f7ff;
+  border: 1.5px solid #dbe3ff;
+  border-radius: 10px;
+  padding: 16px 12px;
+  margin: 18px 0 0 0;
+  text-align: center;
+  color: #495bbf;
+  font-size: 1.08rem;
+  font-family: "Exo-Bold", sans-serif;
+  box-shadow: 0 1px 4px 0 rgba(73, 91, 191, 0.06);
+}
+/* --- Field and Button Tweaks --- */
+.parcel-form label {
+  font-size: 1.08rem;
+  color: #495bbf;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+.parcel-form input,
+.parcel-form select {
+  background: #f7f8fa;
+  border: 1.5px solid #dbe3ff;
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 8px;
+  transition: border 0.2s;
+}
+.parcel-form input:focus,
+.parcel-form select:focus {
+  border: 1.5px solid #495bbf;
+  outline: none;
+  background: #fff;
+}
+.add-button {
+  background: linear-gradient(90deg, #495bbf 60%, #6e7ff3 100%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 28px;
+  padding: 12px 0;
+  box-shadow: 0 2px 8px 0 rgba(73, 91, 191, 0.1);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.add-button:hover {
+  background: linear-gradient(90deg, #6e7ff3 0%, #495bbf 100%);
+  box-shadow: 0 4px 16px 0 rgba(73, 91, 191, 0.16);
+}
+@media (max-width: 600px) {
+  .parcel-card {
+    padding: 18px 8px 18px 8px;
+    max-width: 98vw;
+  }
+  .title {
+    font-size: 1.3rem;
+    padding-right: 0;
+  }
 }

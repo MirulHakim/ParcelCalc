@@ -1,66 +1,68 @@
 body {
-    font-family: Arial, sans-serif;
-    color: white;
+  font-family: Arial, sans-serif;
+  color: white;
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #2A2A3D;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #2a2a3d;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 .sidebar {
-    width: 15%;
-    float: left;
-    background-color: #4A4A6E;
-    padding: 10px;
-    border-radius: 8px;
-    height: 110vh;
+  width: 15%;
+  float: left;
+  background-color: #4a4a6e;
+  padding: 10px;
+  border-radius: 8px;
+  height: 110vh;
 }
 .sidebar a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 10px;
-    border-bottom: 1px solid #3A3A5E;
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-bottom: 1px solid #3a3a5e;
 }
 .sidebar a:hover {
-    background-color: #3A3A5E;
+  background-color: #3a3a5e;
 }
 .main-content {
-    margin-left: 20%;
-    padding: 20px;
+  margin-left: 20%;
+  padding: 20px;
 }
-input, select, button {
-    padding: 10px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 4px;
+input,
+select,
+button {
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 4px;
 }
 button {
-    background-color: #5a5acd;
-    color: white;
-    cursor: pointer;
+  background-color: #5a5acd;
+  color: white;
+  cursor: pointer;
 }
 button:hover {
-    background-color: #4848ac;
+  background-color: #4848ac;
 }
 .parcel-info {
-    margin-top: 20px;
-    background-color: #3A3A5E;
-    padding: 10px;
-    border-radius: 4px;
-    width: 88.3%;
+  margin-top: 20px;
+  background-color: #3a3a5e;
+  padding: 10px;
+  border-radius: 4px;
+  width: 88.3%;
 }
 .parcel-detail {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
 }
 footer {
-    margin-top: 20px;
-    text-align: center;
-    color: #b2b2d9;
+  margin-top: 20px;
+  text-align: center;
+  color: #b2b2d9;
 }
