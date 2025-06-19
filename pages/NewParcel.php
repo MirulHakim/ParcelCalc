@@ -172,6 +172,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -180,6 +181,7 @@ unset($_SESSION['success'], $_SESSION['error']);
   <link rel="stylesheet" href="../css/style.css" />
   <title>Parcel Serumpun - Add Parcel</title>
 </head>
+
 <body>
   <div class="header">
     <div class="row" style="gap: 0px">
@@ -203,12 +205,14 @@ unset($_SESSION['success'], $_SESSION['error']);
   <div class="enter-new-parcel">
     <div class="parcel-card">
       <?php if ($successMsg): ?>
-        <div style="color: #1a7f37; background: #e6f9ed; border: 1.5px solid #b6e7d7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
+        <div
+          style="color: #1a7f37; background: #e6f9ed; border: 1.5px solid #b6e7d7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
           <?= htmlspecialchars($successMsg) ?>
         </div>
       <?php endif; ?>
       <?php if ($errorMsg): ?>
-        <div style="color: #b91c1c; background: #fbeaea; border: 1.5px solid #f5c2c7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
+        <div
+          style="color: #b91c1c; background: #fbeaea; border: 1.5px solid #f5c2c7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
           <?= htmlspecialchars($errorMsg) ?>
         </div>
       <?php endif; ?>
@@ -258,4 +262,5 @@ unset($_SESSION['success'], $_SESSION['error']);
     Trademark ® 2025 Parcel Serumpun. All Rights Reserved
   </footer>
 </body>
+
 </html>
