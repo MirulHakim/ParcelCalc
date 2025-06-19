@@ -135,6 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['PhoneNum'];
     $parcel_type = $_POST['Parcel_type'];
     $owner = $_POST['Parcel_owner'];
+    $image = $_POST['parcel_image'];
+    $imageData = fopen($_FILES[$image]["tmp_name"],'rb');
     
     // Generate auto-incrementing parcel ID
     $parcel_id = generateParcelId($pdo);
@@ -147,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':type' => $parcel_type,
             ':owner' => $owner,
             ':parcel_id' => $parcel_id,
-            ':image' => ''
+            ':image' => $imageData,
         ]);
         $_SESSION['success'] = "Parcel added successfully with ID: $parcel_id!";
         $success = true;
@@ -297,7 +299,7 @@ unset($_SESSION['success'], $_SESSION['error']);
           <?= htmlspecialchars($errorMsg) ?>
         </div>
       <?php endif; ?>
-      <form class="parcel-form" method="POST" action="">
+      <form class="parcel-form" method="POST" action="" enctype="multipart/form-data">
         <!-- CSRF Token -->
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
@@ -332,6 +334,15 @@ unset($_SESSION['success'], $_SESSION['error']);
             name="Parcel_owner"
             placeholder="Enter receiver's name"
             required
+          />
+        </div>
+
+        <label for="image">Parcel Image</label>
+        <div>
+          <input 
+            type="file" 
+            id="image"
+            name="parcel_image"
           />
         </div>
 

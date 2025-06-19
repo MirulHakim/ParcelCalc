@@ -154,6 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phone = $_POST['PhoneNum'];
         $parcel_type = $_POST['Parcel_type'];
         $owner = $_POST['Parcel_owner'];
+        $image = $_POST['parcel_image'];
         
         // Debug: Let's see what's happening
         error_log("=== FORM SUBMISSION DEBUG ===");
@@ -177,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     ':type' => $parcel_type,
                                     ':owner' => $owner,
                                     ':parcel_id' => $parcel_id,
-                                    ':image' => ''
+                                    ':image' => $image,
                                   ]);
                 error_log("Parcel inserted successfully with ID: $parcel_id");
                 $_SESSION['success'] = "✅ Parcel added successfully with ID: " . $parcel_id;
@@ -323,6 +324,15 @@ function generateParcelIdNoSession($pdo) {
 
       <label for="owner">Parcel Owner:</label><br>
       <input type="text" id="owner" name="Parcel_owner" placeholder="Enter Owner's Name" required style="width: 88.2%;" /><br>
+
+    <label for="image">Parcel Image</label>
+        <div>
+          <input 
+            type="file" 
+            id="image"
+            name="parcel_image"
+          />
+        </div>
 
       <p style="color: #666; font-style: italic;">
         Current Date: <?php echo date('Y-m-d H:i:s'); ?><br>
