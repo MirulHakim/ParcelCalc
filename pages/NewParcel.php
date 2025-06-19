@@ -132,7 +132,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $phone = $_POST['PhoneNum'];
   $parcel_type = $_POST['Parcel_type'];
   $owner = $_POST['Parcel_owner'];
-  $imageData = file_get_contents($_FILES["parcel_image"]["tmp_name"]);
+  //image validation block
+  if (
+      !isset($_FILES["parcel_image"]) || 
+      $_FILES["parcel_image"]["error"] !== UPLOAD_ERR_OK || 
+      !getimagesize($_FILES["parcel_image"]["tmp_name"])
+  ) {
+      $_SESSION['error'] = "Please upload a valid image for the parcel.";
+      header("Location: NewParcel.php");
+      exit;
+  }
 
   // Generate auto-incrementing parcel ID
   $parcel_id = generateParcelId($pdo);
@@ -172,7 +181,6 @@ unset($_SESSION['success'], $_SESSION['error']);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -244,7 +252,7 @@ unset($_SESSION['success'], $_SESSION['error']);
 
         <label for="image">Parcel Image</label>
         <div>
-          <input type="file" id="image" name="parcel_image" />
+          <input type="file" id="image" name="parcel_image" accept="image/*" required />
         </div>
 
         <div class="parcel-info-box">
