@@ -1,6 +1,6 @@
 <?php
 require_once "../controllers/pdo.php";
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 // This block handles on-the-fly PDF generation and streaming.
 if (isset($_GET['action']) && in_array($_GET['action'], ['preview', 'download'])) {
