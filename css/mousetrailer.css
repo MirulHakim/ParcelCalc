@@ -1,0 +1,21 @@
+.trail {
+  position: absolute;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #495bff;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: 0 0 5px #495bff, 0 0 10px #495bff, 0 0 15px #495bff;
+  opacity: 0;
+  animation: fade-in 0.5s forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

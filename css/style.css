@@ -1,8 +1,9 @@
 body {
   margin: 0px;
-  background-color: #151f42;
+  background-color: #1a2238;
   font-family: "Exo-Bold", sans-serif;
-  color: white;
+  color: #ffffff;
+  padding: 0;
 }
 
 .login-button {
@@ -214,4 +215,27 @@ button:hover,
   font-weight: 600;
   text-align: center;
   box-shadow: 0 4px 15px rgba(40, 167, 69, 0.1);
+}
+
+.main-content {
+  background-color: #1a2238;
+}
+
+.header {
+  position: relative;
+}
+
+#clock {
+  position: absolute;
+  top: 50%;
+  left: 20px; /* Moved to the left */
+  transform: translateY(-50%);
+  color: #ecf0f1; /* Light text color for contrast */
+  font-size: 1em;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: rgba(0, 0, 0, 0.25); /* Subtle dark background */
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-shadow: none; /* Cleaner look */
+  z-index: 5;
 }

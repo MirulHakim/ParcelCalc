@@ -53,10 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
         die("Invalid CSRF token.");
     }
 
-    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        die("Invalid CSRF token.");
-    }
-
     $id = $_POST["id"];
     $newOwner = $_POST["new_owner_name"] ?? null;
     $newType = $_POST["new_type"] ?? null;
@@ -82,11 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update"])) {
         $query .= ", Date_received = NOW()";
     }
 
+    // Handle new image upload
+    if (isset($_FILES['new_image']) && $_FILES['new_image']['error'] === UPLOAD_ERR_OK && getimagesize($_FILES['new_image']['tmp_name'])) {
+        $newImage = file_get_contents($_FILES['new_image']['tmp_name']);
+        $query .= ", Parcel_image = :new_image";
+        $params[':new_image'] = $newImage;
+    }
+
     $query .= " WHERE Parcel_id = :id";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
-
 
     $_SESSION['success'] = 'Parcel updated successfully.';
 
@@ -101,6 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["search_id"])) {
     $searchId = $_POST["search_id"];
 } elseif (isset($_GET["search_id"])) {
     $searchId = $_GET["search_id"];
+} elseif (isset($_GET["parcel_id"])) { // Accept parcel_id from query string
+    $searchId = $_GET["parcel_id"];
 }
 
 if ($searchId) {
@@ -131,7 +135,8 @@ if (isset($_SESSION['success'])) {
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
     <link rel="stylesheet" href="../css/EditParcel.css" />
     <link rel="stylesheet" href="../css/style.css" />
-    <title>Parcel Serumpun - Edit Parcel</title>
+    <link rel="stylesheet" href="../css/mousetrailer.css" />
+    <title>Edit Parcel</title>
 </head>
 
 <body>
@@ -147,6 +152,10 @@ if (isset($_SESSION['success'])) {
                 <img class="logo" src="../resources/Header/logo-k-14-10.png" />
             </div>
         </div>
+        <a href="logout.php">
+            <button class="login-button">LOGOUT</button>
+        </a>
+        <div id="clock"></div>
     </div>
 
     <!-- Back button & title -->
@@ -154,11 +163,6 @@ if (isset($_SESSION['success'])) {
         <a href="AdminView.php"><img class="back" src="../resources/Login/arrow-back0.svg" /></a>
         <p class="title">EDIT/DELETE PARCEL INFO</p>
     </div>
-
-    <!-- Show success message if any -->
-    <?php if ($successMessage): ?>
-        <script>alert("<?= htmlspecialchars($successMessage) ?>");</script>
-    <?php endif; ?>
 
     <!-- Searchbar Parcel ID -->
     <div class="searchbar-center">
@@ -172,9 +176,18 @@ if (isset($_SESSION['success'])) {
     <?php if ($parcel): ?>
         <!-- Parcel Detail -->
         <div class="edit-parcel-container">
-
+            <!-- Show current image and live preview -->
+            <div style="text-align:center; margin-bottom: 20px;">
+                <img id="parcel-image-preview"
+                    src="<?php echo !empty($parcel['Parcel_image']) ? 'get_image.php?Parcel_id=' . urlencode($parcel['Parcel_id']) : ''; ?>"
+                    alt="Parcel Image"
+                    style="max-width:220px; max-height:220px; border-radius:8px; border:2px solid #ccc; <?php echo empty($parcel['Parcel_image']) ? 'display:none;' : ''; ?>" />
+                <?php if (empty($parcel['Parcel_image'])): ?>
+                    <div id="no-image-placeholder" style="color:#495bbf; font-style:italic;">No Image Available</div>
+                <?php endif; ?>
+            </div>
             <!-- Update Parcel Form -->
-            <form class="edit-parcel-form" method="POST" action="">
+            <form class="edit-parcel-form" method="POST" action="" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($parcel['Parcel_id']) ?>" />
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>" />
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
@@ -217,10 +230,48 @@ if (isset($_SESSION['success'])) {
                             value="<?= htmlspecialchars($parcel['PhoneNum']) ?>" />
                         <input type="text" name="new_contact" placeholder="New contact info" />
                     </div>
+
+                    <div class="form-group">
+                        <label>Change Parcel Image</label>
+                        <input type="file" name="new_image" accept="image/*" id="new-image-input" />
+                    </div>
                 </div>
 
                 <button type="submit" name="update" class="btn confirm">Confirm</button>
             </form>
+
+            <script>
+                const fileInput = document.getElementById('new-image-input');
+                const imgPreview = document.getElementById('parcel-image-preview');
+                const noImgPlaceholder = document.getElementById('no-image-placeholder');
+                const originalImgSrc = imgPreview ? imgPreview.src : '';
+
+                if (fileInput) {
+                    fileInput.addEventListener('change', function (e) {
+                        if (this.files && this.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function (ev) {
+                                if (imgPreview) {
+                                    imgPreview.src = ev.target.result;
+                                    imgPreview.style.display = 'inline-block';
+                                }
+                                if (noImgPlaceholder) {
+                                    noImgPlaceholder.style.display = 'none';
+                                }
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        } else {
+                            if (imgPreview) {
+                                imgPreview.src = originalImgSrc;
+                                if (!originalImgSrc) imgPreview.style.display = 'none';
+                            }
+                            if (noImgPlaceholder && !originalImgSrc) {
+                                noImgPlaceholder.style.display = 'block';
+                            }
+                        }
+                    });
+                }
+            </script>
 
             <!-- Delete Parcel Form -->
             <form method="POST" action="" onsubmit="return confirm('Are you sure you want to delete this parcel?');">
@@ -230,13 +281,21 @@ if (isset($_SESSION['success'])) {
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>" />
                 <button type="submit" class="btn delete">Delete</button>
             </form>
-
         </div>
     <?php endif; ?>
 
-    <footer class="trademark">
+    <div class="trademark">
         Trademark ® 2025 Parcel Serumpun. All Rights Reserved
-    </footer>
+    </div>
+
+    <script>
+        <?php if (!empty($successMessage)): ?>
+            window.successMsg = <?= json_encode($successMessage) ?>;
+        <?php endif; ?>
+    </script>
 </body>
+<script src="../js/clock.js" defer></script>
+<script src="../js/mousetrailer.js" defer></script>
+<script src="../js/formAlerts.js" defer></script>
 
 </html>

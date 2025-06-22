@@ -134,16 +134,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $owner = $_POST['Parcel_owner'];
   //image validation block
   if (
-      !isset($_FILES["parcel_image"]) || 
-      $_FILES["parcel_image"]["error"] !== UPLOAD_ERR_OK || 
-      !getimagesize($_FILES["parcel_image"]["tmp_name"])
+    !isset($_FILES["parcel_image"]) ||
+    $_FILES["parcel_image"]["error"] !== UPLOAD_ERR_OK ||
+    !getimagesize($_FILES["parcel_image"]["tmp_name"])
   ) {
-      $_SESSION['error'] = "Please upload a valid image for the parcel.";
-      header("Location: NewParcel.php");
-      exit;
+    $_SESSION['error'] = "Please upload a valid image for the parcel.";
+    header("Location: NewParcel.php");
+    exit;
   }
   $imageData = file_get_contents($_FILES["parcel_image"]["tmp_name"]);
-  
+
   // Generate auto-incrementing parcel ID
   $parcel_id = generateParcelId($pdo);
 
@@ -182,13 +182,15 @@ unset($_SESSION['success'], $_SESSION['error']);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/x-icon" href="../resources/favicon.ico" />
   <link rel="stylesheet" href="../css/NewParcel.css" />
   <link rel="stylesheet" href="../css/style.css" />
-  <title>Parcel Serumpun - Add Parcel</title>
+  <link rel="stylesheet" href="../css/mousetrailer.css" />
+  <title>Add New Parcel</title>
 </head>
 
 <body>
@@ -202,6 +204,10 @@ unset($_SESSION['success'], $_SESSION['error']);
         <img class="logo" src="../resources/Header/logo-k-14-10.png" />
       </div>
     </div>
+    <a href="logout.php">
+      <button class="login-button">LOGOUT</button>
+    </a>
+    <div id="clock"></div>
   </div>
 
   <div class="row">
@@ -213,18 +219,6 @@ unset($_SESSION['success'], $_SESSION['error']);
 
   <div class="enter-new-parcel">
     <div class="parcel-card">
-      <?php if ($successMsg): ?>
-        <div
-          style="color: #1a7f37; background: #e6f9ed; border: 1.5px solid #b6e7d7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
-          <?= htmlspecialchars($successMsg) ?>
-        </div>
-      <?php endif; ?>
-      <?php if ($errorMsg): ?>
-        <div
-          style="color: #b91c1c; background: #fbeaea; border: 1.5px solid #f5c2c7; border-radius: 7px; padding: 10px 16px; margin-bottom: 18px; font-weight: 600; text-align:center;">
-          <?= htmlspecialchars($errorMsg) ?>
-        </div>
-      <?php endif; ?>
       <form class="parcel-form" method="POST" action="" enctype="multipart/form-data">
         <!-- CSRF Token -->
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
@@ -270,6 +264,18 @@ unset($_SESSION['success'], $_SESSION['error']);
   <footer class="trademark">
     Trademark ® 2025 Parcel Serumpun. All Rights Reserved
   </footer>
+
+  <script>
+    <?php if (!empty($successMsg)): ?>
+      window.successMsg = <?= json_encode($successMsg) ?>;
+    <?php endif; ?>
+    <?php if (!empty($errorMsg)): ?>
+      window.errorMsg = <?= json_encode($errorMsg) ?>;
+    <?php endif; ?>
+  </script>
 </body>
+<script src="../js/clock.js" defer></script>
+<script src="../js/mousetrailer.js" defer></script>
+<script src="../js/formAlerts.js" defer></script>
 
 </html>

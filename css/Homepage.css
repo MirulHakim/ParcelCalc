@@ -79,9 +79,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   max-width: 720px;
 }
 .submit {
-  margin: 0px;
-  border-radius: 94px;
-  width: 200px;
-  height: 30px;
-  margin-bottom: 20px;
+  background-color: #495bff;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 30vw;
+  margin-top: 10px;
+}
+
+.submit:hover {
+  background-color: #3a48a3;
 }

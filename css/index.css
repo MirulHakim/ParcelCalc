@@ -55,6 +55,8 @@ body {
   border-radius: 8px;
   padding: 12px 14px;
   transition: border 0.2s, background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 .register-card input:focus {
   border: 1.5px solid #495bbf;
@@ -62,19 +64,36 @@ body {
 }
 .register-card .add-button {
   margin-top: 24px;
-  padding: 14px 0;
-  font-size: 1.1rem;
+  padding: 16px 0 16px 0;
+  font-size: 1.15rem;
   font-weight: 700;
   background: linear-gradient(90deg, #495bbf 60%, #6e7ff3 100%);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px 0 rgba(73, 91, 191, 0.1);
   transition: background 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.5px;
 }
 .register-card .add-button:hover {
   background: linear-gradient(90deg, #6e7ff3 0%, #495bbf 100%);
   box-shadow: 0 4px 16px 0 rgba(73, 91, 191, 0.16);
+}
+.register-card .login-link-btn {
+  color: #fff;
+  background: #495bbf;
+  padding: 14px 32px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 8px;
+  display: inline-block;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.register-card .login-link-btn:hover {
+  background: #6e7ff3;
+  color: #fff;
 }
 .register-card .success-message {
   background: #e6f9ed;
