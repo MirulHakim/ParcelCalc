@@ -1,5 +1,5 @@
 <?php
-require_once "pages/pdo.php";
+require_once "controllers/pdo.php";
 
 session_start();
 // Generate CSRF token if not already set

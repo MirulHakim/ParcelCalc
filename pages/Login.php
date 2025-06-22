@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 $error = '';
 
 // Generate CSRF token if not already set

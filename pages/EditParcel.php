@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 
 // Generate CSRF token if not already generated
 if (empty($_SESSION['csrf_token'])) {
@@ -152,7 +152,7 @@ if (isset($_SESSION['success'])) {
                 <img class="logo" src="../resources/Header/logo-k-14-10.png" />
             </div>
         </div>
-        <a href="logout.php">
+        <a href="../controllers/logout.php">
             <button class="login-button">LOGOUT</button>
         </a>
         <div id="clock"></div>
@@ -179,7 +179,7 @@ if (isset($_SESSION['success'])) {
             <!-- Show current image and live preview -->
             <div style="text-align:center; margin-bottom: 20px;">
                 <img id="parcel-image-preview"
-                    src="<?php echo !empty($parcel['Parcel_image']) ? 'get_image.php?Parcel_id=' . urlencode($parcel['Parcel_id']) : ''; ?>"
+                    src="<?php echo !empty($parcel['Parcel_image']) ? '../controllers/get_image.php?Parcel_id=' . urlencode($parcel['Parcel_id']) : ''; ?>"
                     alt="Parcel Image"
                     style="max-width:220px; max-height:220px; border-radius:8px; border:2px solid #ccc; <?php echo empty($parcel['Parcel_image']) ? 'display:none;' : ''; ?>" />
                 <?php if (empty($parcel['Parcel_image'])): ?>

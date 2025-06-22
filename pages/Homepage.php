@@ -28,7 +28,7 @@ if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !==
         <div class="x">X</div>
         <img class="logo" src="../resources/Header/logo-k-14-10.png" />
       </div>
-      <a href="logout.php">
+      <a href="../controllers/logout.php">
         <button class="login-button">LOGOUT</button>
       </a>
     </div>

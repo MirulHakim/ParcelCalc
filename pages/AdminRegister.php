@@ -4,7 +4,7 @@ if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
     header('Location: Login.php');
     exit();
 }
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 
 // Generate CSRF token if not already set
 if (empty($_SESSION['csrf_token'])) {

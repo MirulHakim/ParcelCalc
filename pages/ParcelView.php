@@ -6,7 +6,7 @@ if (!isset($_SESSION['student_logged_in']) || $_SESSION['student_logged_in'] !==
 }
 
 // Database connection
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 
 $parcel = null;
 $error = '';
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])) {
         <div class="x">X</div>
         <img class="logo" src="../resources/Header/logo-k-14-10.png" />
       </div>
-      <a href="logout.php">
+      <a href="../controllers/logout.php">
         <button class="login-button">LOGOUT</button>
       </a>
     </div>
@@ -82,7 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name'])) {
         <div class="container">
           <?php if (!empty($parcel['Parcel_image'])): ?>
             <div class="image-container">
-              <img src="get_image.php?Parcel_id=<?php echo urlencode($parcel['Parcel_id']); ?>" alt="Parcel Image">
+              <img src="../controllers/get_image.php?Parcel_id=<?php echo urlencode($parcel['Parcel_id']); ?>"
+                alt="Parcel Image">
             </div>
           <?php else: ?>
             <div class="image-placeholder">

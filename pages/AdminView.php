@@ -24,7 +24,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 
 // Function to generate auto-incrementing parcel ID
 function generateParcelId($pdo)
@@ -324,7 +324,7 @@ if (isset($_SESSION['staff_id'])) {
                 <img class="logo" src="../resources/Header/logo-k-14-10.png" />
             </div>
         </div>
-        <a href="logout.php">
+        <a href="../controllers/logout.php">
             <button class="login-button">LOGOUT</button>
         </a>
         <div id="clock"></div>
@@ -415,7 +415,7 @@ if (isset($_SESSION['staff_id'])) {
                         // Display parcel image first
                         if (!empty($parcel['Parcel_image'])) {
                             echo '<div class="parcel-image-container">';
-                            echo '<img src="get_image.php?Parcel_id=' . urlencode($parcel['Parcel_id']) . '" alt="Parcel Image" class="parcel-image">';
+                            echo '<img src="../controllers/get_image.php?Parcel_id=' . urlencode($parcel['Parcel_id']) . '" alt="Parcel Image" class="parcel-image">';
                             echo '</div>';
                         } else {
                             echo '<div class="parcel-image-container">';
@@ -487,10 +487,10 @@ if (isset($_SESSION['staff_id'])) {
 
     <script>
         <?php if (!empty($successMsg)): ?>
-                window.successMsg = <?= json_encode($successMsg) ?>;
+            window.successMsg = <?= json_encode($successMsg) ?>;
         <?php endif; ?>
         <?php if (!empty($errorMsg)): ?>
-                window.errorMsg = <?= json_encode($errorMsg) ?>;
+            window.errorMsg = <?= json_encode($errorMsg) ?>;
         <?php endif; ?>
     </script>
 </body>

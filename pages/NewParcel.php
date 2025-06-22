@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 
 // Generate CSRF token if not already generated
 if (empty($_SESSION['csrf_token'])) {
@@ -204,7 +204,7 @@ unset($_SESSION['success'], $_SESSION['error']);
         <img class="logo" src="../resources/Header/logo-k-14-10.png" />
       </div>
     </div>
-    <a href="logout.php">
+    <a href="../controllers/logout.php">
       <button class="login-button">LOGOUT</button>
     </a>
     <div id="clock"></div>

@@ -1,5 +1,5 @@
 <?php
-require_once "pdo.php";
+require_once "../controllers/pdo.php";
 require_once 'vendor/autoload.php';
 
 // This block handles on-the-fly PDF generation and streaming.
@@ -48,7 +48,7 @@ if (isset($_GET['action']) && in_array($_GET['action'], ['preview', 'download'])
 }
 
 session_start();
-require_once "pdo.php"; // Re-include for the main page rendering
+require_once "../controllers/pdo.php"; // Re-include for the main page rendering
 
 // Check login for the main page
 if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['report_date'])) {
                 <div class="x">X</div>
                 <img class="logo" src="../resources/Header/logo-k-14-10.png" />
             </div>
-            <a href="logout.php">
+            <a href="../controllers/logout.php">
                 <button class="login-button">LOGOUT</button>
             </a>
             <div id="clock"></div>
