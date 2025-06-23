@@ -249,6 +249,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         header("Location: AdminView.php");
         exit();
+    } elseif (isset($_POST['mark_report_received']) && isset($_POST['report_id'])) {
+        $report_id = $_POST['report_id'];
+        try {
+            $stmt = $pdo->prepare("UPDATE report SET Status = 1 WHERE Report_id = ?");
+            $stmt->execute([$report_id]);
+            $_SESSION['success'] = "Report marked as received.";
+            header("Location: AdminView.php");
+            exit();
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Status Update Error: " . $e->getMessage();
+            header("Location: AdminView.php");
+            exit();
+        }
     }
 }
 
@@ -339,7 +352,7 @@ if (isset($_SESSION['staff_id'])) {
             <a href="NewParcel.php">Add New Parcel</a>
             <a href="EditParcel.php">Edit/Delete Parcel Info</a>
             <a href="AdminRegister.php">Register New Admin</a>
-            <a href="AdminReport.php" class="sidebar-button">Generate Report</a>
+            <a href="AdminReport.php">Generate Report</a>
         </div>
 
         <div class="main-content">
@@ -399,6 +412,62 @@ if (isset($_SESSION['staff_id'])) {
                 <input type="text" name="search_id" placeholder="Enter Parcel ID" required style="width: 88.3%;" />
                 <button type="submit" name="search" style="width: 90%; background: #495bbf;">Search</button>
             </form>
+
+            <!-- Student Reports Management Section -->
+            <div class="admin-reports" style="margin-top: 40px;">
+                <h2>Student Reports</h2>
+                <?php
+                // Fetch all reports. The JOINs were removed to prevent row duplication due to data type mismatch on Parcel_id.
+                // This is a temporary fix. The correct solution is to alter the 'report.Parcel_id' column to VARCHAR(10)
+                // and then join on student and parcel tables to get more details.
+                $stmt = $pdo->query("SELECT Report_id, Parcel_id, Student_id, Report, Status FROM report ORDER BY Status ASC, Report_id DESC");
+                $reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if (count($reports) === 0): ?>
+                    <p style='color: #888;'>No student reports found.</p>
+                <?php else: ?>
+                    <table class="reports-table">
+                        <thead>
+                            <tr>
+                                <th>Report ID</th>
+                                <th>Parcel ID</th>
+                                <th>Student ID</th>
+                                <th>Report</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($reports as $report): ?>
+                                <tr>
+                                    <td> <?= htmlspecialchars($report['Report_id']) ?> </td>
+                                    <td> <?= htmlspecialchars($report['Parcel_id']) ?> </td>
+                                    <td> <?= htmlspecialchars($report['Student_id']) ?> </td>
+                                    <td> <?= nl2br(htmlspecialchars($report['Report'])) ?> </td>
+                                    <td>
+                                        <span class="status-<?= $report['Status'] ? 'received' : 'unreceived' ?>">
+                                            <?= $report['Status'] ? 'Received' : 'Unreceived' ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php if (!$report['Status']): ?>
+                                            <form method="POST" action="" style="display:inline;">
+                                                <input type="hidden" name="csrf_token"
+                                                    value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                <input type="hidden" name="mark_report_received" value="1">
+                                                <input type="hidden" name="report_id"
+                                                    value="<?= htmlspecialchars($report['Report_id']) ?>">
+                                                <button type="submit" class="action-btn">Mark as Received</button>
+                                            </form>
+                                        <?php else: ?>
+                                            <span class="action-placeholder">-</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
 
             <?php
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {

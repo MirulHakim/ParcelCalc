@@ -66,11 +66,6 @@ body {
   border-left: 3px solid #ffc107;
 }
 
-.sidebar-button {
-  text-align: center;
-  font-weight: bold;
-}
-
 .main-content {
   flex-grow: 1;
   padding: 20px;
@@ -233,4 +228,74 @@ footer {
   margin-top: 20px;
   text-align: center;
   color: #b2b2d9;
+}
+
+/* Admin Reports Table */
+.admin-reports {
+  margin-top: 40px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-reports h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.admin-reports .reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.admin-reports .reports-table th,
+.admin-reports .reports-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.admin-reports .reports-table thead th {
+  background-color: #f7f7f7;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.admin-reports .reports-table tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+.admin-reports .status-received {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.admin-reports .status-unreceived {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.admin-reports .action-btn {
+  background: #495bbf;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s;
+}
+
+.admin-reports .action-btn:hover {
+  background: #3e4a9e;
+}
+
+.admin-reports .action-placeholder {
+  color: #777;
 }
